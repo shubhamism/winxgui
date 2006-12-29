@@ -19,8 +19,8 @@
 #ifndef __TPL_TOOLBOX_KEYWORDTBLGEN_H__
 #define __TPL_TOOLBOX_KEYWORDTBLGEN_H__
 
-#ifndef _STRING_
-#include <string>
+#ifndef __STDEXT_STRING_H__
+#include <stdext/String.h>
 #endif
 
 #ifndef _VECTOR_
@@ -31,92 +31,10 @@
 #include <set>
 #endif
 
-// -------------------------------------------------------------------------
-// hashOfString
-
-#define __DM_CODE_HASH_SUM	\
-	"DWORD h = 0;\n\
-	for ( ; *s; ++s)\n\
-		h = param*h + *s;"
-
-#define __DM_CODE_HASH_XOR	\
-	"DWORD h = 0;\n\
-	for ( ; *s; ++s)\n\
-		h = param*h ^ *s;"
-
-template <class E>
-inline DWORD hashOfStringBySum(const E* s, size_t param)
-{
-	DWORD h = 0;
-	for ( ; *s; ++s)
-		h = (param^h) + *s;
-	return h;
-}
-
-template <class E>
-inline DWORD hashOfStringByXor(const E* s, size_t param)
-{
-	DWORD h = 0;
-	for ( ; *s; ++s)
-		h = param*h ^ *s;
-	return h;
-}
-
-#define __DM_FMT_HASH_OF_STRING(szHashFunc, hash) "\n\
-// -------------------------------------------------------------------------\n\
-// %s - [hashOfString]\n\
-\n\
-template <class E>\n\
-inline DWORD %s(const E* s)\n\
-{\n\
-	enum { param = %d };\n\
-	%s\n\
-	return h;\n\
-}\n\
-\n", szHashFunc, szHashFunc, hash.param, hash.code
+namespace tpl { namespace toolbox {
 
 // -------------------------------------------------------------------------
-// isKeyword
-
-#if (0)
-
-DWORD hashOfString(const E* s, size_t param);
-
-template <class E, int BUCKET>
-inline bool isKeyword(const E* s)
-{
-	static const E* keywords[BUCKET] =
-	{
-		"KEYWORD-1",
-		"KEYWORD-2",
-		...,
-		"KEYWORD-BUCKET",
-	};
-	DWORD h = hashOfString(s) % BUCKET;
-	return strcmp(keywords[h], s) == 0;
-}
-
-#endif
-
-#define __DM_FMT_IS_KEYWORD_BGN(szIsKeywordFunc, bucket, T, E)	"\
-// -------------------------------------------------------------------------\n\
-// %s - [isKeyword]\n\
-\n\
-%s\
-inline bool %s(const %s* s)\n\
-{\n\
-	static const %s* keywords[%d] =\n\
-	{\n", szIsKeywordFunc, T, szIsKeywordFunc, E, E, bucket
-
-#define __DM_FMT_IS_KEYWORD_END(bucket, strcmp) "\
-	};\n\
-	DWORD h = hashOfString(s) %% %d;\n\
-	return %s(keywords[h], s) == 0;\n\
-}\n\
-\n", bucket, strcmp
-
-// -------------------------------------------------------------------------
-// validateInput
+// validateKeywordTbl
 
 template <class E, class LogT>
 inline bool validateKeywordTbl(
@@ -136,131 +54,379 @@ inline bool validateKeywordTbl(
 }
 
 // -------------------------------------------------------------------------
-// calcKeywordTblParam
+// Hasher
 
-struct HashParamT
+template <class E>
+class SumHasher
 {
-	size_t param;
-	const char* code;
-	int ch;
+public:
+	static DWORD winx_call hashOf(const E* s, size_t param)
+	{
+		DWORD h = 0;
+		for ( ; *s; ++s)
+			h = param*h + *s;
+		return h;
+	}
+
+	static const char* winx_call getCode()
+	{
+		return
+	"static DWORD winx_call hashOf(const E* s)\n\
+	{\n\
+		DWORD h = 0;\n\
+		for ( ; *s; ++s)\n\
+			h = param*h + *s;\n\
+		return h;\n\
+	}"
+		;
+	}
 };
 
-#define __DM_KEYWORD_GEN_PARAM_LIM	(INT_MAX/128)
-#define __DM_CHECK_PARAM(hashOfString, scode, c)							\
-{																			\
-	std::fill(check.begin(), check.end(), 0);								\
-	for (i = 0; i < count; ++i)												\
-	{																		\
-		h = hashOfString(keywords[i], param) % bucket;						\
-		if (check[h])														\
-			break;															\
-		check[h] = 1;														\
-	}																		\
-	if (i == count)															\
-	{																		\
-		hash.param = param;													\
-		hash.code = scode;													\
-		hash.ch = c;														\
-		return bucket;														\
-	}																		\
-}
-
-template <class E, class LogT>
-inline size_t calcKeywordTblParam(
-	LogT& logInfo,
-	HashParamT& hash,
-	const E** keywords, size_t count,
-	size_t paramLim = __DM_KEYWORD_GEN_PARAM_LIM)
+template <class E>
+class XorHasher
 {
-	size_t h, i, param;
-	std::vector<int> check(count);
-	for (size_t bucket = count; ; ++bucket)
+public:
+	static DWORD winx_call hashOf(const E* s, size_t param)
 	{
-		for (param = 2; param < paramLim; ++param)
-		{
-			__DM_CHECK_PARAM(hashOfStringByXor, __DM_CODE_HASH_XOR, '^');
-			__DM_CHECK_PARAM(hashOfStringBySum, __DM_CODE_HASH_SUM, '+');
-			if (!(param & 0x1ffff))
-				logInfo.step();
-		}
-		logInfo.trace("\n");
-		check.push_back(0);
+		DWORD h = 0;
+		for ( ; *s; ++s)
+			h = param*h ^ *s;
+		return h;
 	}
-}
+
+	static const char* winx_call getCode()
+	{
+		return
+	"static DWORD winx_call hashOf(const E* s)\n\
+	{\n\
+		DWORD h = 0;\n\
+		for ( ; *s; ++s)\n\
+			h = param*h ^ *s;\n\
+		return h;\n\
+	}"
+		;
+	}
+};
 
 // -------------------------------------------------------------------------
-// genKeywordTbl
+// class StaticHashMap
 
-template <class LogT, class LogT2>
-inline void genKeywordTbl(
-	LogT& log, LogT2& logInfo,
-	const char** keywords, size_t count,
-	const char* szHashFunc = "hashOfString",
-	const char* szIsKeywordFunc = "isKeyword",
-	size_t paramLim = __DM_KEYWORD_GEN_PARAM_LIM)
+#define _Tpl_ToolBox_StaticHashMap_FormatBegin								\
+"\n\
+class %s // --> StaticHashMap\n\
+{\n\
+private:\n\
+	typedef %s E;\n\
+\n\
+	enum { bucket = %d };\n\
+	enum { param = %d };\n\
+\n\
+public:\n\
+	typedef size_t size_type;\n\
+	typedef %s data_type;\n\
+\n\
+	struct value_type\n\
+	{\n\
+		const E* first;\n\
+		data_type second;\n\
+	};\n\
+\n\
+	%s\n\
+\n\
+	static bool winx_call lookup(const E* key, data_type& val) const\n\
+	{\n\
+		%sstatic value_type data[] = {\n"
+
+#define _Tpl_ToolBox_StaticHashMap_FormatEnd								\
+"		};\n\
+		const size_type h = hashOf(key) % bucket;\n\
+		if (std::compare(data[h].first, key) == 0)\n\
+		{\n\
+			val = data[h].second;\n\
+			return true;\n\
+		}\n\
+		return false;\n\
+	}\n\
+};"
+
+#define _Tpl_ToolBox_StaticHashMap_Param									\
+	szClass, szCharT, bucket, param, szDataT, szHasher, szInitData
+
+// -------------------------------------------------------------------------
+// class StaticHashSet
+
+#define _Tpl_ToolBox_StaticHashSet_FormatBegin								\
+"\n\
+class %s // --> StaticHashSet\n\
+{\n\
+private:\n\
+	typedef %s E;\n\
+\n\
+	enum { bucket = %d };\n\
+	enum { param = %d };\n\
+\n\
+public:\n\
+	typedef size_t size_type;\n\
+\n\
+	%s\n\
+\n\
+	static bool winx_call lookup(const E* key) const\n\
+	{\n\
+		static E const* const* data[] = {\n"
+
+#define _Tpl_ToolBox_StaticHashSet_FormatEnd									\
+"		};\n\
+		const size_type h = hashOf(key) % bucket;\n\
+		return std::compare(data[h].first, key) == 0;\n\
+	}\n\
+};"
+
+#define _Tpl_ToolBox_StaticHashSet_Param										\
+	szClass, szCharT, bucket, param, szHasher
+
+// -------------------------------------------------------------------------
+// class StaticHashMapWriter
+
+template <class LogT>
+class StaticHashMapWriter
 {
-	if (!validateKeywordTbl(logInfo, keywords, count))
-		return;
-
-	HashParamT hash;
-	size_t bucket = calcKeywordTblParam(logInfo, hash, keywords, count, paramLim);
+private:
+	LogT& log;
+	const char* szClass;
+	const char* szCharT;
+	const char* szDataT;
+	const char* szInitData;
+	const char* szNullData;
+	char const* const* szDataVals;
+	const char* szStringPrefix;
+	const char* szFileBegin;
+	const char* szFileEnd;
 	
-	log.trace(__DM_FMT_HASH_OF_STRING(szHashFunc, hash));
-
-	log.trace(__DM_FMT_IS_KEYWORD_BGN(szIsKeywordFunc, bucket, "", "char"));
-	size_t i;
-	std::vector<const char*> cont;
-	cont.resize(bucket);
-	switch (hash.ch)
+public:
+	StaticHashMapWriter(
+		LogT& logArg,
+		char const* const* szDataValsArg,
+		const char* szDataTArg,
+		const char* szNullDataArg = "0",
+		const char* szInitDataArg = "",
+		const char* szClassArg = "StaticHashMap",
+		const char* szCharTArg = "char",
+		const char* szStringPrefixArg = "",
+		const char* szFileBeginArg = "",
+		const char* szFileEndArg = ""
+		)
+		: log(logArg), szClass(szClassArg), szCharT(szCharTArg), szStringPrefix(szStringPrefixArg),
+		  szDataT(szDataTArg), szNullData(szNullDataArg), szInitData(szInitDataArg), szDataVals(szDataValsArg),
+		  szFileBegin(szFileBeginArg), szFileEnd(szFileEndArg)
 	{
-	case '+':
-		for (i = 0; i < count; ++i) {
-			size_t h = hashOfStringBySum(keywords[i], hash.param) % bucket;
-			cont[h] = keywords[i];
-		}
-		break;
-	case '^':
-		for (i = 0; i < count; ++i) {
-			size_t h = hashOfStringByXor(keywords[i], hash.param) % bucket;
-			cont[h] = keywords[i];
-		}
-		break;
 	}
-	for (size_t j = 0; j < bucket; ++j)
-	{
-		const char* key = cont[j];
-		log.trace("\t\t\"%s\",\n", (key ? key : ""));
-	}
-	log.trace(__DM_FMT_IS_KEYWORD_END(bucket, "strcmp"));
 
-	logInfo.trace(
-		"\ncount = %d, bucket = %d, param = %d, op = %c\n",
-		count, bucket, hash.param, hash.ch);
-}
+	template <class E, class HasherT>
+	void winx_call write(HasherT hasher, E const* const* keys, size_t n, size_t bucket, size_t param)
+	{
+		const char* szHasher = hasher.getCode();
+
+		log.printString(szFileBegin);
+		log.trace(_Tpl_ToolBox_StaticHashMap_FormatBegin, _Tpl_ToolBox_StaticHashMap_Param);
+
+		std::vector< std::pair<const E*, size_t> > cont(bucket);
+		for (size_t i = 0; i < n; ++i)
+		{
+			const UINT h = hasher.hashOf(keys[i], param) % bucket;
+			cont[h].first = keys[i];
+			cont[h].second = i;
+		}
+		for (size_t j = 0; j < bucket; ++j)
+		{
+			const E* key = cont[j].first;
+			log.trace("\t\t\t{ %s\"", szStringPrefix);
+			if (key)
+				log.printString(key);
+			log.printString("\", ");
+			if (key)
+				log.printString(szDataVals[cont[j].second]);
+			else
+				log.printString(szNullData);
+			log.printString(" },\n");
+		}
+		
+		log.printString(_Tpl_ToolBox_StaticHashMap_FormatEnd);
+		log.printString(szFileEnd);
+	}
+};
+
+// -------------------------------------------------------------------------
+// class StaticHashSetWriter
+
+template <class LogT>
+class StaticHashSetWriter
+{
+private:
+	LogT& log;
+	const char* szClass;
+	const char* szCharT;
+	const char* szStringPrefix;
+	const char* szFileBegin;
+	const char* szFileEnd;
+	
+public:
+	StaticHashSetWriter(
+		LogT& logArg, 
+		const char* szClassArg = "StaticHashSet",
+		const char* szCharTArg = "char",
+		const char* szStringPrefixArg = "",
+		const char* szFileBeginArg = "",
+		const char* szFileEndArg = ""
+		)
+		: log(logArg), szClass(szClassArg), szCharT(szCharTArg), szStringPrefix(szStringPrefixArg),
+		  szFileBegin(szFileBeginArg), szFileEnd(szFileEndArg)
+	{
+	}
+
+	template <class E, class HasherT>
+	void winx_call write(HasherT hasher, E const* const* keys, size_t n, size_t bucket, size_t param)
+	{
+		const char* szHasher = hasher.getCode();
+
+		log.printString(szFileBegin);
+		log.trace(_Tpl_ToolBox_StaticHashSet_FormatBegin, _Tpl_ToolBox_StaticHashSet_Param);
+
+		std::vector<const E*> cont(bucket);
+		for (size_t i = 0; i < n; ++i)
+		{
+			const UINT h = hasher.hashOf(keys[i], param) % bucket;
+			cont[h] = keys[i];
+		}
+		for (size_t j = 0; j < bucket; ++j)
+		{
+			const E* key = cont[j];
+			log.trace("\t\t\t%s\"", szStringPrefix);
+			if (key)
+				log.printString(key);
+			log.printString("\",\n");
+		}
+		
+		log.printString(_Tpl_ToolBox_StaticHashSet_FormatEnd);
+		log.printString(szFileEnd);
+	}
+};
+
+// -------------------------------------------------------------------------
+// class KeywordTblGen
+
+template <class E>
+class KeywordTblGen
+{
+private:
+	E const* const* keywords;
+	size_t count;
+	size_t bucket;
+	size_t param;
+	
+	std::vector<int> check;
+
+private:
+	template <class HasherT>
+	BOOL winx_call __check(HasherT hasher)
+	{
+		std::fill(check.begin(), check.end(), 0);
+		for (size_t i = 0; i < count; ++i)
+		{
+			const UINT h = hasher.hashOf(keywords[i], param) % bucket;
+			if (check[h])
+				return FALSE;
+			check[h] = TRUE;
+		}
+		return TRUE;
+	}
+
+public:
+	template <class LogT, class WriterT>
+	inline void winx_call run(
+		WriterT& wr, LogT& logInfo,
+		E const* const* keys, size_t n, size_t paramLim = INT_MAX/128)
+	{
+		XorHasher<E> xorHasher;
+		SumHasher<E> sumHasher;
+
+		keywords = keys;
+		count = n;
+		check.resize(count);
+		for (bucket = count; ; ++bucket)
+		{
+			for (param = 2; param < paramLim; ++param)
+			{
+				if (__check(xorHasher))		 wr.write(xorHasher, keys, n, bucket, param);
+				else if (__check(sumHasher)) wr.write(sumHasher, keys, n, bucket, param);
+				else {
+					if (!(param & 0x1ffff))
+						logInfo.step();
+					continue;
+				}
+				return;
+			}
+			check.push_back(0);
+			logInfo.newline();
+		}
+	}
+};
 
 // -------------------------------------------------------------------------
 // class TestKeywordTblGen
 
 template <class LogT>
-class TestKeywordTblGen
+class TestKeywordTblGen : public TestCase
 {
+	WINX_TEST_SUITE(TestKeywordTblGen);
+		WINX_TEST(testSetAnsi);
+		WINX_TEST(testSetUni);
+		WINX_TEST(testMapAnsi);
+		WINX_TEST(testMapUni);
+	WINX_TEST_SUITE_END();
+
 public:
-	static void doTest(LogT& log)
+	void testSetAnsi(LogT& log)
 	{
-		const char* keywords[] = {
-			"if", "while", "for", "sizeof",
-			"int", "char", "long", "double", "float", "signed", "unsigned",
-			"void", "do", "static",
-			"template", "typename",
-			"class", "struct", "interface", "namespace",// "enum", //"define"
-		};
+		const char* keywords[] = { "if", "while", "for"	};
 		std::ErrorLog logInfo;
-		size_t count = sizeof(keywords)/sizeof(const char*);
-		genKeywordTbl(log, logInfo, keywords, count);
+		StaticHashSetWriter<LogT> wr(log);
+		KeywordTblGen<char> gen;
+		gen.run(wr, logInfo, keywords, countof(keywords));
+	}
+
+	void testSetUni(LogT& log)
+	{
+		const WCHAR* keywords[] = { L"if", L"while", L"for"	};
+		std::ErrorLog logInfo;
+		StaticHashSetWriter<LogT> wr(log, "StaticHashSet", "WCHAR", "L");
+		KeywordTblGen<WCHAR> gen;
+		gen.run(wr, logInfo, keywords, countof(keywords));
+	}
+
+	void testMapAnsi(LogT& log)
+	{
+		const char* keywords[] = { "if", "while", "for"	};
+		const char* vals[] = { "10", "11", "12"	};
+		std::ErrorLog logInfo;
+		StaticHashMapWriter<LogT> wr(log, vals, "int");
+		KeywordTblGen<char> gen;
+		gen.run(wr, logInfo, keywords, countof(keywords));
+	}
+
+	void testMapUni(LogT& log)
+	{
+		const WCHAR* keywords[] = { L"if", L"while", L"for"	};
+		const char* vals[] = { "10", "11", "12"	};
+		std::ErrorLog logInfo;
+		StaticHashMapWriter<LogT> wr(log, vals, "int", "0", "", "StaticHashMap", "WCHAR", "L");
+		KeywordTblGen<WCHAR> gen;
+		gen.run(wr, logInfo, keywords, countof(keywords));
 	}
 };
 
 // -------------------------------------------------------------------------
 // $Log: $
+
+}; };
 
 #endif /* __TPL_TOOLBOX_KEYWORDTBLGEN_H__ */
