@@ -9,7 +9,7 @@
 // of this license. You must not remove this notice, or any other, from
 // this software.
 // 
-// Module: TestStdNew.cpp
+// Module: testtpl.cpp
 // Creator: xushiwei
 // Email: xushiweizh@gmail.com
 // Date: 2006-12-3 12:59:08
@@ -23,10 +23,10 @@
 
 void main()
 {
-	WINX_TEST_APP(std::ErrorLog, "", "");
+	WINX_TEST_APP(std::ErrorLog, "", "testMapUni");
 
-	WINX_TEST_CLASS(TestKeywordTblGen);
+	WINX_TEST_CLASS(tpl::toolbox::TestKeywordTblGen);
 }
 
 // -------------------------------------------------------------------------
-// $Log: TestStdNew.cpp,v $
+// $Log: testtpl.cpp,v $
