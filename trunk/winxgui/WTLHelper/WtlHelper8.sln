@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WtlHelper", "WtlHelper8.vcproj", "{36D49126-2EF6-439B-BF38-B01D5EDAB625}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WtlHelperRes", "WtlHelperRes\WtlHelperRes8.vcproj", "{6CDF61BD-0243-4909-A1DA-A3877605FEFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug2005|Win32 = Debug2005|Win32
+		Release Static CRT|Win32 = Release Static CRT|Win32
+		Release2005|Win32 = Release2005|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Debug2005|Win32.ActiveCfg = Debug2005|Win32
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Debug2005|Win32.Build.0 = Debug2005|Win32
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Release Static CRT|Win32.ActiveCfg = Release Static CRT|Win32
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Release Static CRT|Win32.Build.0 = Release Static CRT|Win32
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Release2005|Win32.ActiveCfg = Release2005|Win32
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Release2005|Win32.Build.0 = Release2005|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Debug2005|Win32.ActiveCfg = Debug2005|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Debug2005|Win32.Build.0 = Debug2005|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Release Static CRT|Win32.ActiveCfg = Release|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Release Static CRT|Win32.Build.0 = Release|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Release2005|Win32.ActiveCfg = Release2005|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Release2005|Win32.Build.0 = Release2005|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

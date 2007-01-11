@@ -1,0 +1,26 @@
+// AddIn.idl : IDL source for AddIn
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AddIn.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(E2CBD4CB-D05B-480f-B9A3-76F31CB0973E),
+	version(1.0),
+	helpstring("WtlHelper for VS2005 1.0 Type Library")
+]
+library WtlHelper8Lib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(68A8E8F7-91F7-4606-805A-195218D0C2C0),
+		helpstring("Connect8 Class")
+	]
+	coclass Connect8
+	{
+		[default] interface IUnknown;
+	}
+};

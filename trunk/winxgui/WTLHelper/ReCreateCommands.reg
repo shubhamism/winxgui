@@ -1,0 +1,10 @@
+REGEDIT4
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\VSA\7.1\PreloadAddinState]
+"WtlHelper.Connect"=dword:1
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\VisualStudio\7.1\PreloadAddinState]
+"WtlHelper.Connect"=dword:1
+
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\VSA\8.0\PreloadAddinState]
+"WtlHelper.Connect8"=dword:1
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\VisualStudio\8.0\PreloadAddinState]
+"WtlHelper.Connect8"=dword:1
