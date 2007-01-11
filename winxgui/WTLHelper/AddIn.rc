@@ -1,0 +1,770 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_HANDLER DIALOGEX 0, 0, 199, 68
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Insert new Handler"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,142,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,142,24,50,14
+    LTEXT           "Message:",IDC_STATIC,7,27,32,8
+    CONTROL         "New Style",IDC_CHECK_STYLE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,42,113,10
+    EDITTEXT        IDC_STATIC_MESSAGE,39,27,95,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    CONTROL         "Inline function",IDC_CHECK_INLINE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,54,61,10
+    COMBOBOX        IDC_COMBO_FUNCTION,7,7,127,63,CBS_DROPDOWN | 
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_FUNCTION_PROPPAGE DIALOGEX 0, 0, 423, 156
+STYLE DS_SETFONT | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
+FONT 8, "Microsoft Sans Serif", 400, 0, 0xCC
+BEGIN
+    COMBOBOX        IDC_COMBO_CLASSES,2,10,139,103,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Class",IDC_STATIC,2,2,18,8
+    COMBOBOX        IDC_COMBO_MESSAGEMAP,150,10,72,82,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Message map",IDC_STATIC,150,1,44,8
+    CONTROL         "Forward Notifications",IDC_CHECK_FORWARD,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,229,11,82,10
+    CONTROL         "Reflect Notifications",IDC_CHECK_REFLECT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,229,1,79,10
+    CONTROL         "Extended",IDC_CHECK_REFLECT_EX,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,314,1,46,10
+    CONTROL         "Reflection Handler",IDC_CHECK_DEF_HANDLER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,229,21,75,10
+END
+
+IDD_GENERAL_PROPPAGE DIALOGEX 0, 0, 329, 178
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "General"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+END
+
+IDD_VARIABLEPAGE DIALOGEX 0, 0, 452, 266
+STYLE DS_SETFONT | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_SYSMENU
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_COMBO_CLASSES,2,10,139,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Class",IDC_STATIC,2,2,25,8
+END
+
+IDD_DIALOG_ID_HANDLER DIALOGEX 0, 0, 203, 156
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Insert new Handler"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,147,12,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,147,33,50,14
+    LTEXT           "Message:",IDC_STATIC,7,65,32,8
+    CONTROL         "New Style",IDC_CHECK_STYLE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,70,140,45,10
+    LTEXT           "Identifier",IDC_STATIC_RANGE_START,7,82,72,8
+    CONTROL         "Code",IDC_CHECK_CODE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,148,92,33,10
+    CONTROL         "ID",IDC_CHECK_ID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    148,106,23,10
+    CONTROL         "Reflected",IDC_CHECK_REFLECTED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,140,47,10
+    EDITTEXT        IDC_STATIC_MESSAGE,40,63,92,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    CONTROL         "Inline function",IDC_CHECK_INLINE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,132,140,65,10
+    COMBOBOX        IDC_EDIT_ID,7,90,125,70,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Range",IDC_CHECK_RANGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,148,119,37,10
+    LTEXT           "To",IDC_STATIC,7,110,9,8
+    COMBOBOX        IDC_COMBO_END_ID,7,118,125,74,CBS_DROPDOWN | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_FUNCTION,7,40,125,73,CBS_DROPDOWN | 
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Handler Use",IDC_STATIC,142,79,55,53
+    LTEXT           "Function",IDC_STATIC,7,32,28,8
+    LTEXT           "Class",IDC_STATIC,7,4,18,8
+    COMBOBOX        IDC_COMBO_CLASSES,7,12,125,64,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_DIALOG_ADD_FUNC DIALOGEX 0, 0, 219, 55
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Add Function"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,162,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,162,24,50,14
+    EDITTEXT        IDC_EDIT_DEF,7,18,143,14,ES_AUTOHSCROLL
+    LTEXT           "Full function defenition",IDC_STATIC1,7,7,74,8
+    CONTROL         "public",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,7,38,34,
+                    10
+    CONTROL         "protected",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,53,38,
+                    47,10
+    CONTROL         "private",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,105,38,
+                    39,10
+END
+
+IDD_DIALOG_ADD_FUNC_GLOBAL DIALOGEX 0, 0, 219, 85
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Add Function"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,162,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,162,24,50,14
+    EDITTEXT        IDC_EDIT_DEF,7,18,143,14,ES_AUTOHSCROLL
+    LTEXT           "Full function definition",IDC_STATIC1,7,7,71,8
+    CONTROL         "public",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,7,34,34,
+                    10
+    CONTROL         "protected",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,46,34,
+                    47,10
+    CONTROL         "private",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,96,34,
+                    39,10
+    COMBOBOX        IDC_COMBO1,7,67,140,50,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Class",IDC_STATIC,7,57,60,8
+    CONTROL         "static",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,46,33,10
+    CONTROL         "const",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    46,46,33,10
+    CONTROL         "virtual",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,96,46,36,10
+END
+
+IDD_DDXVARIABLE DIALOGEX 0, 0, 182, 142
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add variable"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,125,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,125,26,50,14
+    LTEXT           "Contol ID",IDC_STATIC,7,7,30,8
+    COMBOBOX        IDC_COMBO_ID,7,15,109,75,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "DDX type",IDC_STATIC,7,33,32,8
+    COMBOBOX        IDC_COMBO_DDX_TYPE,7,41,109,79,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Member type",IDC_STATIC,7,59,42,8
+    COMBOBOX        IDC_COMBO_MEMBER_TYPE,7,67,109,76,CBS_DROPDOWN | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Member name",IDC_STATIC,7,85,46,8
+    EDITTEXT        IDC_EDIT_MEMBER,7,93,109,12,ES_AUTOHSCROLL
+    CONTROL         "public",IDC_RADIO_PUBLIC,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,126,68,35,10
+    CONTROL         "protected",IDC_RADIO_PROTECTED,"Button",
+                    BS_AUTORADIOBUTTON,126,78,46,10
+    CONTROL         "private",IDC_RADIO_PRIVATE,"Button",BS_AUTORADIOBUTTON,
+                    126,90,37,10
+    EDITTEXT        IDC_EDIT_INITIALIZER,7,119,109,14,ES_AUTOHSCROLL
+    LTEXT           "Initialization value",IDC_STATIC,7,111,56,8
+END
+
+IDD_TYPECSTRINGDLG DIALOGEX 0, 0, 242, 132
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Choose Type of CString"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,185,7,50,16
+    PUSHBUTTON      "Cancel",IDCANCEL,185,26,50,16
+    GROUPBOX        "Type of CString",IDC_STATIC,7,7,148,53
+    CONTROL         "Another(nothing will be include)",
+                    IDC_RADIO_TYPE_ANOTHER,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,15,18,114,10
+    CONTROL         "WTL::CString (include <atlmisc.h>)",IDC_RADIO_TYPE_WTL,
+                    "Button",BS_AUTORADIOBUTTON,15,32,125,10
+    CONTROL         "ATL::CString(include <atlstr.h>)",IDC_RADIO_TYPE_ATL,
+                    "Button",BS_AUTORADIOBUTTON,15,47,113,10
+    GROUPBOX        "Insert",IDC_STATIC,7,67,146,40
+    CONTROL         "For whole project (insert into stdafx.h)",
+                    IDC_RADIO_PLACE_WHOLE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,15,78,133,10
+    CONTROL         "Only for class (insert into header file)",
+                    IDC_RADIO_PLACE_H,"Button",BS_AUTORADIOBUTTON,15,94,129,
+                    10
+    CONTROL         "Don't ask again",IDC_CHECK_ASK_AGAIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,115,107,10
+END
+
+IDD_DDXOPTFORM DIALOGEX 0, 0, 169, 79
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Default variable protection",IDC_STATIC,2,3,96,45
+    CONTROL         "Public",IDC_RADIO_PUBLIC,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,12,12,35,10
+    CONTROL         "Protected",IDC_RADIO_PROTECTED,"Button",
+                    BS_AUTORADIOBUTTON,12,24,47,10
+    CONTROL         "Private",IDC_RADIO_PRIVATE,"Button",BS_AUTORADIOBUTTON,
+                    12,36,38,10
+    CONTROL         "Show only dialog classes",IDC_CHECK_ONLYDLG,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,51,95,10
+    CONTROL         "Use type prefix for DDX variable",IDC_CHECK_PREFIX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,64,117,10
+END
+
+IDD_FUNCTIONOPTDLG DIALOGEX 0, 0, 224, 96
+STYLE DS_SETFONT | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "New style by default",IDC_CHECK_STYLE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,6,79,10
+    CONTROL         "Sort messages",IDC_CHECK_SORT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,6,18,62,10
+    CONTROL         "Inline functions by default",IDC_CHECK_INLINE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,30,96,10
+    CONTROL         "For CRect, CPoint, CSize use WTL classes instead ATL",
+                    IDC_CHECK_ATLMISC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    6,42,191,10
+    PUSHBUTTON      "Setup handlers colours",IDC_BUTTON_COLORS,6,78,86,14
+    CONTROL         "Allow add PreTranslateMessage and OnIdle for dialogs",
+                    IDC_CHECK_ALLOW_DIALOAG_IDLE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,6,54,188,10
+    CONTROL         "Detect missing END_MSG_MAP_EX",IDC_CHECK_MISS_END_MAP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,66,132,10
+END
+
+IDD_OPTIONSDLG DIALOGEX 0, 0, 280, 109
+STYLE DS_SETFONT | WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "optwtl"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,165,88,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,223,88,50,14
+END
+
+IDD_ABOUTDLG DIALOGEX 0, 0, 231, 84
+STYLE DS_SETFONT | WS_CHILD
+EXSTYLE WS_EX_CLIENTEDGE
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_STATIC_LOGO,"Static",SS_BITMAP | SS_REALSIZEIMAGE,
+                    4,4,57,78
+    LTEXT           "WTL Helper",IDC_STATIC_NAME,70,4,159,11
+    LTEXT           "Copyright (C) 2004 by Sergey Solozhentsev",
+                    IDC_STATIC_COPYRIGHT,70,15,159,12
+    EDITTEXT        IDC_EDIT_DEPENDENCES,70,38,159,44,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | ES_WANTRETURN | 
+                    WS_VSCROLL
+    LTEXT           "Donate WTL Helper",IDC_STATIC_DONATE,70,26,65,8
+END
+
+IDD_WTLHELPERDLG DIALOGEX 0, 0, 390, 214
+STYLE DS_SETFONT | WS_CAPTION | WS_THICKFRAME
+CAPTION "WTL Helper"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,219,193,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,276,193,50,14
+    PUSHBUTTON      "Apply",IDC_BUTTON_APPLY,333,193,50,14
+END
+
+IDD_ADDALTMAPDLG DIALOGEX 0, 0, 233, 58
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add ALT message map"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,117,37,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,176,37,50,14
+    EDITTEXT        IDC_EDIT_ALTNAME,7,15,160,14,ES_AUTOHSCROLL
+    LTEXT           "Name of ALT map (optional)",IDC_STATIC,7,7,89,8
+    EDITTEXT        IDC_EDIT_ALTNUM,176,15,50,14,ES_AUTOHSCROLL
+    LTEXT           "Number",IDC_STATIC,176,7,26,8
+END
+
+IDD_ADDSPECFUNCDLG DIALOGEX 0, 0, 239, 110
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,182,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,182,24,50,14
+    CONTROL         "Add WM_CREATE handler",IDC_CHECK_CREATE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,45,202,10
+    CONTROL         "Add WM_DESTROY handler",IDC_CHECK_DESTROY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,76,103,10
+    LTEXT           "You should add this class to CMessageLoop object. You can do this in the handler of WM_CREATE message and delete in the handler of the WM_DESTROY message",
+                    IDC_STATIC_DESC,7,7,161,35,SS_SUNKEN
+    CONTROL         "Add to CMessageLoop in WM_CREATE handler",
+                    IDC_CHECK_ADD_CREATE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,60,213,10
+    CONTROL         "Remove from CMessageLoop in WM_DESTROY handler",
+                    IDC_CHECK_REMOVE_DESTROY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,93,191,10
+END
+
+IDD_COLORSETUPDLG DIALOGEX 0, 0, 280, 100
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup colors"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,223,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,223,25,50,14
+    PUSHBUTTON      "",IDC_BUTTON_WINDOWS_TEXT_COLOR,92,15,44,14
+    PUSHBUTTON      "",IDC_BUTTON_WINDOWS_BACK_COLOR,153,15,43,14
+    LTEXT           "Text",IDC_STATIC,92,7,15,8
+    LTEXT           "Background",IDC_STATIC,153,7,40,8
+    CTEXT           "Windows message",IDC_STATIC_WINDOWS,7,15,71,14,
+                    SS_CENTERIMAGE
+    CTEXT           "Command message",IDC_STATIC_COMMAND,7,36,71,14,
+                    SS_CENTERIMAGE
+    PUSHBUTTON      "",IDC_BUTTON_COMMAND_TEXT_COLOR,91,36,44,14
+    PUSHBUTTON      "",IDC_BUTTON_COMMAND_BACK_COLOR,153,36,44,14
+    CTEXT           "Notify message",IDC_STATIC_NOTIFY,7,57,71,14,
+                    SS_CENTERIMAGE
+    PUSHBUTTON      "",IDC_BUTTON_NOTIFY_TEXT_COLOR,92,57,44,14
+    PUSHBUTTON      "",IDC_BUTTON_NOTIFY_BACK_COLOR,153,57,44,14
+    PUSHBUTTON      "Reset",IDC_BUTTON_RESET,223,78,50,14
+    PUSHBUTTON      "Export",IDC_BUTTON_EXPORT,223,43,50,14
+    PUSHBUTTON      "Import",IDC_BUTTON_IMPORT,223,61,50,14
+    CTEXT           "Reflection Handlers",IDC_STATIC_REFLECT,7,78,74,14,
+                    SS_CENTERIMAGE
+    PUSHBUTTON      "",IDC_BUTTON_REFLECT_TEXT_COLOR,92,78,44,14
+    PUSHBUTTON      "",IDC_BUTTON_REFLECT_BACK_COLOR,153,78,44,14
+END
+
+IDD_COMMONOPTFORM DIALOGEX 0, 0, 187, 95
+STYLE DS_SETFONT | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CLIENTEDGE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    CONTROL         "Save previous shown page",IDC_CHECK_SAVE_PAGE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,7,102,10
+    COMBOBOX        IDC_COMBO_WTLVERSION,7,29,100,48,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "WTL Version is used",IDC_STATIC,7,21,66,8
+END
+
+IDD_REFLECTIONDLG DIALOGEX 0, 0, 203, 190
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Reflection handler"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,146,7,50,16
+    PUSHBUTTON      "Cancel",IDCANCEL,146,26,50,16
+    COMBOBOX        IDC_COMBO_REFLECTTYPE,7,18,118,54,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Reflect",IDC_STATIC,7,10,24,8
+    GROUPBOX        "By",IDC_STATIC,7,39,118,144
+    CONTROL         "ID",IDC_CHECK_ID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    13,50,23,10
+    COMBOBOX        IDC_COMBO_ID,13,60,105,50,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Range",IDC_CHECK_RANGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,13,84,37,10
+    COMBOBOX        IDC_COMBO_RANGE,13,94,105,44,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Notification Code",IDC_CHECK_CODE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,13,118,70,10
+    COMBOBOX        IDC_COMBO_CODE,13,128,105,41,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Window",IDC_CHECK_WINDOW,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,13,152,42,10
+    COMBOBOX        IDC_COMBO_WINDOW,13,162,105,12,CBS_SIMPLE | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG_HANDLER, DIALOG
+    BEGIN
+        VERTGUIDE, 7
+        VERTGUIDE, 134
+        HORZGUIDE, 7
+    END
+
+    IDD_FUNCTION_PROPPAGE, DIALOG
+    BEGIN
+        RIGHTMARGIN, 420
+        VERTGUIDE, 150
+        VERTGUIDE, 229
+        HORZGUIDE, 22
+    END
+
+    IDD_DIALOG_ID_HANDLER, DIALOG
+    BEGIN
+        RIGHTMARGIN, 197
+        VERTGUIDE, 7
+        VERTGUIDE, 132
+        VERTGUIDE, 142
+        VERTGUIDE, 148
+        BOTTOMMARGIN, 150
+        HORZGUIDE, 12
+        HORZGUIDE, 40
+        HORZGUIDE, 150
+    END
+
+    IDD_DIALOG_ADD_FUNC_GLOBAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 212
+        VERTGUIDE, 46
+        VERTGUIDE, 96
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 79
+        HORZGUIDE, 34
+        HORZGUIDE, 46
+    END
+
+    IDD_DDXVARIABLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 175
+        VERTGUIDE, 116
+        VERTGUIDE, 124
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 135
+        HORZGUIDE, 15
+        HORZGUIDE, 41
+        HORZGUIDE, 68
+        HORZGUIDE, 95
+        HORZGUIDE, 120
+    END
+
+    IDD_TYPECSTRINGDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 235
+        VERTGUIDE, 15
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 125
+    END
+
+    IDD_DDXOPTFORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 162
+        VERTGUIDE, 12
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 74
+    END
+
+    IDD_FUNCTIONOPTDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 217
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 92
+    END
+
+    IDD_OPTIONSDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 102
+    END
+
+    IDD_ABOUTDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 229
+        VERTGUIDE, 70
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 82
+    END
+
+    IDD_WTLHELPERDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 383
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 207
+    END
+
+    IDD_ADDALTMAPDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 226
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 51
+        HORZGUIDE, 15
+    END
+
+    IDD_ADDSPECFUNCDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 232
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 103
+    END
+
+    IDD_COLORSETUPDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        VERTGUIDE, 92
+        VERTGUIDE, 153
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 92
+        HORZGUIDE, 15
+        HORZGUIDE, 36
+        HORZGUIDE, 57
+        HORZGUIDE, 78
+    END
+
+    IDD_COMMONOPTFORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+        HORZGUIDE, 29
+    END
+
+    IDD_REFLECTIONDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 196
+        VERTGUIDE, 13
+        VERTGUIDE, 118
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 183
+        HORZGUIDE, 18
+        HORZGUIDE, 39
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_MAIN           ICON                    "res\\Wizard.ico"
+IDI_ICON_CLOSE          ICON                    "res\\closefld.ico"
+IDI_ICON_OPEN           ICON                    "res\\openfld.ico"
+IDI_ICON_MESSAGE        ICON                    "res\\message.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_LOGO         BITMAP                  "res\\mysmall4.bmp"
+IDB_BITMAP_MESSAGE      BITMAP                  "res\\functoolbar.bmp"
+IDB_BITMAP_DDX          BITMAP                  "res\\vartoolbar.bmp"
+IDB_BITMAP_ICONS        BITMAP                  "res\\icons.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_ADDIN               REGISTRY                "res\\AddIn.rgs"
+IDR_ADDIN8              REGISTRY                "res\\addin8.rgs"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_PROJNAME            "WTL Helper"
+    IDS_DEPENDENCES         "Toolbar images is created by Alexey Shafransky\r\nThis software is created with Windows Template Libarary.\r\nAlso code use:\r\nTabbing Framework by Daniel Bowen\r\nCFileVersionInfo by Armen Hakobyan\r\nGet this code at www.codeproject.com"
+    IDS_COLOR_DEFAULT       "Default"
+    IDS_TOOLTIP_MESSAGES    "Double click on message to add new handler"
+    IDS_TOOLTIP_HANDLERS    "Double click on handler to apply all changes and go to selected handler function\r\nDEL to delete selected handler"
+    IDS_TOOLTIP_FUNCTIONS   "Double click on function to apply changes and go to the selected function\r\nDEL to delete selected function"
+    IDS_TOOLTIP_IDS         "Double click to add DDX Entry"
+    IDS_SIMPLE_REFLECT      "To add reflection handler for all messages just check checkbox on Functions page\r\nIf you want to add custom reflection handler you should fill at least one field or select message which will be relected"
+    IDS_TOOLTIP_REFLECT_NOTIFICATIONS 
+                            "Adds macro REFLECT_NOTIFICATIONS to message map"
+    IDS_TOOLTIP_FORWARD_NOTIFICATIONS 
+                            "Adds macro FORWARD_NOTIFICATIONS to message map"
+    IDS_TOOLTIP_REFLECT_NOTIFICATIONS_EX 
+                            "Adds macro REFLECT_NOTIFICATIONS_EX which comes with WTL 7.5"
+    IDS_TOOLTIP_DEFAULT_HANDLER 
+                            "Adds macro DEFAULT_REFLECTION_HANDLER to message map"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING_MES_ADD_HANDLER "Add Handler"
+    IDS_STRING_MES_DEL_HANDLER "Delete Handler"
+    IDS_STRING_MES_ADD_FUNC "Add Function"
+    IDS_STRING_MES_DEL_FUNC "Delete Function"
+    IDS_STRING_MES_SPEC_FUNC "Override parent function"
+    IDS_STRING_MES_ADD_MAP  "Add New Map"
+    IDS_STRING_MES_DEL_MAP  "Delete Current Map (Default or ALTernative)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING_DDX_ADD_VAR  "Add DDX entry"
+    IDS_STRING_DDX_DEL_VAR  "Delete DDX Entry"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING_SPEC_FUNC_DESC 
+                            "You should add this class to CMessageLoop object. You can do this in the handler of %s message and delete in the handler of the WM_DESTROY message"
+    IDS_STRING_SPEC_CHECK_ADD_CREATE "Add %s handler"
+    IDS_STRING_SPEC_CHECK_IN_CREATE "Add to CMessageLoop in %s handler"
+    IDS_TOOLTIP_ALT_NAME    "Optional name of #define for alternative message map"
+    IDS_TOOLTIP_ALT_NUM     "Number of alternative message map"
+    IDS_TOOLTIP_REFLECTED   "Generates handler macro for reflected message"
+    IDS_TOOLTIP_ID          "Generates handler macro that uses ID of the window"
+    IDS_TOOLTIP_CODE        "Generates handler macro that uses message code"
+    IDS_TOOLTIP_RANGE       "Generates handler macro that uses range of windows by its IDs"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_TOOLTIP_INLINE      "If set handler's function body will be enerated in the class definition\r\nelse it will be generated separatly in the cpp file"
+    IDS_TOOLTIP_NEW_STYLE   "Use handler macros from atlcrack.h"
+    IDS_TOOLTIP_FUNCTION_NAME "Name of the handler's function"
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,1,6,0
+ PRODUCTVERSION 1,1,6,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Helps add message handlers for WTL"
+            VALUE "CompanyName", "Sergey Solozhentsev"
+            VALUE "FileDescription", "Addin for Microsoft Visual Studio .NET 2003 and 2005"
+            VALUE "FileVersion", "1, 1, 6, 0"
+            VALUE "InternalName", "WtlHelper.dll"
+            VALUE "LegalCopyright", "Copyright (c) 2004 Sergey Solozhentsev. All rights reserved."
+            VALUE "OriginalFilename", "WtlHelper.dll"
+            VALUE "ProductName", "WTL Helper"
+            VALUE "ProductVersion", "1, 1, 6, 0"
+        END
+        BLOCK "041904b0"
+        BEGIN
+            VALUE "Comments", "Помогает вставлять обработчики сообщений и DDX переменные для WTL"
+            VALUE "CompanyName", "Сергей Соложенцев"
+            VALUE "FileDescription", "Плагин для  Microsoft Visual Studio .NET 2003 и 2005"
+            VALUE "FileVersion", "1, 1, 6, 0"
+            VALUE "InternalName", "WtlHelper.dll"
+            VALUE "LegalCopyright", "Copyright (C) 2004 Сергей Соложенцев. Все права защищены"
+            VALUE "OriginalFilename", "WtlHelper.dll"
+            VALUE "ProductName", "WTL Helper"
+            VALUE "ProductVersion", "1, 1, 6, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200, 0x419, 1200
+    END
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#ifndef _FOR_VS2005\r\n"
+    "2 RT_MANIFEST ""res\\\\WtlHelper.dll.manifest""\r\n"
+    "#endif\r\n"
+    "1 TYPELIB ""AddIn.tlb""\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#ifndef _FOR_VS2005
+2 RT_MANIFEST "res\\WtlHelper.dll.manifest"
+#endif
+1 TYPELIB "AddIn.tlb"
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

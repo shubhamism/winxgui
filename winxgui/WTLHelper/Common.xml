@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+<Common><DialogClasses Item0="CDialogImpl" Item1="CAxDialogImpl" Item2="ATL::CDialogImplBaseT" Item3="CPropertyPageImpl" Item4="CAxPropertyPageImpl"/><MacroMasks Item0="DECLARE_*"/>
+<ControlClasses><Item0 ControlName="DEFPUSHBUTTON"><Classes Item0="CButton" Item1="CBitmapButton"/></Item0><Item1 ControlName="PUSHBUTTON"><Classes Item0="CButton" Item1="CBitmapButton"/></Item1><Item2 ControlName="Button"><Classes Item0="CButton" Item1="CBitmapButton"/></Item2><Item3 ControlName="EDITTEXT"><Classes Item0="CEdit"/></Item3><Item4 ControlName="COMBOBOX"><Classes Item0="CComboBox" Item1="CComboBoxEx"/></Item4><Item5 ControlName="LISTBOX"><Classes Item0="CListBox" Item1="CDragListBox"/></Item5><Item6 ControlName="SCROLLBAR"><Classes Item0="CScrollBar"/></Item6><Item7 ControlName="LTEXT"><Classes Item0="CStatic"/></Item7><Item8 ControlName="RTEXT"><Classes Item0="CStatic"/></Item8><Item9 ControlName="CTEXT"><Classes Item0="CStatic"/></Item9><Item10 ControlName="ICON"><Classes Item0="CStatic"/></Item10><Item11 ControlName="GROUPBOX"><Classes Item0="CStatic"/></Item11><Item12 ControlName="Static"><Classes Item0="CStatic"/></Item12><Item13 ControlName="SysListView32"><Classes Item0="CListViewCtrl" Item1="CCheckListViewCtrl"/></Item13><Item14 ControlName="SysTreeView32"><Classes Item0="CTreeViewCtrl" Item1="CTreeViewCtrlEx"/></Item14><Item15 ControlName="SysTabControl32"><Classes Item0="CTabCtrl"/></Item15><Item16 ControlName="msctls_trackbar32"><Classes Item0="CTrackBarCtrl"/></Item16><Item17 ControlName="msctls_updown32"><Classes Item0="CUpDownCtrl"/></Item17><Item18 ControlName="msctls_progress32"><Classes Item0="CProgressBarCtrl"/></Item18><Item19 ControlName="SysAnimate32"><Classes Item0="CAnimateCtrl"/></Item19><Item20 ControlName="RichEdit20A"><Classes Item0="CRichEditCtrl"/></Item20><Item21 ControlName="SysDateTimePick32"><Classes Item0="CDateTimePickerCtrl"/></Item21><Item22 ControlName="SysMonthCal32"><Classes Item0="CMonthCalendarCtrl"/></Item22><Item23 ControlName="SysIPAddress32"><Classes Item0="CIPAddressCtrl"/></Item23></ControlClasses>
+<MemberTypes><Item0 DDXType="Text"><MemberTypes><Item0 Type="CString" Prefix="str"></Item0><Item1 Type="CComBSTR" Prefix="bstr"></Item1><Item2 Type="BSTR" Prefix="bs">NULL</Item2><Item3 Type="LPTSTR" Prefix="sz">NULL</Item3></MemberTypes></Item0><Item1 DDXType="Int"><MemberTypes><Item0 Type="int" Prefix="i">0</Item0><Item1 Type="short" Prefix="s">0</Item1><Item2 Type="long" Prefix="l">0</Item2></MemberTypes></Item1><Item2 DDXType="UINT"><MemberTypes><Item0 Type="UINT" Prefix="ui">0</Item0><Item1 Type="DWORD" Prefix="dw">0</Item1><Item2 Type="WORD" Prefix="w">0</Item2><Item3 Type="ULONG" Prefix="ul">0</Item3></MemberTypes></Item2><Item3 DDXType="Float"><MemberTypes><Item0 Type="float" Prefix="flt">0.0f</Item0><Item1 Type="double" Prefix="dbl">0.0</Item1></MemberTypes></Item3><Item4 DDXType="Check"><MemberTypes><Item0 Type="BOOL" Prefix="b">FALSE</Item0><Item1 Type="bool" Prefix="b">false</Item1><Item2 Type="int" Prefix="i">0</Item2></MemberTypes></Item4><Item5 DDXType="Radio"><MemberTypes><Item0 Type="int" Prefix="i">0</Item0></MemberTypes></Item5></MemberTypes>
+<ReflectMessages Item0="WM_COMMAND" Item1="WM_NOTIFY" Item2="WM_PARENTNOTIFY" Item3="WM_DRAWITEM" Item4="WM_MEASUREITEM" Item5="WM_COMPAREITEM" Item6="WM_DELETEITEM" Item7="WM_VKEYTOITEM" Item8="WM_CHARTOITEM" Item9="WM_HSCROLL" Item10="WM_VSCROLL" Item11="WM_CTLCOLORBTN" Item12="WM_CTLCOLORDLG" Item13="WM_CTLCOLOREDIT" Item14="WM_CTLCOLORLISTBOX" Item15="WM_CTLCOLORMSGBOX" Item16="WM_CTLCOLORSCROLLBAR" Item17="WM_CTLCOLORSTATIC"/>
+<SpecFunctions>
+<CWinDataExchange>
+<Functions>
+	<OnDataExchangeError>
+		<Type>void</Type>
+		<Params>
+			<nCtrlID>UINT</nCtrlID>
+			<bSave>BOOL</bSave>
+		</Params>
+	</OnDataExchangeError>
+	<OnDataValidateError>
+		<Type>void</Type>
+		<Params>
+			<nCtrlID>UINT</nCtrlID>
+			<bSave>BOOL</bSave>
+			<data>_XData&amp;</data>
+		</Params>
+	</OnDataValidateError>
+</Functions>
+</CWinDataExchange>
+<CPropertyPageImpl>
+<Conditions>
+<Condition>1</Condition>
+</Conditions>
+<Functions>
+	<OnSetActive Condition="1">
+		<Type>int</Type>
+		<Body>return 0;</Body>
+	</OnSetActive>
+	<OnSetActive Condition="0">
+		<Type>BOOL</Type>
+		<Body>return TRUE;</Body>
+	</OnSetActive>
+	<OnKillActive Condition="1">
+		<Type>BOOL</Type>
+		<Body>return FALSE;</Body>
+		<Comment>// FALSE = allow deactivate
+// TRUE = prevent deactivation</Comment>
+	</OnKillActive>
+	<OnKillActive Condition="0">
+		<Type>BOOL</Type>
+		<Body>return TRUE;</Body>
+		<Comment>// TRUE = allow deactivate
+// FALSE = prevent deactivation</Comment>
+	</OnKillActive>
+	<OnApply Condition="1">
+		<Type>int</Type>
+		<Body>return PSNRET_NOERROR;</Body>
+		<Comment>// PSNRET_NOERROR = apply OK
+// PSNRET_INVALID = apply not OK, return to this page
+// PSNRET_INVALID_NOCHANGEPAGE = apply not OK, don't change focus</Comment>
+	</OnApply>
+	<OnApply Condition="0">
+		<Type>BOOL</Type>
+		<Body>return TRUE;</Body>
+	</OnApply>
+	<OnReset>
+		<Type>void</Type>
+	</OnReset>
+	<OnQueryCancel Condition="1">
+		<Type>BOOL</Type>
+		<Body>return FALSE;</Body>
+		<Comment>// FALSE = allow cancel
+// TRUE = prevent cancel</Comment>
+	</OnQueryCancel>
+	<OnQueryCancel Condition="0">
+		<Type>BOOL</Type>
+		<Body>return TRUE;</Body>
+		<Comment>// TRUE = allow cancel
+// FALSE = prevent cancel</Comment>
+	</OnQueryCancel>
+	<OnWizardBack>
+		<Type>int</Type>
+		<Body>return 0;</Body>
+		<Comment>// 0  = goto previous page
+// -1 = prevent page change
+// >0 = jump to page by dlg ID</Comment>
+	</OnWizardBack>
+	<OnWizardNext>
+		<Type>int</Type>
+		<Body>return 0;</Body>
+		<Comment>// 0  = goto next page
+// -1 = prevent page change
+// >0 = jump to page by dlg ID</Comment>
+	</OnWizardNext>
+	<OnWizardFinish Condition="1">
+		<Type>INT_PTR</Type>
+		<Body>return FALSE;</Body>
+		<Comment>// FALSE = allow finish
+// TRUE = prevent finish
+// HWND = prevent finish and set focus to HWND (CommCtrl 5.80 only)</Comment>
+	</OnWizardFinish>
+	<OnWizardFinish Condition="0">
+		<Type>BOOL</Type>
+		<Body>return TRUE;</Body>
+	</OnWizardFinish>
+	<OnHelp>
+		<Type>void</Type>
+	</OnHelp>
+	<OnGetObject>
+		<Type>BOOL</Type>
+		<Body>return FALSE;   // not processed</Body>
+		<Params>
+			<lpObjectNotify>LPNMOBJECTNOTIFY</lpObjectNotify>
+		</Params>
+	</OnGetObject>
+	<OnTranslateAccelerator>
+		<Type>int</Type>
+		<Body>return PSNRET_NOERROR;</Body>
+		<Comment>// PSNRET_NOERROR - message not handled
+// PSNRET_MESSAGEHANDLED - message handled</Comment>
+		<Params>
+			<lpMsg>LPMSG</lpMsg>
+		</Params>
+	</OnTranslateAccelerator>
+	<OnQueryInitialFocus>
+		<Type>HWND</Type>
+		<Body>return NULL;</Body>
+		<Comment>// NULL = set focus to default control
+// HWND = set focus to HWND</Comment>
+		<Params>
+			<hWndFocus>HWND</hWndFocus>
+		</Params>
+	</OnQueryInitialFocus>
+</Functions>
+</CPropertyPageImpl>
+<CAxPropertyPageImpl>
+<Parents><Parent>CPropertyPageImpl</Parent></Parents>
+</CAxPropertyPageImpl>
+<CPropertyPage>
+<Parents><Parent>CPropertyPageImpl</Parent></Parents>
+</CPropertyPage>
+<CAxPropertyPage>
+<Parents><Parent>CAxPropertyPageImpl</Parent></Parents>
+</CAxPropertyPage>
+<CCustomDraw>
+<Functions>
+	<OnPrePaint>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnPrePaint>
+	<OnPostPaint>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnPostPaint>
+	<OnPreErase>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnPreErase>
+	<OnPostErase>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnPostErase>
+	<OnItemPrePaint>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnItemPrePaint>
+	<OnItemPostPaint>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnItemPostPaint>
+	<OnItemPreErase>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnItemPreErase>
+	<OnItemPostErase>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnItemPostErase>
+	<OnSubItemPrePaint>
+		<Type>DWORD</Type>
+		<Body>return CDRF_DODEFAULT;</Body>
+		<Params>
+			<idCtrl>int</idCtrl>
+			<lpNMCustomDraw>LPNMCUSTOMDRAW</lpNMCustomDraw>
+		</Params>
+	</OnSubItemPrePaint>
+</Functions>
+</CCustomDraw>
+<COwnerDraw>
+<Functions>
+	<DrawItem>
+		<Type>void</Type>
+		<Params>
+			<lpDrawItemStruct>LPDRAWITEMSTRUCT</lpDrawItemStruct>
+		</Params>
+	</DrawItem>
+	<MeasureItem>
+		<Type>void</Type>
+		<Params>
+			<lpMeasureItemStruct>LPMEASUREITEMSTRUCT</lpMeasureItemStruct>
+		</Params>
+	</MeasureItem>
+	<CompareItem>
+		<Type>int</Type>
+		<Params>
+			<lpCompareItemStruct>LPCOMPAREITEMSTRUCT</lpCompareItemStruct>
+		</Params>
+	</CompareItem>
+	<DeleteItem>
+		<Type>void</Type>
+		<Params>
+			<lpDeleteItemStruct>LPDELETEITEMSTRUCT</lpDeleteItemStruct>
+		</Params>
+	</DeleteItem>
+</Functions>
+</COwnerDraw>
+<CScrollImpl>
+<Functions>
+	<DoScroll>
+		<Type>void</Type>
+		<Params>
+			<nType>int</nType>
+			<nScrollCode>int</nScrollCode>
+			<cxyOffset>int&amp;</cxyOffset>
+			<cxySizeAll>int</cxySizeAll>
+			<cxySizePage>int</cxySizePage>
+			<cxySizeLine>int</cxySizeLine>
+		</Params>
+	</DoScroll>
+	<DoPaint>
+		<Type>void</Type>
+		<Params>
+			<dc>CDCHandle</dc>
+		</Params>
+	</DoPaint>
+</Functions>
+</CScrollImpl>
+<CScrollWindowImpl>
+<Parents><Parent>CScrollImpl</Parent></Parents>
+</CScrollWindowImpl>
+<CMapScrollImpl>
+<Parents><Parent>CScrollImpl</Parent></Parents>
+</CMapScrollImpl>
+<CMapScrollWindowImpl>
+<Parents><Parent>CMapScrollImpl</Parent></Parents>
+</CMapScrollWindowImpl>
+<CEditCommands>
+<Functions>
+	<Clear>
+		<Type>void</Type>
+	</Clear>
+	<Cut>
+		<Type>void</Type>
+	</Cut>
+	<Paste>
+		<Type>void</Type>
+	</Paste>
+	<Undo>
+		<Type>void</Type>
+	</Undo>
+</Functions>
+</CEditCommands>
+<CRichEditCommands>
+<Parents><Parent>CEditCommands</Parent></Parents>
+<Functions>
+	<Redo>
+		<Type>void</Type>
+	</Redo>
+</Functions>
+</CRichEditCommands>
+<CDragListNotifyImpl>
+<Functions>
+	<OnBeginDrag>
+		<Type>BOOL</Type>
+		<Body>return TRUE;   // allow dragging</Body>
+		<Params>
+			<nCtlID>int</nCtlID>
+			<hWndDragList>HWND</hWndDragList>
+			<ptCursor>POINT</ptCursor>
+		</Params>
+	</OnBeginDrag>
+	<OnCancelDrag>
+		<Type>void</Type>
+		<Params>
+			<nCtlID>int</nCtlID>
+			<hWndDragList>HWND</hWndDragList>
+			<ptCursor>POINT</ptCursor>
+		</Params>
+	</OnCancelDrag>
+	<OnDragging>
+		<Type>int</Type>
+		<Body>return 0;   // don't change cursor</Body>
+		<Params>
+			<nCtlID>int</nCtlID>
+			<hWndDragList>HWND</hWndDragList>
+			<ptCursor>POINT</ptCursor>
+		</Params>
+	</OnDragging>
+	<OnDropped>
+		<Type>void</Type>
+		<Params>
+			<nCtlID>int</nCtlID>
+			<hWndDragList>HWND</hWndDragList>
+			<ptCursor>POINT</ptCursor>
+		</Params>
+	</OnDropped>
+</Functions>
+</CDragListNotifyImpl>
+</SpecFunctions>
+</Common>

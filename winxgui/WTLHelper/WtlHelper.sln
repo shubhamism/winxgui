@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WtlHelper", "WtlHelper.vcproj", "{36D49126-2EF6-439B-BF38-B01D5EDAB625}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WtlHelperRes", "WtlHelperRes\WtlHelperRes.vcproj", "{6CDF61BD-0243-4909-A1DA-A3877605FEFE}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Debug.ActiveCfg = Debug|Win32
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Debug.Build.0 = Debug|Win32
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Release.ActiveCfg = Release|Win32
+		{36D49126-2EF6-439B-BF38-B01D5EDAB625}.Release.Build.0 = Release|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Debug.ActiveCfg = Debug|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Debug.Build.0 = Debug|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Release.ActiveCfg = Release|Win32
+		{6CDF61BD-0243-4909-A1DA-A3877605FEFE}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

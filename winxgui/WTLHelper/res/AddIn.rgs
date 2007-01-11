@@ -1,0 +1,26 @@
+HKCR
+{
+	WtlHelper.Connect.1 = s 'Connect Class'
+	{
+		CLSID = s '{A9A7A4FA-69DB-4BF0-8B8B-F25650B2960B}'
+	}
+	WtlHelper.Connect = s 'Connect Class'
+	{
+		CLSID = s '{A9A7A4FA-69DB-4BF0-8B8B-F25650B2960B}'
+		CurVer = s 'WtlHelper.Connect.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{A9A7A4FA-69DB-4BF0-8B8B-F25650B2960B}' = s 'Connect Class'
+		{
+			ProgID = s 'WtlHelper.Connect.1'
+			VersionIndependentProgID = s 'WtlHelper.Connect'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{730B33D4-7AEB-476B-9018-703AB582E457}'
+		}
+	}
+}
