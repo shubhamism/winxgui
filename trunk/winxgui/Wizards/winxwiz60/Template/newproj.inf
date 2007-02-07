@@ -13,3 +13,5 @@ $$//	if name starts with / => create new subdir
 root.cpp	$$root$$.cpp
 resource.h	resource.h
 :resource.rc	resource.rc
+stdafx.cpp	stdafx.cpp
+stdafx.h	stdafx.h

@@ -90,7 +90,7 @@ BEGIN
             VALUE "FileDescription", "WINXWIZ60 AppWizard\0"
             VALUE "FileVersion", "1, 0, 0, 1\0"
             VALUE "InternalName", "WINXWIZ60\0"
-            VALUE "LegalCopyright", "Copyright \0","\0","\0","\0","\0","\0","\0"
+            VALUE "LegalCopyright", "Copyright \0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "WINXWIZ60.DLL\0"
             VALUE "ProductName", "WINX AppWizard\0"
@@ -125,18 +125,20 @@ BEGIN
                     BS_AUTORADIOBUTTON,20,60,103,14
     PUSHBUTTON      "&Advance...",IDC_ADVANCE,232,17,56,15
     CONTROL         "Toolbar",IDC_UI_TOOLBAR,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,22,97,102,13
+                    WS_DISABLED | WS_TABSTOP,22,105,102,13
     CONTROL         "Rebar",IDC_UI_REBAR,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,22,110,102,13
+                    WS_DISABLED | WS_TABSTOP,22,118,102,13
     CONTROL         "Command Bar",IDC_UI_COMMANDBAR,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,22,123,102,13
+                    WS_DISABLED | WS_TABSTOP,22,131,102,13
     CONTROL         "Status Bar",IDC_UI_STATUSBAR,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,22,136,102,13
-    COMBOBOX        IDC_VIEWTYPE,22,175,145,110,CBS_DROPDOWN | WS_VSCROLL | 
-                    WS_TABSTOP
+                    WS_DISABLED | WS_TABSTOP,22,144,102,13
+    COMBOBOX        IDC_VIEWTYPE,22,177,145,110,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Application Type",IDC_STATIC,10,5,285,72
-    GROUPBOX        "User Interface Features",IDC_STATIC,10,83,286,71
-    GROUPBOX        "View Type",IDC_STATIC,10,158,286,39
+    GROUPBOX        "User Interface Features",IDC_STATIC,10,81,286,79
+    GROUPBOX        "View Type",IDC_STATIC,10,164,286,32
+    CONTROL         "Menubar",IDC_UI_MENUBAR,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,22,92,102,13
 END
 
 IDD_ADVANCEOPT DIALOG DISCARDABLE  0, 0, 210, 113
@@ -146,8 +148,14 @@ FONT 10, "System"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,153,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,153,24,50,14
-    CONTROL         "Unicode Application",IDC_CHECK1,"Button",
+    CONTROL         "Unicode application",IDC_CHECK1,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,7,81,11
+    EDITTEXT        IDC_FILE_HEADER,7,60,196,46,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
+                    WS_VSCROLL
+    LTEXT           "= File Header =",IDC_STATIC,7,48,55,10
+    CONTROL         "Enable all feathures of Windows ",IDC_CHECK2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,18,120,11
 END
 
 
@@ -158,9 +166,11 @@ END
 
 NEWPROJ.INF             TEMPLATE DISCARDABLE    "template\\newproj.inf"
 CONFIRM.INF             TEMPLATE DISCARDABLE    "template\\confirm.inf"
-root.cpp               	TEMPLATE DISCARDABLE    "Template\\root.cpp"
-resource.h              TEMPLATE DISCARDABLE    "Template\\resource.h"
-resource.rc             TEMPLATE DISCARDABLE    "Template\\resource.rc"
+ROOT.CPP                TEMPLATE DISCARDABLE    "Template\\root.cpp"
+RESOURCE.H              TEMPLATE DISCARDABLE    "Template\\resource.h"
+RESOURCE.RC             TEMPLATE DISCARDABLE    "Template\\resource.rc"
+STDAFX.CPP              TEMPLATE DISCARDABLE    "Template\\stdafx.cpp"
+STDAFX.H                TEMPLATE DISCARDABLE    "Template\\stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////
 //
