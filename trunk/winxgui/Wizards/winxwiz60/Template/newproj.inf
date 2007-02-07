@@ -10,6 +10,6 @@ $$//       '#' => the file should be treated as a template (implies '!')
 $$//       '*' => bypass the custom AppWizard's resources when loading
 $$//	if name starts with / => create new subdir
 
-hello.cpp	hello.cpp
+root.cpp	$$root$$.cpp
 resource.h	resource.h
 :resource.rc	resource.rc
