@@ -6,6 +6,7 @@
 // Resources (IDR_*) 
  
 // Dialogs (IDD_*) 
+HIDD_ADVANCEOPT                         0x2007A
 HIDD_CUSTOM1                            0x20081
  
 // Frame Controls (IDW_*) 

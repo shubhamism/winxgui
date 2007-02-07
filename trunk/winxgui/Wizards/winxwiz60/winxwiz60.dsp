@@ -142,19 +142,8 @@ SOURCE=.\winxwiz60.cpp
 # Begin Source File
 
 SOURCE=.\hlp\winxwiz60.hpj
-
-!IF  "$(CFG)" == "winxwiz60 - Win32 Release"
-
 # PROP Exclude_From_Build 1
 # PROP Ignore_Default_Tool 1
-
-!ELSEIF  "$(CFG)" == "winxwiz60 - Win32 Pseudo-Debug"
-
-# PROP Exclude_From_Build 1
-# PROP Ignore_Default_Tool 1
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -272,7 +261,28 @@ SOURCE=.\Template\confirm.inf
 # End Source File
 # Begin Source File
 
+SOURCE=.\Template\hello.cpp
+# PROP Exclude_From_Scan -1
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
 SOURCE=.\Template\newproj.inf
+# PROP Exclude_From_Scan -1
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\Template\resource.h
+# PROP Exclude_From_Scan -1
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\Template\resource.rc
 # PROP Exclude_From_Scan -1
 # PROP BASE Exclude_From_Build 1
 # PROP Exclude_From_Build 1
