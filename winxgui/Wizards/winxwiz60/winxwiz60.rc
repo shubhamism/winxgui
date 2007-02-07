@@ -158,7 +158,7 @@ END
 
 NEWPROJ.INF             TEMPLATE DISCARDABLE    "template\\newproj.inf"
 CONFIRM.INF             TEMPLATE DISCARDABLE    "template\\confirm.inf"
-hello.cpp               TEMPLATE DISCARDABLE    "Template\\hello.cpp"
+root.cpp               	TEMPLATE DISCARDABLE    "Template\\root.cpp"
 resource.h              TEMPLATE DISCARDABLE    "Template\\resource.h"
 resource.rc             TEMPLATE DISCARDABLE    "Template\\resource.rc"
 
