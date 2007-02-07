@@ -14,6 +14,7 @@
 #include "debug.h"			// For ASSERT, VERIFY, and TRACE
 #include <customaw.h>		// Custom AppWizard interface
 #include <winx.h>
+#include <stdext/Registry.h>
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

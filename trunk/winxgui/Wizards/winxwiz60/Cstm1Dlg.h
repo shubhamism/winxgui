@@ -9,14 +9,24 @@
 
 class CCustom1Dlg : public CAppWizStepDlg
 {
+private:
+	CMapStringToString& m_Dictionary;
+
 // Construction
 public:
-	CCustom1Dlg();
+	CCustom1Dlg(CMapStringToString& Dictionary);
 	virtual BOOL OnDismiss();
 
 // Dialog Data
 	//{{AFX_DATA(CCustom1Dlg)
 	enum { IDD = IDD_CUSTOM1 };
+	BOOL	m_bMenuBar;
+	BOOL	m_bRebar;
+	BOOL	m_bCommandBar;
+	BOOL	m_bStatusBar;
+	BOOL	m_bToolbar;
+	int		m_nViewType;
+	int		m_nAppType;
 	//}}AFX_DATA
 
 

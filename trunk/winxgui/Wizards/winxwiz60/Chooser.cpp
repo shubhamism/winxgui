@@ -12,11 +12,11 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 // On construction, set up internal array with pointers to each step.
-CDialogChooser::CDialogChooser()
+CDialogChooser::CDialogChooser(CCustomAppWiz* pAppWiz)
 {
 	m_pDlgs[0] = NULL;
 
-	m_pDlgs[1] = new CCustom1Dlg;
+	m_pDlgs[1] = new CCustom1Dlg(pAppWiz->m_Dictionary);
 
 	m_nCurrDlg = 0;
 }

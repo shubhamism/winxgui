@@ -122,8 +122,10 @@ BEGIN
     CONTROL         "MDI Application",IDC_MDI_APP,"Button",
                     BS_AUTORADIOBUTTON | WS_DISABLED,20,46,103,14
     CONTROL         "ActiveX Control DLL",IDC_ACTIVEX_DLL,"Button",
-                    BS_AUTORADIOBUTTON,20,60,103,14
+                    BS_AUTORADIOBUTTON | WS_DISABLED,20,60,103,14
     PUSHBUTTON      "&Advance...",IDC_ADVANCE,232,17,56,15
+    CONTROL         "Menubar",IDC_UI_MENUBAR,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,22,92,102,13
     CONTROL         "Toolbar",IDC_UI_TOOLBAR,"Button",BS_AUTOCHECKBOX | 
                     WS_DISABLED | WS_TABSTOP,22,105,102,13
     CONTROL         "Rebar",IDC_UI_REBAR,"Button",BS_AUTOCHECKBOX | 
@@ -137,8 +139,6 @@ BEGIN
     GROUPBOX        "Application Type",IDC_STATIC,10,5,285,72
     GROUPBOX        "User Interface Features",IDC_STATIC,10,81,286,79
     GROUPBOX        "View Type",IDC_STATIC,10,164,286,32
-    CONTROL         "Menubar",IDC_UI_MENUBAR,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,22,92,102,13
 END
 
 IDD_ADVANCEOPT DIALOG DISCARDABLE  0, 0, 210, 113
@@ -146,16 +146,16 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Advance Options"
 FONT 10, "System"
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,153,7,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,153,24,50,14
-    CONTROL         "Unicode application",IDC_CHECK1,"Button",
+    CONTROL         "Unicode application",IDC_UNICODE_APP,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,7,81,11
+    CONTROL         "Enable all features of Windows ",IDC_USE_WINSDK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,18,120,11
     EDITTEXT        IDC_FILE_HEADER,7,60,196,46,ES_MULTILINE | 
                     ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
                     WS_VSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,153,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,153,24,50,14
     LTEXT           "= File Header =",IDC_STATIC,7,48,55,10
-    CONTROL         "Enable all feathures of Windows ",IDC_CHECK2,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,18,120,11
 END
 
 
