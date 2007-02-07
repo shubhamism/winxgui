@@ -30,6 +30,8 @@ void CWinxwiz60AppWiz::InitCustomAppWiz()
 		TRACE(_T("['%s', '%s']\n"), (LPCTSTR)strKey, (LPCTSTR)strValue);
 	}
 #endif
+
+	m_Dictionary[_T("FileHeader")] = _T("// Creator: xushiwei");
 }
 
 // This is called just before the custom AppWizard is unloaded.
