@@ -17,7 +17,7 @@ void CWinxwiz60AppWiz::InitCustomAppWiz()
 {
 	// Create a new dialog chooser; CDialogChooser's constructor initializes
 	//  its internal array with pointers to the steps.
-	m_pChooser = new CDialogChooser;
+	m_pChooser = new CDialogChooser(this);
 
 	// Set the maximum number of steps.
 	SetNumberOfSteps(LAST_DLG);
@@ -30,8 +30,6 @@ void CWinxwiz60AppWiz::InitCustomAppWiz()
 		TRACE(_T("['%s', '%s']\n"), (LPCTSTR)strKey, (LPCTSTR)strValue);
 	}
 #endif
-
-	m_Dictionary[_T("FileHeader")] = _T("// Creator: xushiwei");
 }
 
 // This is called just before the custom AppWizard is unloaded.
@@ -129,12 +127,14 @@ void CWinxwiz60AppWiz::CustomizeProject(IBuildProject* pProject)
 	if (nLevel <= 0)
 		return;
 
-	WCHAR szInclude[_MAX_PATH];
-	MakeRelPath(nLevel, szInclude, L"winx\\include\"", L"/I \"", 4);
+	WCHAR* psz;
+	WCHAR szInclude[_MAX_PATH+_MAX_PATH];
+	psz = MakeRelPath(nLevel, szInclude, L"winx\\include\" ", L"/I \"", 4);
+	MakeRelPath(nLevel, psz, L"stdext\\include\"", L"/I \"", 4);
 
 	WCHAR szLib[_MAX_PATH+_MAX_PATH];
-	WCHAR* pszLib1 = MakeRelPath(nLevel, szLib, L"winx\\lib\" ", L"/libpath:\"", 10);
-	MakeRelPath(nLevel, pszLib1, L"winsdk\\lib\"", L"/libpath:\"", 10);
+	psz = MakeRelPath(nLevel, szLib, L"winx\\lib\" ", L"/libpath:\"", 10);
+	MakeRelPath(nLevel, psz, L"winsdk\\lib\"", L"/libpath:\"", 10);
 
 	IConfigurations* pConfigs;
 	HRESULT hr = pProject->get_Configurations(&pConfigs);

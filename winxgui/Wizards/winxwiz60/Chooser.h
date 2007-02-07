@@ -9,7 +9,7 @@
 class CDialogChooser
 {
 public:
-	CDialogChooser();
+	CDialogChooser(CCustomAppWiz* pAppWiz);
 	~CDialogChooser();
 
 	// All calls by mfcapwz.dll to CWinxwiz60AppWiz::Next

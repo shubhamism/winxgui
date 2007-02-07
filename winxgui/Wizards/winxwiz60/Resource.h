@@ -8,17 +8,17 @@
 #define IDC_DIALOG_APP                  1000
 #define IDC_SDI_APP                     1001
 #define IDC_MDI_APP                     1002
-#define IDC_ADVANCE                     1003
+#define IDC_ACTIVEX_DLL                 1003
 #define IDC_UI_TOOLBAR                  1004
 #define IDC_VIEWTYPE                    1005
-#define IDC_CHECK1                      1006
 #define IDC_UI_MENUBAR                  1006
 #define IDC_UI_REBAR                    1007
 #define IDC_FILE_HEADER                 1007
 #define IDC_UI_COMMANDBAR               1008
-#define IDC_CHECK2                      1008
 #define IDC_UI_STATUSBAR                1009
-#define IDC_ACTIVEX_DLL                 1010
+#define IDC_ADVANCE                     1010
+#define IDC_UNICODE_APP					1010
+#define IDC_USE_WINSDK					1011
 
 // Next default values for new objects
 // 

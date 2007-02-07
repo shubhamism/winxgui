@@ -15,12 +15,30 @@ static char THIS_FILE[] = __FILE__;
 // CCustom1Dlg dialog
 
 
-CCustom1Dlg::CCustom1Dlg()
-	: CAppWizStepDlg(CCustom1Dlg::IDD)
+CCustom1Dlg::CCustom1Dlg(CMapStringToString& Dictionary)
+	: m_Dictionary(Dictionary), CAppWizStepDlg(CCustom1Dlg::IDD)
 {
 	//{{AFX_DATA_INIT(CCustom1Dlg)
-		// NOTE: the ClassWizard will add member initialization here
+	m_bMenuBar = FALSE;
+	m_bRebar = FALSE;
+	m_bCommandBar = FALSE;
+	m_bStatusBar = FALSE;
+	m_bToolbar = FALSE;
+	m_nViewType = 0;
+	m_nAppType = 0;
 	//}}AFX_DATA_INIT
+
+	std::WinRegReadKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
+	if (key.good())
+	{
+		key.getInt(_T("bMenuBar"), m_bMenuBar);
+		key.getInt(_T("bRebar"), m_bRebar);
+		key.getInt(_T("bCommandBar"), m_bCommandBar);
+		key.getInt(_T("bStatusBar"), m_bStatusBar);
+		key.getInt(_T("bToolbar"), m_bToolbar);
+		key.getInt(_T("nViewType"), m_nViewType);
+		key.getInt(_T("nAppType"), m_nAppType);
+	}
 }
 
 
@@ -28,7 +46,13 @@ void CCustom1Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CAppWizStepDlg::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CCustom1Dlg)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
+	DDX_Check(pDX, IDC_UI_MENUBAR, m_bMenuBar);
+	DDX_Check(pDX, IDC_UI_REBAR, m_bRebar);
+	DDX_Check(pDX, IDC_UI_COMMANDBAR, m_bCommandBar);
+	DDX_Check(pDX, IDC_UI_STATUSBAR, m_bStatusBar);
+	DDX_Check(pDX, IDC_UI_TOOLBAR, m_bToolbar);
+	DDX_Radio(pDX, IDC_DIALOG_APP, m_nAppType);
+	DDX_CBIndex(pDX, IDC_VIEWTYPE, m_nViewType);
 	//}}AFX_DATA_MAP
 }
 
@@ -39,7 +63,21 @@ BOOL CCustom1Dlg::OnDismiss()
 	if (!UpdateData(TRUE))
 		return FALSE;
 
-	// TODO: Set template variables based on the dialog's data.
+	TCHAR szVal[2] = { 0, 0 };
+	std::WinRegWriteKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
+
+#define _winx_putData(szKey, nVal) \
+	key.putInt(szKey, nVal); \
+	szVal[0] = nVal + '0'; \
+	m_Dictionary[szKey] = szVal;
+
+	_winx_putData(_T("bMenuBar"), m_bMenuBar);
+	_winx_putData(_T("bRebar"), m_bRebar);
+	_winx_putData(_T("bCommandBar"), m_bCommandBar);
+	_winx_putData(_T("bStatusBar"), m_bStatusBar);
+	_winx_putData(_T("bToolbar"), m_bToolbar);
+	_winx_putData(_T("nViewType"), m_nViewType);
+	_winx_putData(_T("nAppType"), m_nAppType);
 
 	return TRUE;	// return FALSE if the dialog shouldn't be dismissed
 }
@@ -55,13 +93,33 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CCustom1Dlg message handlers
 
-class CAdvanceOptionsDlg : public winx::ModalDialog<CAdvanceOptionsDlg, IDD_ADVANCEOPT>
+class CAdvanceOptionsDlg : 
+	public winx::ModalDialog<CAdvanceOptionsDlg, IDD_ADVANCEOPT>,
+	public winx::WinDataExchange<CAdvanceOptionsDlg>
 {
+	WINX_DDX_BEGIN()
+		DDX_TEXT(IDC_FILE_HEADER, m_strFileHeader)
+		DDX_CHECK(IDC_UNICODE_APP, m_fUnicode)
+		DDX_CHECK(IDC_USE_WINSDK, m_fUseWinsdk)
+	WINX_DDX_END();
+private:
+	CMapStringToString& m_Dictionary;
+	std::tstring m_strFileHeader;
+	BOOL m_fUnicode, m_fUseWinsdk;
+
+public:
+	CAdvanceOptionsDlg(CMapStringToString& Dictionary)
+		: m_Dictionary(Dictionary)
+	{
+		m_fUnicode = 0;
+		m_fUseWinsdk = 0;
+		m_strFileHeader = _T("");
+	}
 };
 
 void CCustom1Dlg::OnAdvance() 
 {
-	CAdvanceOptionsDlg dlg;
+	CAdvanceOptionsDlg dlg(m_Dictionary);
 	dlg.DoModal();
 }
 

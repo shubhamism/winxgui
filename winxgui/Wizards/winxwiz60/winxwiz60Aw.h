@@ -4,6 +4,8 @@
 // winxwiz60aw.h : header file
 //
 
+#define WINX_APPWIZ_KEY		_T("Software\\winx\\WinxWiz60")
+
 class CDialogChooser;
 
 // All function calls made by mfcapwz.dll to this custom AppWizard (except for
