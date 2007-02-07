@@ -17,7 +17,6 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CCustom1Dlg)
 	enum { IDD = IDD_CUSTOM1 };
-		// NOTE: the ClassWizard will add data members here
 	//}}AFX_DATA
 
 
@@ -32,6 +31,7 @@ public:
 protected:
 	// Generated message map functions
 	//{{AFX_MSG(CCustom1Dlg)
+	afx_msg void OnAdvance();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

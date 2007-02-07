@@ -13,6 +13,7 @@
 #include <afxcmn.h>			// MFC support for Windows 95 Common Controls
 #include "debug.h"			// For ASSERT, VERIFY, and TRACE
 #include <customaw.h>		// Custom AppWizard interface
+#include <winx.h>
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

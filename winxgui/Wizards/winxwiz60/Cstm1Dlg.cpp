@@ -47,10 +47,22 @@ BOOL CCustom1Dlg::OnDismiss()
 
 BEGIN_MESSAGE_MAP(CCustom1Dlg, CAppWizStepDlg)
 	//{{AFX_MSG_MAP(CCustom1Dlg)
-		// NOTE: the ClassWizard will add message map macros here
+	ON_BN_CLICKED(IDC_ADVANCE, OnAdvance)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
 /////////////////////////////////////////////////////////////////////////////
 // CCustom1Dlg message handlers
+
+class CAdvanceOptionsDlg : public winx::ModalDialog<CAdvanceOptionsDlg, IDD_ADVANCEOPT>
+{
+};
+
+void CCustom1Dlg::OnAdvance() 
+{
+	CAdvanceOptionsDlg dlg;
+	dlg.DoModal();
+}
+
+/////////////////////////////////////////////////////////////////////////////
