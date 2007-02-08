@@ -27,6 +27,8 @@ CCustom1Dlg::CCustom1Dlg(CMapStringToString& Dictionary)
 	m_bToolbar = FALSE;
 	m_nViewType = 0;
 	m_nAppType = 0;
+	m_bAccel = FALSE;
+	m_bDDX = FALSE;
 	//}}AFX_DATA_INIT
 
 	std::WinRegReadKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
@@ -37,6 +39,8 @@ CCustom1Dlg::CCustom1Dlg(CMapStringToString& Dictionary)
 		key.getInt(_T("bCommandBar"), m_bCommandBar);
 		key.getInt(_T("bStatusBar"), m_bStatusBar);
 		key.getInt(_T("bToolbar"), m_bToolbar);
+		key.getInt(_T("bDDX"), m_bDDX);
+		key.getInt(_T("bAccel"), m_bAccel);
 		key.getInt(_T("nViewType"), m_nViewType);
 		key.getInt(_T("nAppType"), m_nAppType);
 	}
@@ -53,8 +57,10 @@ void CCustom1Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_UI_COMMANDBAR, m_bCommandBar);
 	DDX_Check(pDX, IDC_UI_STATUSBAR, m_bStatusBar);
 	DDX_Check(pDX, IDC_UI_TOOLBAR, m_bToolbar);
-	DDX_Radio(pDX, IDC_DIALOG_APP, m_nAppType);
 	DDX_CBIndex(pDX, IDC_VIEWTYPE, m_nViewType);
+	DDX_Radio(pDX, IDC_DIALOG_APP, m_nAppType);
+	DDX_Check(pDX, IDC_UI_ACCEL, m_bAccel);
+	DDX_Check(pDX, IDC_UI_DDX, m_bDDX);
 	//}}AFX_DATA_MAP
 }
 
@@ -65,23 +71,52 @@ BOOL CCustom1Dlg::OnDismiss()
 	if (!UpdateData(TRUE))
 		return FALSE;
 
-	TCHAR szVal[2] = { 0, 0 };
 	std::WinRegWriteKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
 
-	_winx_putData(_T("bMenuBar"), m_bMenuBar);
-	_winx_putData(_T("bRebar"), m_bRebar);
-	_winx_putData(_T("bCommandBar"), m_bCommandBar);
-	_winx_putData(_T("bStatusBar"), m_bStatusBar);
-	_winx_putData(_T("bToolbar"), m_bToolbar);
-	_winx_putData(_T("nViewType"), m_nViewType);
-	_winx_putData(_T("nAppType"), m_nAppType);
+	const LPCTSTR ViewTypes[] = {
+		_T("Window"),
+		_T("ScrollWindow"),
+		_T("HTMLPage"),
+		_T("RichEdit"),
+		_T("ListCtrl"),
+		_T("TreeCtrl"),
+	};
 
+	const LPCTSTR AppTypes[] = {
+		_T("DialogApp"),
+		_T("SDIApp"),
+		_T("MDIApp"),
+		_T("ActiveXDll"),
+	};
+
+	_winx_putBoolData(_T("bMenuBar"), m_bMenuBar);
+	_winx_putBoolData(_T("bRebar"), m_bRebar);
+	_winx_putBoolData(_T("bCommandBar"), m_bCommandBar);
+	_winx_putBoolData(_T("bStatusBar"), m_bStatusBar);
+	_winx_putBoolData(_T("bToolbar"), m_bToolbar);
+	_winx_putBoolData(_T("bDDX"), m_bDDX);
+	_winx_putBoolData(_T("bAccel"), m_bAccel);
+	_winx_putEnumData(_T("nViewType"), m_nViewType, ViewTypes);
+	_winx_putEnumData(_T("nAppType"), m_nAppType, AppTypes);
+
+	m_Dictionary[_T("ViewType")] = ViewTypes[m_nViewType];
+
+	if (m_nAppType == 0) // DialogApp
+	{
+		m_Dictionary.RemoveKey(ViewTypes[m_nViewType]);
+	}
 	return TRUE;	// return FALSE if the dialog shouldn't be dismissed
 }
 
 BEGIN_MESSAGE_MAP(CCustom1Dlg, CAppWizStepDlg)
 	//{{AFX_MSG_MAP(CCustom1Dlg)
 	ON_BN_CLICKED(IDC_ADVANCE, OnAdvance)
+	ON_BN_CLICKED(IDC_DIALOG_APP, OnAppTypeChanged)
+	ON_BN_DOUBLECLICKED(IDC_DIALOG_APP, OnAppTypeChanged)
+	ON_BN_CLICKED(IDC_SDI_APP, OnAppTypeChanged)
+	ON_BN_DOUBLECLICKED(IDC_SDI_APP, OnAppTypeChanged)
+	ON_BN_CLICKED(IDC_MDI_APP, OnAppTypeChanged)
+	ON_BN_DOUBLECLICKED(IDC_MDI_APP, OnAppTypeChanged)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -92,3 +127,17 @@ void CCustom1Dlg::OnAdvance()
 }
 
 /////////////////////////////////////////////////////////////////////////////
+
+void CCustom1Dlg::OnAppTypeChanged()
+{
+	UpdateData(TRUE);
+	::EnableWindow(::GetDlgItem(m_hWnd, IDC_VIEWTYPE), m_nAppType != 0);
+}
+
+BOOL CCustom1Dlg::OnInitDialog() 
+{
+	CAppWizStepDlg::OnInitDialog();
+	OnAppTypeChanged();
+	return TRUE;  // return TRUE unless you set the focus to a control
+	              // EXCEPTION: OCX Property Pages should return FALSE
+}

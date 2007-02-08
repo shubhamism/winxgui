@@ -8,12 +8,20 @@
 
 #define _ATL_APARTMENT_THREADED
 
+$$IF(fUseWinsdk)
 #include <winx/Config.h>
+$$ENDIF
 #include <winx.h>
+$$IF(ScrollWindow)
 #include <winx/ScrollWindow.h>
+$$ENDIF
 #include <winx/CommonDialogs.h>
+$$IF(fGdiplus)
 #include <winx/Gdiplus.h>
+$$ENDIF
+$$IF(HTMLPage)
 #include <winx/WebBrowser.h>
+$$ENDIF
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

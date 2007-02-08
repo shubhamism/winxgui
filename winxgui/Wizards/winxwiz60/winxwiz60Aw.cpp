@@ -5,6 +5,7 @@
 #include "winxwiz60.h"
 #include "winxwiz60aw.h"
 #include "chooser.h"
+#include "WizardUtils.h"
 
 #ifdef _PSEUDO_DEBUG
 #undef THIS_FILE
@@ -47,57 +48,6 @@ CAppWizStepDlg* CWinxwiz60AppWiz::Back(CAppWizStepDlg* pDlg)
 	// Delegate to the dialog chooser
 	return m_pChooser->Back(pDlg);
 }
-
-// -------------------------------------------------------------------------
-// GetWinxParentPath, MakeRelPath
-
-#include <shlwapi.h>
-#include <atlbase.h>
-#include <algorithm>
-#pragma comment(lib, "shlwapi")
-
-template <class StringT>
-inline int GetWinxParentPath(StringT& strPrjPath)
-{
-	int nLast = strPrjPath.GetLength()-1;
-	if (strPrjPath.GetAt(nLast) == '\\')
-		strPrjPath.Delete(nLast);
-
-	int nLevel = 0;
-	int pos;
-	while ((pos = strPrjPath.ReverseFind('\\')) != -1)
-	{
-		++nLevel;
-		strPrjPath = strPrjPath.Left(pos);
-		if (PathIsDirectory(strPrjPath + _T("\\winx\\include")))
-			return nLevel;
-	}
-	return -1;
-}
-
-template <class CharT>
-inline CharT* MakeRelPath(
-	int nLevel, CharT* szRelPath, const CharT* szPathName)
-{
-	int nNameLen = std::char_traits<CharT>::length(szPathName);
-	while (nLevel--) {
-		*szRelPath++ = '.';
-		*szRelPath++ = '.';
-		*szRelPath++ = '\\';
-	}
-	return std::copy(szPathName, szPathName+nNameLen+1, szRelPath)-1;
-}
-
-template <class CharT>
-inline CharT* MakeRelPath(
-	int nLevel, CharT* szRelPath, const CharT* szPathName,
-	const CharT* szPre, int cchPre)
-{
-	szRelPath = std::copy(szPre, szPre+cchPre, szRelPath);
-	return MakeRelPath(nLevel, szRelPath, szPathName);
-}
-
-// -------------------------------------------------------------------------
 
 void CWinxwiz60AppWiz::ProcessTemplate(LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput)
 {

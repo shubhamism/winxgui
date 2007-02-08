@@ -2,18 +2,22 @@ $$RootFileHeader$$
 #include "stdafx.h"
 #include "resource.h"
 
+$$IF(!DialogApp)
 // -------------------------------------------------------------------------
-// class CImageView
+// class C$$Safe_root$$View
 
-class CImageView : public winx::ScrollWindow<CImageView>
+class C$$Safe_root$$View : public winx::$$ViewType$$<C$$Safe_root$$View>
 {
-	WINX_CLASS("MyView");
-	
+	WINX_CLASS("$$Safe_root$$View");
+
+$$IF(bAccel)
 	WINX_ACCEL(IDR_ACCEL); // accelerator
-	
+
+$$ENDIF
 	WINX_CMDS_BEGIN()
-		WINX_CMD(ID_FILE_OPEN, OnCmdFileOpen)
 	WINX_CMDS_END();
+$$IF(ScrollWindow)
+$$IF(fGdiplus)
 
 private:
 	Gdiplus::Image* m_image;
@@ -93,27 +97,57 @@ public:
 			gr.DrawImage(m_image, rect);
 		}
 	}
+$$ELSE
+
+public:
+	LRESULT OnCreate(HWND hWnd, LPCREATESTRUCT lpCS)
+	{
+		SetScrollSize(800, 800);
+		return 0;
+	}
+
+	void DoPaint(winx::DCHandle dc)
+	{
+		dc.TextOut(1, 1, _T("Hello, WINX!"));
+		dc.TextOut(1, 300, _T("You are welcome!"));
+	}
+$$ENDIF
+$$ENDIF
+$$IF(Window)
+
+public:
+	void OnPaint(HWND hWnd)
+	{
+		winx::PaintDC dc(hWnd);
+		dc.TextOut(1, 1, _T("Hello, WINX!"));
+	}
+$$ENDIF
 };
 
+$$ENDIF
 // -------------------------------------------------------------------------
-// CHelloDlg
+// C$$Safe_root$$Dlg
 
-class CHelloDlg : public winx::ModalDialog<CHelloDlg, IDD_HELLO>
+class C$$Safe_root$$Dlg : public winx::ModalDialog<C$$Safe_root$$Dlg, IDD_$$SAFE_ROOT$$>
 {
+$$IF(bAccel)
 	WINX_DLG_ACCEL(); // enable accelerator
 
+$$ENDIF
 	WINX_CMDS_BEGIN_EX() // command dispatcher
 		WINX_CMD(ID_HELP, OnCmdHelp)
 	WINX_CMDS_END_EX();
 
-	WINX_DLGRESIZE_BEGIN(FALSE) // layout
-		WINX_DLGRESIZE(IDC_CUSTOM1, AnchorAll)
+$$IF(!DialogApp)
+	WINX_DLGRESIZE_BEGIN_NOGRIPPER(FALSE) // layout
+		WINX_DLGRESIZE(IDC_$$SAFE_ROOT$$_VIEW, AnchorAll)
 	WINX_DLGRESIZE_END();
 
+$$ENDIF
 public:
 	void OnCmdHelp(HWND hWnd)
 	{
-		winx::MsgBox(hWnd, _T("Welcome to ImageViewer 0.1!"), _T("About ImageViewer"));
+		winx::MsgBox(hWnd, _T("todo!"), _T("About $$Safe_root$$"));
 	}
 };
 
@@ -126,11 +160,16 @@ int APIENTRY WinMain(HINSTANCE hInstance,
                      LPSTR     lpCmdLine,
                      int       nCmdShow)
 {
-	CImageView::RegisterClass();
+	InitCommonControls(ICC_WIN95_CLASSES);
+$$IF(!DialogApp)
+	C$$Safe_root$$View::RegisterClass();
+$$ENDIF
 
+$$IF(fGdiplus)
 	GdiplusAppInit gdiplus;
+$$ENDIF
 	CComModuleInit module;
-	CHelloDlg dlg;
+	C$$Safe_root$$Dlg dlg;
 	dlg.DoModal();
 	return 0;
 }

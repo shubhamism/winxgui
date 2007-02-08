@@ -20,6 +20,55 @@
 #define __WIZARDUTILS_H__
 
 // -------------------------------------------------------------------------
+// GetWinxParentPath, MakeRelPath
+
+#include <shlwapi.h>
+#include <atlbase.h>
+#include <algorithm>
+#pragma comment(lib, "shlwapi")
+
+template <class StringT>
+inline int GetWinxParentPath(StringT& strPrjPath)
+{
+	int nLast = strPrjPath.GetLength()-1;
+	if (strPrjPath.GetAt(nLast) == '\\')
+		strPrjPath.Delete(nLast);
+
+	int nLevel = 0;
+	int pos;
+	while ((pos = strPrjPath.ReverseFind('\\')) != -1)
+	{
+		++nLevel;
+		strPrjPath = strPrjPath.Left(pos);
+		if (PathIsDirectory(strPrjPath + _T("\\winx\\include")))
+			return nLevel;
+	}
+	return -1;
+}
+
+template <class CharT>
+inline CharT* MakeRelPath(
+	int nLevel, CharT* szRelPath, const CharT* szPathName)
+{
+	int nNameLen = std::char_traits<CharT>::length(szPathName);
+	while (nLevel--) {
+		*szRelPath++ = '.';
+		*szRelPath++ = '.';
+		*szRelPath++ = '\\';
+	}
+	return std::copy(szPathName, szPathName+nNameLen+1, szRelPath)-1;
+}
+
+template <class CharT>
+inline CharT* MakeRelPath(
+	int nLevel, CharT* szRelPath, const CharT* szPathName,
+	const CharT* szPre, int cchPre)
+{
+	szRelPath = std::copy(szPre, szPre+cchPre, szRelPath);
+	return MakeRelPath(nLevel, szRelPath, szPathName);
+}
+
+// -------------------------------------------------------------------------
 // ConvertFormat
 
 template <class Iterator, class String>
@@ -69,24 +118,26 @@ class CAdvanceOptionsDlg :
 		DDX_TEXT(IDC_FILE_HEADER, m_strFileHeader)
 		DDX_CHECK(IDC_UNICODE_APP, m_fUnicode)
 		DDX_CHECK(IDC_USE_WINSDK, m_fUseWinsdk)
+		DDX_CHECK(IDC_USE_GDIPLUS, m_fGdiplus)
 	WINX_DDX_END();
 private:
 	CMapStringToString& m_Dictionary;
 	std::tstring m_strFileHeader;
-	BOOL m_fUnicode, m_fUseWinsdk;
+	BOOL m_fUnicode, m_fUseWinsdk, m_fGdiplus;
 
 public:
 	CAdvanceOptionsDlg(CMapStringToString& Dictionary)
 		: m_Dictionary(Dictionary)
 	{
 		m_fUnicode = 0;
-		m_fUseWinsdk = 0;
+		m_fUseWinsdk = 1;
+		m_fGdiplus = 0;
 		m_strFileHeader = _T("\
 // -------------------------------------------------------------------------\n\
 // Module: $(FileName)\n\
 // Creator: xushiwei\n\
 // Email: xushiweizh@gmail.com\n\
-// Date: $(Date) $(Time)\n\
+// Date: $(Date)\n\
 // Description: \n\
 // -------------------------------------------------------------------------");
 		std::WinRegReadKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
@@ -94,6 +145,7 @@ public:
 		{
 			key.getInt(_T("fUnicode"), m_fUnicode);
 			key.getInt(_T("fUseWinsdk"), m_fUseWinsdk);
+			key.getInt(_T("fGdiplus"), m_fGdiplus);
 			key.getString(_T("FileHeader"), m_strFileHeader);
 		}
 	}
@@ -103,14 +155,10 @@ public:
 		std::tstring str;
 		ConvertFormat(m_strFileHeader.begin(), m_strFileHeader.end(), str);
 		m_Dictionary[_T("FileHeader")] = CString(str.c_str(), str.size());
-		
-		char szDate[32];
-		_strdate(szDate);
-		m_Dictionary[_T("Date")] = szDate;
 
-		char szTime[32];
-		_strtime(szTime);
-		m_Dictionary[_T("Time")] = szTime;
+		COleVariant date = COleDateTime::GetCurrentTime();
+		date.ChangeType(VT_BSTR);
+		m_Dictionary[_T("Date")] = date.bstrVal;
 	}
 
 public:
@@ -126,17 +174,29 @@ public:
 		DoDataExchange(TRUE);
 		std::replaceText(m_strFileHeader, std::tstring(_T("\r\n")), std::tstring(_T("\n")));
 
-		TCHAR szVal[2] = { 0, 0 };
 		std::WinRegWriteKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
 		key.putString(_T("FileHeader"), m_strFileHeader);
 		
-#define _winx_putData(szKey, nVal) \
+#define _winx_putBoolData(szKey, nVal) \
 	key.putInt(szKey, nVal); \
-	szVal[0] = nVal + '0'; \
-	m_Dictionary[szKey] = szVal;
+	if (nVal) \
+		m_Dictionary[szKey] = _T("1"); \
+	else \
+		m_Dictionary.RemoveKey(szKey)
 
-		_winx_putData(_T("fUnicode"), m_fUnicode);
-		_winx_putData(_T("fUseWinsdk"), m_fUseWinsdk);
+#define _winx_putEnumData(szKey, nVal, coll) \
+	key.putInt(szKey, nVal); \
+	if (0); else for (int i = 0; i < countof(coll); ++i) { \
+		CString pszKey = coll[i]; \
+		if (i == nVal) \
+			m_Dictionary[pszKey] = _T("1"); \
+		else \
+			m_Dictionary.RemoveKey(pszKey); \
+	}
+
+		_winx_putBoolData(_T("fUnicode"), m_fUnicode);
+		_winx_putBoolData(_T("fUseWinsdk"), m_fUseWinsdk);
+		_winx_putBoolData(_T("fGdiplus"), m_fGdiplus);
 
 		UpdateDictionary();
 

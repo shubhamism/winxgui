@@ -17,8 +17,12 @@
 #define IDC_UI_COMMANDBAR               1008
 #define IDC_UI_STATUSBAR                1009
 #define IDC_ADVANCE                     1010
-#define IDC_UNICODE_APP					1010
-#define IDC_USE_WINSDK					1011
+#define IDC_UNICODE_APP                 1010
+#define IDC_USE_WINSDK                  1011
+#define IDC_UI_ACCEL                    1011
+#define IDC_USE_GDIPLUS                 1011
+#define IDC_UI_DDX                      1012
+#define IDC_USE_WINSDK2                 1012
 
 // Next default values for new objects
 // 
