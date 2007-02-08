@@ -56,10 +56,12 @@ $$IF(bAccel)
 IDR_ACCEL ACCELERATORS DISCARDABLE 
 BEGIN
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+$$IF(ScrollWindow)
     VK_DOWN,        ID_SCROLL_DOWN,         VIRTKEY, NOINVERT
     VK_LEFT,        ID_SCROLL_LEFT,         VIRTKEY, NOINVERT
     VK_RIGHT,       ID_SCROLL_RIGHT,        VIRTKEY, NOINVERT
     VK_UP,          ID_SCROLL_UP,           VIRTKEY, NOINVERT
+$$ENDIF
 END
 $$ENDIF
 
@@ -69,25 +71,68 @@ $$ENDIF
 // Dialog
 //
 
+$$IF(!DialogApp)
 IDD_$$SAFE_ROOT$$ DIALOGEX 0, 0, 304, 235
-STYLE DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+STYLE DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CLIENTEDGE
+$$ELSE
+IDD_$$SAFE_ROOT$$ DIALOGEX 0, 0, 240, 157
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+$$ENDIF
 CAPTION "$$Safe_root$$"
 $$IF(bMenuBar)
 MENU IDR_MAINFRAME
 $$ENDIF
-FONT 9, "ËÎÌו", 0, 0, 0x1
+FONT 9, "System", 0, 0, 0x1
 BEGIN
-$$IF(!DialogApp)
-    CONTROL         "",IDC_$$SAFE_ROOT$$_VIEW,"$$Safe_root$$View",
-$$IF(ScrollWindow)
-    				WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,0,0,304,235
-$$ELSE
-					WS_TABSTOP,0,0,304,235
+$$IF(Window)
+    CONTROL         "",IDC_$$SAFE_ROOT$$_VIEW,"$$Safe_root$$View",WS_TABSTOP,0,0,304,235
 $$ENDIF
+$$IF(ScrollWindow)
+    CONTROL         "",IDC_$$SAFE_ROOT$$_VIEW,"$$Safe_root$$View",WS_VSCROLL|WS_HSCROLL|WS_TABSTOP,0,0,304,235
+$$ENDIF
+$$IF(ListCtrl)
+    CONTROL         "",IDC_$$SAFE_ROOT$$_VIEW,"SysListView32",WS_TABSTOP,0,0,304,235
+$$ENDIF
+$$IF(TreeCtrl)
+    CONTROL         "",IDC_$$SAFE_ROOT$$_VIEW,"SysTreeView32",WS_TABSTOP,0,0,304,235
+$$ENDIF
+$$IF(HTMLPage)
+    CONTROL         "",IDC_$$SAFE_ROOT$$_VIEW,"{8856F961-340A-11D0-A96B-00C04FD705A2}",WS_TABSTOP,0,0,304,235
+$$ENDIF
+$$IF(RichEdit)
+    CONTROL         "",IDC_$$SAFE_ROOT$$_VIEW,"RICHEDIT",ES_MULTILINE | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP,0,0,304,235
+$$ENDIF
+$$IF(DialogApp)
+    DEFPUSHBUTTON   "OK",IDOK,183,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,183,24,50,14
 $$ENDIF
 END
+
+
+$$IF(HTMLPage)
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_HELLO DLGINIT
+BEGIN
+    IDC_$$SAFE_ROOT$$_VIEW, 0x376, 160, 0
+0x0000, 0x0000, 0x004c, 0x0000, 0x38f3, 0x0000, 0x256a, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x004c, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 
+0x0000, 0xd0e0, 0x0057, 0x3573, 0x11cf, 0x69ae, 0x0008, 0x2e2b, 0x6212, 
+0x0008, 0x0000, 0x0000, 0x0000, 0x004c, 0x0000, 0x1401, 0x0002, 0x0000, 
+0x0000, 0x00c0, 0x0000, 0x0000, 0x4600, 0x0080, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+    0
+END
+$$ENDIF
 
 
 $$IF(bMenuBar)
@@ -104,20 +149,34 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       IDCANCEL
     END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "Scroll &Right\tRight Arrow",  ID_SCROLL_RIGHT
-        MENUITEM "Scroll &Left\tLeft Arrow",    ID_SCROLL_LEFT
-        MENUITEM "Scroll &Up\tUp Arrow",        ID_SCROLL_UP
-        MENUITEM "Scroll &Down\tDown Arrow",    ID_SCROLL_DOWN
-    END
     POPUP "&Help"
     BEGIN
         MENUITEM "&About...",                   ID_HELP
     END
 END
-$$ENDIF
 
+
+$$ENDIF
+$$IF(DialogApp)
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_$$SAFE_ROOT$$, DIALOG
+    BEGIN
+        TOPMARGIN, 7
+        RIGHTMARGIN, 233
+        LEFTMARGIN, 7
+        BOTTOMMARGIN, 150
+    END
+END
+#endif
+
+$$ENDIF
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

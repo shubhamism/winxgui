@@ -2,7 +2,8 @@ $$RootFileHeader$$
 #include "stdafx.h"
 #include "resource.h"
 
-$$IF(!DialogApp)
+$$IF(DialogApp || HTMLPage)
+$$ELSE
 // -------------------------------------------------------------------------
 // class C$$Safe_root$$View
 
@@ -15,6 +16,7 @@ $$IF(bAccel)
 
 $$ENDIF
 	WINX_CMDS_BEGIN()
+		WINX_CMD(ID_FILE_OPEN, OnCmdFileOpen)
 	WINX_CMDS_END();
 $$IF(ScrollWindow)
 $$IF(fGdiplus)
@@ -70,7 +72,7 @@ public:
 	void OnCmdFileOpen(HWND hWnd)
 	{
 		winx::OpenFileDialog dlg(
-			_T("Images Files(*.jpg;*.png;*.tif;*.bmp;*.gif)\0*.jpg;*.png;*.tif;*.bmp;*.gif\0All Files(*.*)\0*.*\0")
+			_T("Images files(*.jpg;*.png;*.tif;*.bmp;*.gif)\0*.jpg;*.png;*.tif;*.bmp;*.gif\0All files(*.*)\0*.*\0")
 			);
 		if (IDOK == dlg.DoModal())
 		{
@@ -122,13 +124,55 @@ public:
 		dc.TextOut(1, 1, _T("Hello, WINX!"));
 	}
 $$ENDIF
+$$IF(ListCtrl)
+public:
+	void OnSubclass(HWND hWnd)
+	{
+		InsertItem(0, _T("Hello, WINX!"));
+		InsertItem(1, _T("You"));
+		InsertItem(2, _T("Are"));
+		InsertItem(3, _T("Welcome!!"));
+	}
+$$ENDIF
+$$IF(TreeCtrl)
+public:
+	void OnSubclass(HWND hWnd)
+	{
+	}
+$$ENDIF
+$$IF(ScrollWindow && !bGdiplus)
+
+	void OnCmdFileOpen(HWND hWnd)
+	{
+		winx::OpenMultiFilesDialog dlg(
+			_T("All supported files(*.txt;*.doc)\0*.txt;*.doc\0All files(*.*)\0*.*\0")
+			);
+		if (IDOK == dlg.DoModal())
+		{
+			TCHAR szFile[MAX_PATH];
+			UINT nCount = 0;
+			winx::CString str;
+			while (dlg.NextFile(szFile) == S_OK)
+			{
+				str += szFile;
+				str += _T(";\n");
+				++nCount;
+			}
+			winx::ExMsgBoxTrace(hWnd, _T("Information"), _T("Count = %d\n%s"), nCount, (LPCTSTR)str);
+		}
+	}
+$$ENDIF
 };
 
 $$ENDIF
 // -------------------------------------------------------------------------
 // C$$Safe_root$$Dlg
 
+$$IF(bActiveX || HTMLPage)
+class C$$Safe_root$$Dlg : public winx::AxModalDialog<C$$Safe_root$$Dlg, IDD_$$SAFE_ROOT$$>
+$$ELSE
 class C$$Safe_root$$Dlg : public winx::ModalDialog<C$$Safe_root$$Dlg, IDD_$$SAFE_ROOT$$>
+$$ENDIF
 {
 $$IF(bAccel)
 	WINX_DLG_ACCEL(); // enable accelerator
@@ -144,7 +188,36 @@ $$IF(!DialogApp)
 	WINX_DLGRESIZE_END();
 
 $$ENDIF
+$$IF(ListCtrl || TreeCtrl || RichEdit)
+private:
+	C$$Safe_root$$View* m_pView;
+
 public:
+	BOOL OnInitDialog(HWND hDlg, HWND hWndDefaultFocus)
+	{
+		winx::SubclassDlgItem(&m_pView, hDlg, IDC_$$SAFE_ROOT$$_VIEW);
+		return TRUE;
+	}
+
+$$ENDIF
+$$IF(HTMLPage)
+private:
+	winx::AxCtrlHandle m_ie;
+
+public:
+	BOOL OnInitDialog(HWND hDlg, HWND hWndDefaultFocus)
+	{
+		m_ie.DlgItem(hDlg, IDC_$$SAFE_ROOT$$_VIEW);
+		
+		CComPtr<IWebBrowser2> spBrowser;
+		m_ie.QueryControl(&spBrowser);
+
+		CComVariant v;
+		spBrowser->Navigate(CComBSTR("http://www.winxgui.com"), &v, &v, &v, &v);
+		return TRUE;
+	}
+	
+$$ENDIF
 	void OnCmdHelp(HWND hWnd)
 	{
 		winx::MsgBox(hWnd, _T("todo!"), _T("About $$Safe_root$$"));
@@ -161,7 +234,10 @@ int APIENTRY WinMain(HINSTANCE hInstance,
                      int       nCmdShow)
 {
 	InitCommonControls(ICC_WIN95_CLASSES);
-$$IF(!DialogApp)
+$$IF(RichEdit)
+	InitRichEditControl();
+$$ENDIF
+$$IF(Window || ScrollWindow)
 	C$$Safe_root$$View::RegisterClass();
 $$ENDIF
 
@@ -175,4 +251,3 @@ $$ENDIF
 }
 
 // -------------------------------------------------------------------------
-// $Log: hello.cpp,v $
