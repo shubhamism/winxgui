@@ -1,5 +1,4 @@
-$$FileHeader$$
-
+$$RootFileHeader$$
 #include "stdafx.h"
 #include "resource.h"
 

@@ -21,15 +21,6 @@ void CWinxwiz60AppWiz::InitCustomAppWiz()
 
 	// Set the maximum number of steps.
 	SetNumberOfSteps(LAST_DLG);
-
-#if defined(_DEBUG) || defined(_PSEUDO_DEBUG)
-	for (POSITION pos = m_Dictionary.GetStartPosition(); pos; )
-	{
-		CString strKey, strValue;
-		m_Dictionary.GetNextAssoc(pos, strKey, strValue);
-		TRACE(_T("['%s', '%s']\n"), (LPCTSTR)strKey, (LPCTSTR)strValue);
-	}
-#endif
 }
 
 // This is called just before the custom AppWizard is unloaded.
@@ -56,6 +47,9 @@ CAppWizStepDlg* CWinxwiz60AppWiz::Back(CAppWizStepDlg* pDlg)
 	// Delegate to the dialog chooser
 	return m_pChooser->Back(pDlg);
 }
+
+// -------------------------------------------------------------------------
+// GetWinxParentPath, MakeRelPath
 
 #include <shlwapi.h>
 #include <atlbase.h>
@@ -101,6 +95,26 @@ inline CharT* MakeRelPath(
 {
 	szRelPath = std::copy(szPre, szPre+cchPre, szRelPath);
 	return MakeRelPath(nLevel, szRelPath, szPathName);
+}
+
+// -------------------------------------------------------------------------
+
+void CWinxwiz60AppWiz::ProcessTemplate(LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput)
+{
+	if (_tcsncmp(lpszInput, _T("$$RootFileHeader$$"), 18) == 0)
+	{
+		std::vector<TCHAR> strInput;
+		std::tstring strFileHeader = m_Dictionary[_T("FileHeader")];
+		std::replaceText(strFileHeader, std::tstring(_T("$$FileName$$")), std::tstring(_T("$$root$$.cpp")));
+		strInput.reserve(strFileHeader.size() + dwSize-18);
+		strInput.insert(strInput.end(), strFileHeader.begin(), strFileHeader.end());
+		strInput.insert(strInput.end(), lpszInput+18, lpszInput+dwSize);
+		CCustomAppWiz::ProcessTemplate(&strInput[0], strInput.size(), pOutput);
+	}
+	else
+	{
+		CCustomAppWiz::ProcessTemplate(lpszInput, dwSize, pOutput);
+	}
 }
 
 void CWinxwiz60AppWiz::CustomizeProject(IBuildProject* pProject)
