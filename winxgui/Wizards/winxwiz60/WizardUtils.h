@@ -119,6 +119,7 @@ class CAdvanceOptionsDlg :
 		DDX_CHECK(IDC_UNICODE_APP, m_fUnicode)
 		DDX_CHECK(IDC_USE_WINSDK, m_fUseWinsdk)
 		DDX_CHECK(IDC_USE_GDIPLUS, m_fGdiplus)
+		DDX_CHECK(IDC_USE_XPTHEME, m_fXPTheme)
 	WINX_DDX_END();
 private:
 	CMapStringToString& m_Dictionary;
@@ -161,6 +162,17 @@ public:
 		COleVariant date = COleDateTime::GetCurrentTime();
 		date.ChangeType(VT_BSTR);
 		m_Dictionary[_T("Date")] = date.bstrVal;
+
+#define _winx_setBool(szKey, nVal) \
+	if (nVal) \
+		m_Dictionary[szKey] = _T("1"); \
+	else \
+		m_Dictionary.RemoveKey(szKey)
+
+		_winx_setBool(_T("fUnicode"), m_fUnicode);
+		_winx_setBool(_T("fUseWinsdk"), m_fUseWinsdk);
+		_winx_setBool(_T("fGdiplus"), m_fGdiplus);
+		_winx_setBool(_T("fXPTheme"), m_fXPTheme);
 	}
 
 public:
@@ -177,32 +189,13 @@ public:
 		std::replaceText(m_strFileHeader, std::tstring(_T("\r\n")), std::tstring(_T("\n")));
 
 		std::WinRegWriteKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
-		key.putString(_T("FileHeader"), m_strFileHeader);
-		
-#define _winx_putBoolData(szKey, nVal) \
-	key.putInt(szKey, nVal); \
-	if (nVal) \
-		m_Dictionary[szKey] = _T("1"); \
-	else \
-		m_Dictionary.RemoveKey(szKey)
-
-#define _winx_putEnumData(szKey, nVal, coll) \
-	key.putInt(szKey, nVal); \
-	if (0); else for (int i = 0; i < countof(coll); ++i) { \
-		CString pszKey = coll[i]; \
-		if (i == nVal) \
-			m_Dictionary[pszKey] = _T("1"); \
-		else \
-			m_Dictionary.RemoveKey(pszKey); \
-	}
-
-		_winx_putBoolData(_T("fUnicode"), m_fUnicode);
-		_winx_putBoolData(_T("fUseWinsdk"), m_fUseWinsdk);
-		_winx_putBoolData(_T("fGdiplus"), m_fGdiplus);
-		_winx_putBoolData(_T("fXPTheme"), m_fXPTheme);
+		key.putString(_T("FileHeader"), m_strFileHeader);		
+		key.putInt(_T("fUnicode"), m_fUnicode);
+		key.putInt(_T("fUseWinsdk"), m_fUseWinsdk);
+		key.putInt(_T("fGdiplus"), m_fGdiplus);
+		key.putInt(_T("fXPTheme"), m_fXPTheme);
 
 		UpdateDictionary();
-
 		CloseDialog(hWnd);
 	}
 };
