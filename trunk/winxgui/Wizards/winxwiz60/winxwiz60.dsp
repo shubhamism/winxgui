@@ -240,6 +240,10 @@ SOURCE=.\winxwiz60.h
 
 SOURCE=.\winxwiz60Aw.h
 # End Source File
+# Begin Source File
+
+SOURCE=.\WizardUtils.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 

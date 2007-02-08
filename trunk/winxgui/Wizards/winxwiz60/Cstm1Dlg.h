@@ -27,6 +27,8 @@ public:
 	BOOL	m_bToolbar;
 	int		m_nViewType;
 	int		m_nAppType;
+	BOOL	m_bAccel;
+	BOOL	m_bDDX;
 	//}}AFX_DATA
 
 
@@ -42,6 +44,8 @@ protected:
 	// Generated message map functions
 	//{{AFX_MSG(CCustom1Dlg)
 	afx_msg void OnAdvance();
+	afx_msg void OnAppTypeChanged();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

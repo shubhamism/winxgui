@@ -2,10 +2,10 @@
 // Microsoft Developer Studio generated include file.
 // Used by resource.rc
 //
-#define IDD_HELLO                       101
+#define IDD_$$SAFE_ROOT$$				101
 #define IDR_ACCEL                       102
 #define IDR_MAINFRAME                   128
-#define IDC_CUSTOM1                     1000
+#define IDC_$$SAFE_ROOT$$_VIEW			1000
 
 // Next default values for new objects
 // 
