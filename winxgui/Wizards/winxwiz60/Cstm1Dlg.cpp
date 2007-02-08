@@ -123,7 +123,7 @@ END_MESSAGE_MAP()
 void CCustom1Dlg::OnAdvance() 
 {
 	CAdvanceOptionsDlg dlg(m_Dictionary);
-	dlg.DoModal();
+	dlg.DoModal(m_hWnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////
