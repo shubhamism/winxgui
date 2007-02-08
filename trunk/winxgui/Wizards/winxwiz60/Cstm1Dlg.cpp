@@ -5,6 +5,7 @@
 #include "winxwiz60.h"
 #include "cstm1dlg.h"
 #include "winxwiz60aw.h"
+#include "WizardUtils.h"
 
 #ifdef _PSEUDO_DEBUG
 #undef THIS_FILE
@@ -39,6 +40,7 @@ CCustom1Dlg::CCustom1Dlg(CMapStringToString& Dictionary)
 		key.getInt(_T("nViewType"), m_nViewType);
 		key.getInt(_T("nAppType"), m_nAppType);
 	}
+	CAdvanceOptionsDlg(Dictionary).UpdateDictionary();
 }
 
 
@@ -66,11 +68,6 @@ BOOL CCustom1Dlg::OnDismiss()
 	TCHAR szVal[2] = { 0, 0 };
 	std::WinRegWriteKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
 
-#define _winx_putData(szKey, nVal) \
-	key.putInt(szKey, nVal); \
-	szVal[0] = nVal + '0'; \
-	m_Dictionary[szKey] = szVal;
-
 	_winx_putData(_T("bMenuBar"), m_bMenuBar);
 	_winx_putData(_T("bRebar"), m_bRebar);
 	_winx_putData(_T("bCommandBar"), m_bCommandBar);
@@ -82,40 +79,11 @@ BOOL CCustom1Dlg::OnDismiss()
 	return TRUE;	// return FALSE if the dialog shouldn't be dismissed
 }
 
-
 BEGIN_MESSAGE_MAP(CCustom1Dlg, CAppWizStepDlg)
 	//{{AFX_MSG_MAP(CCustom1Dlg)
 	ON_BN_CLICKED(IDC_ADVANCE, OnAdvance)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-
-/////////////////////////////////////////////////////////////////////////////
-// CCustom1Dlg message handlers
-
-class CAdvanceOptionsDlg : 
-	public winx::ModalDialog<CAdvanceOptionsDlg, IDD_ADVANCEOPT>,
-	public winx::WinDataExchange<CAdvanceOptionsDlg>
-{
-	WINX_DDX_BEGIN()
-		DDX_TEXT(IDC_FILE_HEADER, m_strFileHeader)
-		DDX_CHECK(IDC_UNICODE_APP, m_fUnicode)
-		DDX_CHECK(IDC_USE_WINSDK, m_fUseWinsdk)
-	WINX_DDX_END();
-private:
-	CMapStringToString& m_Dictionary;
-	std::tstring m_strFileHeader;
-	BOOL m_fUnicode, m_fUseWinsdk;
-
-public:
-	CAdvanceOptionsDlg(CMapStringToString& Dictionary)
-		: m_Dictionary(Dictionary)
-	{
-		m_fUnicode = 0;
-		m_fUseWinsdk = 0;
-		m_strFileHeader = _T("");
-	}
-};
 
 void CCustom1Dlg::OnAdvance() 
 {

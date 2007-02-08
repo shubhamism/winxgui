@@ -21,6 +21,7 @@ public:
 	virtual void InitCustomAppWiz();
 	virtual void ExitCustomAppWiz();
 	virtual void CustomizeProject(IBuildProject* pProject);
+	virtual void ProcessTemplate(LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput);
 
 protected:
 	CDialogChooser* m_pChooser;
