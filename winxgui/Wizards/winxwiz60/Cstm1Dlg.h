@@ -29,6 +29,7 @@ public:
 	int		m_nAppType;
 	BOOL	m_bAccel;
 	BOOL	m_bDDX;
+	BOOL	m_bActiveX;
 	//}}AFX_DATA
 
 

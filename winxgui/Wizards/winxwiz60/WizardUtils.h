@@ -123,7 +123,7 @@ class CAdvanceOptionsDlg :
 private:
 	CMapStringToString& m_Dictionary;
 	std::tstring m_strFileHeader;
-	BOOL m_fUnicode, m_fUseWinsdk, m_fGdiplus;
+	BOOL m_fUnicode, m_fUseWinsdk, m_fGdiplus, m_fXPTheme;
 
 public:
 	CAdvanceOptionsDlg(CMapStringToString& Dictionary)
@@ -132,6 +132,7 @@ public:
 		m_fUnicode = 0;
 		m_fUseWinsdk = 1;
 		m_fGdiplus = 0;
+		m_fXPTheme = 0;
 		m_strFileHeader = _T("\
 // -------------------------------------------------------------------------\n\
 // Module: $(FileName)\n\
@@ -146,6 +147,7 @@ public:
 			key.getInt(_T("fUnicode"), m_fUnicode);
 			key.getInt(_T("fUseWinsdk"), m_fUseWinsdk);
 			key.getInt(_T("fGdiplus"), m_fGdiplus);
+			key.getInt(_T("fXPTheme"), m_fXPTheme);
 			key.getString(_T("FileHeader"), m_strFileHeader);
 		}
 	}
@@ -197,6 +199,7 @@ public:
 		_winx_putBoolData(_T("fUnicode"), m_fUnicode);
 		_winx_putBoolData(_T("fUseWinsdk"), m_fUseWinsdk);
 		_winx_putBoolData(_T("fGdiplus"), m_fGdiplus);
+		_winx_putBoolData(_T("fXPTheme"), m_fXPTheme);
 
 		UpdateDictionary();
 

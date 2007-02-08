@@ -29,6 +29,7 @@ CCustom1Dlg::CCustom1Dlg(CMapStringToString& Dictionary)
 	m_nAppType = 0;
 	m_bAccel = FALSE;
 	m_bDDX = FALSE;
+	m_bActiveX = FALSE;
 	//}}AFX_DATA_INIT
 
 	std::WinRegReadKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
@@ -41,6 +42,7 @@ CCustom1Dlg::CCustom1Dlg(CMapStringToString& Dictionary)
 		key.getInt(_T("bToolbar"), m_bToolbar);
 		key.getInt(_T("bDDX"), m_bDDX);
 		key.getInt(_T("bAccel"), m_bAccel);
+		key.getInt(_T("bActiveX"), m_bActiveX);
 		key.getInt(_T("nViewType"), m_nViewType);
 		key.getInt(_T("nAppType"), m_nAppType);
 	}
@@ -61,6 +63,7 @@ void CCustom1Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Radio(pDX, IDC_DIALOG_APP, m_nAppType);
 	DDX_Check(pDX, IDC_UI_ACCEL, m_bAccel);
 	DDX_Check(pDX, IDC_UI_DDX, m_bDDX);
+	DDX_Check(pDX, IDC_UI_ACTIVEX, m_bActiveX);
 	//}}AFX_DATA_MAP
 }
 
@@ -96,6 +99,7 @@ BOOL CCustom1Dlg::OnDismiss()
 	_winx_putBoolData(_T("bToolbar"), m_bToolbar);
 	_winx_putBoolData(_T("bDDX"), m_bDDX);
 	_winx_putBoolData(_T("bAccel"), m_bAccel);
+	_winx_putBoolData(_T("bActiveX"), m_bActiveX);
 	_winx_putEnumData(_T("nViewType"), m_nViewType, ViewTypes);
 	_winx_putEnumData(_T("nAppType"), m_nAppType, AppTypes);
 
