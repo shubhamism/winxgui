@@ -158,7 +158,7 @@ BEGIN
                     WS_DISABLED | WS_TABSTOP,7,18,120,11
     CONTROL         "Use Gdiplus",IDC_USE_GDIPLUS,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,7,29,120,11
-    CONTROL         "Enable all features of Windows ",IDC_USE_WINSDK3,"Button",
+    CONTROL         "Enable all features of Windows ",IDC_USE_WINSDK,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,40,120,11
     EDITTEXT        IDC_FILE_HEADER,7,67,196,46,ES_MULTILINE | 
                     ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 

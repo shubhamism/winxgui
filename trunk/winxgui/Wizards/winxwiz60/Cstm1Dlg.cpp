@@ -92,6 +92,20 @@ BOOL CCustom1Dlg::OnDismiss()
 		_T("ActiveXDll"),
 	};
 
+#define _winx_putBoolData(szKey, nVal) \
+	key.putInt(szKey, nVal); \
+	_winx_setBool(szKey, nVal)
+
+#define _winx_putEnumData(szKey, nVal, coll) \
+	key.putInt(szKey, nVal); \
+	if (0); else for (int i = 0; i < countof(coll); ++i) { \
+		CString pszKey = coll[i]; \
+		if (i == nVal) \
+			m_Dictionary[pszKey] = _T("1"); \
+		else \
+			m_Dictionary.RemoveKey(pszKey); \
+	}
+
 	_winx_putBoolData(_T("bMenuBar"), m_bMenuBar);
 	_winx_putBoolData(_T("bRebar"), m_bRebar);
 	_winx_putBoolData(_T("bCommandBar"), m_bCommandBar);
