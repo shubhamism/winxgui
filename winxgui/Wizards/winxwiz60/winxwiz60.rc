@@ -160,7 +160,7 @@ BEGIN
                     WS_TABSTOP,7,29,120,11
     CONTROL         "Use LookNFeel",IDC_USE_LOOKNFEEL,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,40,120,11
-    CONTROL         "Enable all features of Windows ",IDC_USE_WINSDK2,"Button",
+    CONTROL         "Enable all features of Windows ",IDC_USE_WINSDK,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,51,120,11
     EDITTEXT        IDC_FILE_HEADER,7,86,228,46,ES_MULTILINE | 
                     ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
