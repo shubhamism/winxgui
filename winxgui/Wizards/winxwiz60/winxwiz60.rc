@@ -153,7 +153,7 @@ CAPTION "Advance Options"
 FONT 10, "System"
 BEGIN
     CONTROL         "Unicode application",IDC_UNICODE_APP,"Button",
-                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,7,7,81,11
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,7,81,11
     CONTROL         "Use XP Themes",IDC_USE_XPTHEME,"Button",BS_AUTOCHECKBOX | 
                     WS_DISABLED | WS_TABSTOP,7,18,120,11
     CONTROL         "Use Gdiplus",IDC_USE_GDIPLUS,"Button",BS_AUTOCHECKBOX | 

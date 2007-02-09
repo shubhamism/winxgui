@@ -13,6 +13,7 @@
 #include <afxcmn.h>			// MFC support for Windows 95 Common Controls
 #include "debug.h"			// For ASSERT, VERIFY, and TRACE
 #include <customaw.h>		// Custom AppWizard interface
+
 #include <winx.h>
 #include <stdext/Registry.h>
 
