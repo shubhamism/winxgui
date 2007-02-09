@@ -123,6 +123,10 @@ BOOL CCustom1Dlg::OnDismiss()
 	{
 		m_Dictionary.RemoveKey(ViewTypes[m_nViewType]);
 	}
+	else
+	{
+		m_Dictionary.RemoveKey(_T("bDDX"));
+	}
 	return TRUE;	// return FALSE if the dialog shouldn't be dismissed
 }
 

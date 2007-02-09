@@ -11,7 +11,7 @@ $$IF(MDIApp)
    + MDI Application
 $$ENDIF
 $$IF(bUnicode)
-   + Unicode application
+   + Unicode Application
 $$ENDIF
 $$IF(bAccel)
    + Uses Menubar
