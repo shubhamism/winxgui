@@ -120,11 +120,12 @@ class CAdvanceOptionsDlg :
 		DDX_CHECK(IDC_USE_WINSDK, m_bUseWinsdk)
 		DDX_CHECK(IDC_USE_GDIPLUS, m_bGdiplus)
 		DDX_CHECK(IDC_USE_XPTHEME, m_bXPTheme)
+		DDX_CHECK(IDC_USE_LOOKNFEEL, m_bLookNFeel)
 	WINX_DDX_END();
 private:
 	CMapStringToString& m_Dictionary;
 	std::tstring m_strFileHeader;
-	BOOL m_bUnicode, m_bUseWinsdk, m_bGdiplus, m_bXPTheme;
+	BOOL m_bUnicode, m_bUseWinsdk, m_bGdiplus, m_bXPTheme, m_bLookNFeel;
 
 public:
 	CAdvanceOptionsDlg(CMapStringToString& Dictionary)
@@ -134,6 +135,7 @@ public:
 		m_bUseWinsdk = 1;
 		m_bGdiplus = 0;
 		m_bXPTheme = 0;
+		m_bLookNFeel = 0;
 		m_strFileHeader = _T("\
 // -------------------------------------------------------------------------\n\
 // Module: $(FileName)\n\
@@ -149,6 +151,7 @@ public:
 			key.getInt(_T("bUseWinsdk"), m_bUseWinsdk);
 			key.getInt(_T("bGdiplus"), m_bGdiplus);
 			key.getInt(_T("bXPTheme"), m_bXPTheme);
+			key.getInt(_T("bLookNFeel"), m_bLookNFeel);
 			key.getString(_T("FileHeader"), m_strFileHeader);
 		}
 	}
@@ -172,7 +175,8 @@ public:
 		_winx_setBool(_T("bUnicode"), m_bUnicode);
 		_winx_setBool(_T("bUseWinsdk"), m_bUseWinsdk);
 		_winx_setBool(_T("bGdiplus"), m_bGdiplus);
-		_winx_setBool(_T("bXPTheme"), m_bXPTheme);
+		_winx_setBool(_T("bXPTheme"), m_bXPTheme || m_bLookNFeel);
+		_winx_setBool(_T("bLookNFeel"), m_bLookNFeel);
 	}
 
 public:
@@ -194,6 +198,7 @@ public:
 		key.putInt(_T("bUseWinsdk"), m_bUseWinsdk);
 		key.putInt(_T("bGdiplus"), m_bGdiplus);
 		key.putInt(_T("bXPTheme"), m_bXPTheme);
+		key.putInt(_T("bLookNFeel"), m_bLookNFeel);
 
 		UpdateDictionary();
 		CloseDialog(hWnd);
