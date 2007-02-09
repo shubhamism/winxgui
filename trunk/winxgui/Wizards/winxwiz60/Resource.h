@@ -20,10 +20,12 @@
 #define IDC_UNICODE_APP                 1010
 #define IDC_UI_ACCEL                    1011
 #define IDC_USE_WINSDK                  1011
+#define IDC_USE_LOOKNFEEL               1011
 #define IDC_UI_DDX                      1012
 #define IDC_USE_GDIPLUS                 1012
 #define IDC_UI_ACTIVEX                  1013
 #define IDC_USE_XPTHEME                 1013
+#define IDC_USE_WINSDK2                 1014
 
 // Next default values for new objects
 // 

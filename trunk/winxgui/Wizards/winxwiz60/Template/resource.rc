@@ -86,16 +86,16 @@ $$ENDIF
 //
 
 $$IF(!DialogApp)
-IDD_$$SAFE_ROOT$$ DIALOGEX 0, 0, 304, 235
+IDD_MAINDLG DIALOGEX 0, 0, 304, 235
 STYLE DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CLIENTEDGE
 $$ELSE
-IDD_$$SAFE_ROOT$$ DIALOGEX 0, 0, 240, 157
+IDD_MAINDLG DIALOGEX 0, 0, 240, 157
 STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 $$ENDIF
 CAPTION "$$Safe_root$$"
 $$IF(bMenuBar)
-MENU IDR_MAINFRAME
+MENU IDR_MAINMENU
 $$ENDIF
 FONT 9, "System", 0, 0, 0x1
 BEGIN
@@ -149,13 +149,33 @@ END
 $$ENDIF
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAINICON              ICON    DISCARDABLE     "res/$$root$$.ico"
+
+
+$$IF(bXPTheme)
+/////////////////////////////////////////////////////////////////////////////
+//
+// 24
+//
+
+1      24      MOVEABLE PURE   "res/$$root$$.manifest"
+
+
+$$ENDIF
 $$IF(bMenuBar)
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
 //
 
-IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+IDR_MAINMENU MENU PRELOAD DISCARDABLE 
 BEGIN
     POPUP "&File"
     BEGIN
@@ -180,7 +200,7 @@ $$IF(DialogApp)
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO DISCARDABLE 
 BEGIN
-    IDD_$$SAFE_ROOT$$, DIALOG
+    IDD_MAINDLG, DIALOG
     BEGIN
         TOPMARGIN, 7
         RIGHTMARGIN, 233

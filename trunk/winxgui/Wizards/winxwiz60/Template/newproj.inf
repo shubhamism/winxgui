@@ -15,3 +15,8 @@ resource.h	resource.h
 :resource.rc	resource.rc
 stdafx.cpp	stdafx.cpp
 stdafx.h	stdafx.h
+/res
+=:root.ico	res\$$root$$.ico
+$$IF(bXPTheme)
+:root.manifest	res\$$root$$.manifest
+$$ENDIF

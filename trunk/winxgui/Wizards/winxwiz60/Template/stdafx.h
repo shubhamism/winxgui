@@ -22,6 +22,9 @@ $$ENDIF
 $$IF(HTMLPage)
 #include <winx/WebBrowser.h>
 $$ENDIF
+$$IF(bLookNFeel)
+#include <winx/LookNFeel.h>
+$$ENDIF
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

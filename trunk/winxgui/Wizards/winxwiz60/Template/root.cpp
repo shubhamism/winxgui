@@ -169,11 +169,15 @@ $$ENDIF
 // C$$Safe_root$$Dlg
 
 $$IF(bActiveX || HTMLPage)
-class C$$Safe_root$$Dlg : public winx::AxModalDialog<C$$Safe_root$$Dlg, IDD_$$SAFE_ROOT$$>
+class C$$Safe_root$$Dlg : public winx::AxModalDialog<C$$Safe_root$$Dlg, IDD_MAINDLG>
 $$ELSE
-class C$$Safe_root$$Dlg : public winx::ModalDialog<C$$Safe_root$$Dlg, IDD_$$SAFE_ROOT$$>
+class C$$Safe_root$$Dlg : public winx::ModalDialog<C$$Safe_root$$Dlg, IDD_MAINDLG>
 $$ENDIF
 {
+$$IF(!bLookNFeel)
+	WINX_ICON(IDI_MAINICON); // icon
+
+$$ENDIF
 $$IF(bAccel)
 	WINX_DLG_ACCEL(); // enable accelerator
 	WINX_ACCEL(IDR_ACCEL);
@@ -265,6 +269,10 @@ $$IF(RichEdit)
 $$ENDIF
 $$IF(Window || ScrollWindow)
 	C$$Safe_root$$View::RegisterClass();
+$$ENDIF
+$$IF(bLookNFeel)
+
+	WINX_APP_LOOKNFEEL(hInstance, IDI_MAINICON);
 $$ENDIF
 
 $$IF(bGdiplus)
