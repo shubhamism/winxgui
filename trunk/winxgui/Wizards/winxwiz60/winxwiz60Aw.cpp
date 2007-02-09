@@ -19,7 +19,17 @@ void CWinxwiz60AppWiz::InitCustomAppWiz()
 	// Create a new dialog chooser; CDialogChooser's constructor initializes
 	//  its internal array with pointers to the steps.
 	m_pChooser = new CDialogChooser(this);
+	m_nLevel = -1;
 
+#if (0)
+#ifndef ICC_LINK_CLASS
+#define ICC_STANDARD_CLASSES   0x00004000
+#define ICC_LINK_CLASS         0x00008000
+#endif
+	INITCOMMONCONTROLSEX iccx = { sizeof(INITCOMMONCONTROLSEX), ICC_STANDARD_CLASSES };
+	BOOL bSuccess = InitCommonControlsEx(&iccx);
+#endif
+	
 	// Set the maximum number of steps.
 	SetNumberOfSteps(LAST_DLG);
 }
@@ -37,6 +47,27 @@ void CWinxwiz60AppWiz::ExitCustomAppWiz()
 //  or "Next" on one of the custom AppWizard's steps.
 CAppWizStepDlg* CWinxwiz60AppWiz::Next(CAppWizStepDlg* pDlg)
 {
+	CString strPath = m_Dictionary[_T("FULL_DIR_PATH")];
+	m_nLevel = GetWinxParentPath(strPath);
+	if (m_nLevel <= 0)
+	{
+		winx::MsgBox(
+L"ERROR: WinxGui library is not found!\n\n\
+We suggest you put your projects and WinxGui library in the same directory tree.\n\
+For example, you can create a directory tree like this:\n\n\
+\t©À©¤winx\n\
+\t©¦ ©¸©¤include\n\
+\t©À©¤wtl\n\
+\t©¦ ©¸©¤include\n\
+\t©À©¤stdext\n\
+\t©¦ ©¸©¤include\n\
+\t©¸©¤YourProjects\n\
+\t    ©¸©¤YourPrj",
+		L"Error",
+		MB_OK | MB_TOPMOST | MB_ICONEXCLAMATION
+		);
+	}
+
 	// Delegate to the dialog chooser
 	return m_pChooser->Next(pDlg);
 }
@@ -86,19 +117,17 @@ void CWinxwiz60AppWiz::CustomizeProject(IBuildProject* pProject)
 	//  is passed as an "in" parameter to this function.  See the documentation
 	//  on CCustomAppWiz::CustomizeProject for more information.
 
-	CString strPath = m_Dictionary[_T("FULL_DIR_PATH")];
-	int nLevel = GetWinxParentPath(strPath);
-	if (nLevel <= 0)
+	if (m_nLevel <= 0)
 		return;
 
 	WCHAR* psz;
 	WCHAR szInclude[_MAX_PATH+_MAX_PATH];
-	psz = MakeRelPath(nLevel, szInclude, L"winx\\include\" ", L"/I \"", 4);
-	MakeRelPath(nLevel, psz, L"stdext\\include\"", L"/I \"", 4);
+	psz = MakeRelPath(m_nLevel, szInclude, L"winx\\include\" ", L"/I \"", 4);
+	MakeRelPath(m_nLevel, psz, L"stdext\\include\"", L"/I \"", 4);
 
 	WCHAR szLib[_MAX_PATH+_MAX_PATH];
-	psz = MakeRelPath(nLevel, szLib, L"winx\\lib\" ", L"/libpath:\"", 10);
-	MakeRelPath(nLevel, psz, L"winsdk\\lib\"", L"/libpath:\"", 10);
+	psz = MakeRelPath(m_nLevel, szLib, L"winx\\lib\" ", L"/libpath:\"", 10);
+	MakeRelPath(m_nLevel, psz, L"winsdk\\lib\"", L"/libpath:\"", 10);
 
 	IConfigurations* pConfigs;
 	HRESULT hr = pProject->get_Configurations(&pConfigs);
@@ -115,6 +144,10 @@ void CWinxwiz60AppWiz::CustomizeProject(IBuildProject* pProject)
 		if (SUCCEEDED(hr)) {
 			pConfig->AddToolSettings(L"mfc", L"0", var);
 			pConfig->AddToolSettings(L"cl.exe", szInclude, var);
+			if (IsUnicode()) {
+				pConfig->RemoveToolSettings(L"cl.exe", L"/D \"_MBCS\"", var);
+				pConfig->AddToolSettings(L"cl.exe", L"/D \"UNICODE\" /D \"_UNICODE\"", var);
+			}
 			pConfig->AddToolSettings(L"rc.exe", szInclude, var);
 			pConfig->AddToolSettings(L"link.exe", szLib, var);
 			pConfig->AddToolSettings(L"link.exe", L"gdi32.lib", var);

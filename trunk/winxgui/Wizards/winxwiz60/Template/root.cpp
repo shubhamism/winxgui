@@ -37,7 +37,7 @@ public:
 		m_image = NULL;
 	}
 
-	BOOL OnEraseBkgnd (HWND hWnd, winx::DCHandle dc)
+	BOOL OnEraseBkgnd(HWND hWnd, winx::DCHandle dc)
 	{
 		winx::ClientRect rect(hWnd);
 		int x = 0, y = 0;

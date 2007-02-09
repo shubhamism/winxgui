@@ -23,8 +23,14 @@ public:
 	virtual void CustomizeProject(IBuildProject* pProject);
 	virtual void ProcessTemplate(LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput);
 
+	BOOL IsUnicode() const {
+		CString strVal;
+		return m_Dictionary.Lookup(_T("bUnicode"), strVal);
+	}
+
 protected:
 	CDialogChooser* m_pChooser;
+	int m_nLevel;
 };
 
 // This declares the one instance of the CWinxwiz60AppWiz class.  You can access
