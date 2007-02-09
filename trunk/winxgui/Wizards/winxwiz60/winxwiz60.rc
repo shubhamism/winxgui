@@ -134,17 +134,17 @@ BEGIN
                     WS_DISABLED | WS_TABSTOP,22,131,102,13
     CONTROL         "Status Bar",IDC_UI_STATUSBAR,"Button",BS_AUTOCHECKBOX | 
                     WS_DISABLED | WS_TABSTOP,22,144,102,13
+    CONTROL         "Accelerator",IDC_UI_ACCEL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,147,92,102,13
+    CONTROL         "ActiveX",IDC_UI_ACTIVEX,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,147,105,102,13
+    CONTROL         "DataExchange(DDX)",IDC_UI_DDX,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,147,118,102,13
     COMBOBOX        IDC_VIEWTYPE,22,177,145,110,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Application Type",IDC_STATIC,10,5,285,72
     GROUPBOX        "User Interface Features",IDC_STATIC,10,81,286,79
     GROUPBOX        "View Type",IDC_STATIC,10,164,286,32
-    CONTROL         "Accelerator",IDC_UI_ACCEL,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,147,92,102,13
-    CONTROL         "DataExchange(DDX)",IDC_UI_DDX,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,147,105,102,13
-    CONTROL         "Support ActiveX",IDC_UI_ACTIVEX,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,147,118,102,13
 END
 
 IDD_ADVANCEOPT DIALOG DISCARDABLE  0, 0, 210, 120

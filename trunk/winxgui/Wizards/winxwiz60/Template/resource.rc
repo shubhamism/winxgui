@@ -47,13 +47,15 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
 $$IF(bAccel)
+$$IF(!DialogApp)
 /////////////////////////////////////////////////////////////////////////////
 //
 // Accelerator
 //
 
-IDR_ACCEL ACCELERATORS DISCARDABLE 
+IDR_ACCEL_VIEW ACCELERATORS DISCARDABLE 
 BEGIN
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
 $$IF(ScrollWindow)
@@ -63,9 +65,21 @@ $$IF(ScrollWindow)
     VK_UP,          ID_SCROLL_UP,           VIRTKEY, NOINVERT
 $$ENDIF
 END
+
+
 $$ENDIF
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCEL ACCELERATORS DISCARDABLE 
+BEGIN
+    VK_F1,           ID_HELP,           	VIRTKEY, NOINVERT
+END
 
 
+$$ENDIF
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog

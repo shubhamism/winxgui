@@ -116,24 +116,24 @@ class CAdvanceOptionsDlg :
 {
 	WINX_DDX_BEGIN()
 		DDX_TEXT(IDC_FILE_HEADER, m_strFileHeader)
-		DDX_CHECK(IDC_UNICODE_APP, m_fUnicode)
-		DDX_CHECK(IDC_USE_WINSDK, m_fUseWinsdk)
-		DDX_CHECK(IDC_USE_GDIPLUS, m_fGdiplus)
-		DDX_CHECK(IDC_USE_XPTHEME, m_fXPTheme)
+		DDX_CHECK(IDC_UNICODE_APP, m_bUnicode)
+		DDX_CHECK(IDC_USE_WINSDK, m_bUseWinsdk)
+		DDX_CHECK(IDC_USE_GDIPLUS, m_bGdiplus)
+		DDX_CHECK(IDC_USE_XPTHEME, m_bXPTheme)
 	WINX_DDX_END();
 private:
 	CMapStringToString& m_Dictionary;
 	std::tstring m_strFileHeader;
-	BOOL m_fUnicode, m_fUseWinsdk, m_fGdiplus, m_fXPTheme;
+	BOOL m_bUnicode, m_bUseWinsdk, m_bGdiplus, m_bXPTheme;
 
 public:
 	CAdvanceOptionsDlg(CMapStringToString& Dictionary)
 		: m_Dictionary(Dictionary)
 	{
-		m_fUnicode = 0;
-		m_fUseWinsdk = 1;
-		m_fGdiplus = 0;
-		m_fXPTheme = 0;
+		m_bUnicode = 0;
+		m_bUseWinsdk = 1;
+		m_bGdiplus = 0;
+		m_bXPTheme = 0;
 		m_strFileHeader = _T("\
 // -------------------------------------------------------------------------\n\
 // Module: $(FileName)\n\
@@ -145,10 +145,10 @@ public:
 		std::WinRegReadKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
 		if (key.good())
 		{
-			key.getInt(_T("fUnicode"), m_fUnicode);
-			key.getInt(_T("fUseWinsdk"), m_fUseWinsdk);
-			key.getInt(_T("fGdiplus"), m_fGdiplus);
-			key.getInt(_T("fXPTheme"), m_fXPTheme);
+			key.getInt(_T("bUnicode"), m_bUnicode);
+			key.getInt(_T("bUseWinsdk"), m_bUseWinsdk);
+			key.getInt(_T("bGdiplus"), m_bGdiplus);
+			key.getInt(_T("bXPTheme"), m_bXPTheme);
 			key.getString(_T("FileHeader"), m_strFileHeader);
 		}
 	}
@@ -169,10 +169,10 @@ public:
 	else \
 		m_Dictionary.RemoveKey(szKey)
 
-		_winx_setBool(_T("fUnicode"), m_fUnicode);
-		_winx_setBool(_T("fUseWinsdk"), m_fUseWinsdk);
-		_winx_setBool(_T("fGdiplus"), m_fGdiplus);
-		_winx_setBool(_T("fXPTheme"), m_fXPTheme);
+		_winx_setBool(_T("bUnicode"), m_bUnicode);
+		_winx_setBool(_T("bUseWinsdk"), m_bUseWinsdk);
+		_winx_setBool(_T("bGdiplus"), m_bGdiplus);
+		_winx_setBool(_T("bXPTheme"), m_bXPTheme);
 	}
 
 public:
@@ -190,10 +190,10 @@ public:
 
 		std::WinRegWriteKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
 		key.putString(_T("FileHeader"), m_strFileHeader);		
-		key.putInt(_T("fUnicode"), m_fUnicode);
-		key.putInt(_T("fUseWinsdk"), m_fUseWinsdk);
-		key.putInt(_T("fGdiplus"), m_fGdiplus);
-		key.putInt(_T("fXPTheme"), m_fXPTheme);
+		key.putInt(_T("bUnicode"), m_bUnicode);
+		key.putInt(_T("bUseWinsdk"), m_bUseWinsdk);
+		key.putInt(_T("bGdiplus"), m_bGdiplus);
+		key.putInt(_T("bXPTheme"), m_bXPTheme);
 
 		UpdateDictionary();
 		CloseDialog(hWnd);
