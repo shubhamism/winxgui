@@ -140,8 +140,7 @@ public:
 	{
 	}
 $$ENDIF
-$$IF(!ScrollWindow || bGdiplus)
-$$ELSE
+$$IF(!ScrollWindow || !bGdiplus)
 
 	void OnCmdFileOpen(HWND hWnd)
 	{
