@@ -12,14 +12,14 @@ class C$$Safe_root$$View : public winx::$$ViewType$$<C$$Safe_root$$View>
 	WINX_CLASS("$$Safe_root$$View");
 
 $$IF(bAccel)
-	WINX_ACCEL(IDR_ACCEL); // accelerator
+	WINX_ACCEL(IDR_ACCEL_VIEW); // accelerator
 
 $$ENDIF
 	WINX_CMDS_BEGIN()
 		WINX_CMD(ID_FILE_OPEN, OnCmdFileOpen)
 	WINX_CMDS_END();
 $$IF(ScrollWindow)
-$$IF(fGdiplus)
+$$IF(bGdiplus)
 
 private:
 	Gdiplus::Image* m_image;
@@ -177,6 +177,7 @@ $$ENDIF
 {
 $$IF(bAccel)
 	WINX_DLG_ACCEL(); // enable accelerator
+	WINX_ACCEL(IDR_ACCEL);
 
 $$ENDIF
 	WINX_CMDS_BEGIN_EX() // command dispatcher
@@ -187,6 +188,11 @@ $$IF(!DialogApp)
 	WINX_DLGRESIZE_BEGIN_NOGRIPPER(FALSE) // layout
 		WINX_DLGRESIZE(IDC_$$SAFE_ROOT$$_VIEW, AnchorAll)
 	WINX_DLGRESIZE_END();
+
+$$ENDIF
+$$IF(bDDX)
+	WINX_DDX_BEGIN() // data exchange
+	WINX_DDX_END();
 
 $$ENDIF
 $$IF(ListCtrl || TreeCtrl || RichEdit)
@@ -201,6 +207,26 @@ public:
 	}
 
 $$ENDIF
+$$IF(DialogApp)
+public:
+	BOOL OnInitDialog(HWND hDlg, HWND hWndDefaultFocus)
+	{
+$$IF(bDDX)
+		DoDataExchange();
+$$ENDIF
+		return TRUE;
+	}
+	
+$$IF(bDDX)
+	void OnOK(HWND hWnd)
+	{
+		BOOL bSuccess = DoDataExchange(TRUE);
+		if (bSuccess)
+			CloseDialog(hWnd);
+	}
+
+$$ENDIF
+$$ENDIF // $$IF(DialogApp)
 $$IF(HTMLPage)
 private:
 	winx::AxCtrlHandle m_ie;
@@ -242,7 +268,7 @@ $$IF(Window || ScrollWindow)
 	C$$Safe_root$$View::RegisterClass();
 $$ENDIF
 
-$$IF(fGdiplus)
+$$IF(bGdiplus)
 	GdiplusAppInit gdiplus;
 $$ENDIF
 	CComModuleInit module;

@@ -150,6 +150,7 @@ void CCustom1Dlg::OnAppTypeChanged()
 {
 	UpdateData(TRUE);
 	::EnableWindow(::GetDlgItem(m_hWnd, IDC_VIEWTYPE), m_nAppType != 0);
+	::EnableWindow(::GetDlgItem(m_hWnd, IDC_UI_DDX), m_nAppType == 0);
 }
 
 BOOL CCustom1Dlg::OnInitDialog() 

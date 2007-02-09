@@ -8,7 +8,7 @@
 
 #define _ATL_APARTMENT_THREADED
 
-$$IF(fUseWinsdk)
+$$IF(bUseWinsdk)
 #include <winx/Config.h>
 $$ENDIF
 #include <winx.h>
@@ -16,7 +16,7 @@ $$IF(ScrollWindow)
 #include <winx/ScrollWindow.h>
 $$ENDIF
 #include <winx/CommonDialogs.h>
-$$IF(fGdiplus)
+$$IF(bGdiplus)
 #include <winx/Gdiplus.h>
 $$ENDIF
 $$IF(HTMLPage)
