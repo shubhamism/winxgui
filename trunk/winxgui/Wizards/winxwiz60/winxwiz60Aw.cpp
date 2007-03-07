@@ -117,17 +117,17 @@ void CWinxwiz60AppWiz::CustomizeProject(IBuildProject* pProject)
 	//  is passed as an "in" parameter to this function.  See the documentation
 	//  on CCustomAppWiz::CustomizeProject for more information.
 
-	if (m_nLevel <= 0)
-		return;
-
 	WCHAR* psz;
 	WCHAR szInclude[_MAX_PATH+_MAX_PATH];
-	psz = MakeRelPath(m_nLevel, szInclude, L"winx\\include\" ", L"/I \"", 4);
-	MakeRelPath(m_nLevel, psz, L"stdext\\include\"", L"/I \"", 4);
-
 	WCHAR szLib[_MAX_PATH+_MAX_PATH];
-	psz = MakeRelPath(m_nLevel, szLib, L"winx\\lib\" ", L"/libpath:\"", 10);
-	MakeRelPath(m_nLevel, psz, L"winsdk\\lib\"", L"/libpath:\"", 10);
+	if (m_nLevel > 0)
+	{
+		psz = MakeRelPath(m_nLevel, szInclude, L"winx\\include\" ", L"/I \"", 4);
+		MakeRelPath(m_nLevel, psz, L"stdext\\include\"", L"/I \"", 4);
+
+		psz = MakeRelPath(m_nLevel, szLib, L"winx\\lib\" ", L"/libpath:\"", 10);
+		MakeRelPath(m_nLevel, psz, L"winsdk\\lib\"", L"/libpath:\"", 10);
+	}
 
 	IConfigurations* pConfigs;
 	HRESULT hr = pProject->get_Configurations(&pConfigs);
@@ -143,13 +143,16 @@ void CWinxwiz60AppWiz::CustomizeProject(IBuildProject* pProject)
 		hr = pConfigs->Item(CComVariant(i), &pConfig);
 		if (SUCCEEDED(hr)) {
 			pConfig->AddToolSettings(L"mfc", L"0", var);
-			pConfig->AddToolSettings(L"cl.exe", szInclude, var);
 			if (IsUnicode()) {
 				pConfig->RemoveToolSettings(L"cl.exe", L"/D \"_MBCS\"", var);
 				pConfig->AddToolSettings(L"cl.exe", L"/D \"UNICODE\" /D \"_UNICODE\"", var);
 			}
-			pConfig->AddToolSettings(L"rc.exe", szInclude, var);
-			pConfig->AddToolSettings(L"link.exe", szLib, var);
+			if (m_nLevel > 0)
+			{
+				pConfig->AddToolSettings(L"cl.exe", szInclude, var);
+				pConfig->AddToolSettings(L"rc.exe", szInclude, var);
+				pConfig->AddToolSettings(L"link.exe", szLib, var);
+			}
 			pConfig->AddToolSettings(L"link.exe", L"gdi32.lib", var);
 			pConfig->Release();
 		}
