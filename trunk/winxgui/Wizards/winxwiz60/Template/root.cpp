@@ -74,7 +74,7 @@ public:
 		winx::OpenFileDialog dlg(
 			_T("Images files(*.jpg;*.png;*.tif;*.bmp;*.gif)\0*.jpg;*.png;*.tif;*.bmp;*.gif\0All files(*.*)\0*.*\0")
 			);
-		if (IDOK == dlg.DoModal())
+		if (IDOK == dlg.DoModal(hWnd))
 		{
  			USES_CONVERSION;
  			Gdiplus::Image* image = new Gdiplus::Image(T2CW(dlg.lpstrFile));
@@ -147,7 +147,7 @@ $$IF(!ScrollWindow || !bGdiplus)
 		winx::OpenMultiFilesDialog dlg(
 			_T("All supported files(*.txt;*.doc)\0*.txt;*.doc\0All files(*.*)\0*.*\0")
 			);
-		if (IDOK == dlg.DoModal())
+		if (IDOK == dlg.DoModal(hWnd))
 		{
 			TCHAR szFile[MAX_PATH];
 			UINT nCount = 0;
