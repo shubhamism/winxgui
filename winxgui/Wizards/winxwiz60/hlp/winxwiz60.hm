@@ -7,6 +7,6 @@
  
 // Dialogs (IDD_*) 
 HIDD_ADVANCEOPT                         0x2007A
-HIDD_CUSTOM1                            0x20081
+HIDD_CUSTOM1                            0x2007B
  
 // Frame Controls (IDW_*) 
