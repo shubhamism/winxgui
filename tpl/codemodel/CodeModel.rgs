@@ -1,0 +1,26 @@
+HKCR
+{
+	Codemodel.CodeModel.1 = s 'CodeModel Class'
+	{
+		CLSID = s '{EA93371C-5D30-449B-8087-77AE11AE6BBA}'
+	}
+	Codemodel.CodeModel = s 'CodeModel Class'
+	{
+		CLSID = s '{EA93371C-5D30-449B-8087-77AE11AE6BBA}'
+		CurVer = s 'Codemodel.CodeModel.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {EA93371C-5D30-449B-8087-77AE11AE6BBA} = s 'CodeModel Class'
+		{
+			ProgID = s 'Codemodel.CodeModel.1'
+			VersionIndependentProgID = s 'Codemodel.CodeModel'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{9D2C2ADF-9214-4409-B80A-F66D37F829F3}'
+		}
+	}
+}
