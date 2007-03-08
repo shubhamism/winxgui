@@ -40,7 +40,7 @@ END
 
 3 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "1 TYPELIB ""codemodel.tlb""\r\n"
+    "1 TYPELIB ""tmp/codemodel.tlb""\r\n"
     "\0"
 END
 
@@ -117,7 +117,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-1 TYPELIB "codemodel.tlb"
+1 TYPELIB "tmp/codemodel.tlb"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
