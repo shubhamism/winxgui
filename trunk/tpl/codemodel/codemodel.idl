@@ -1,0 +1,527 @@
+// codemodel.idl : IDL source for codemodel.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (codemodel.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(9D2C2ADF-9214-4409-B80A-F66D37F829F3),
+	version(1.0),
+	helpstring("codemodel 1.0 Type Library")
+]
+library CODEMODELLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	interface CodeModel;
+	interface CodeElements;
+	interface CodeElement;
+	interface CodeNamespace;
+	interface CodeClass;
+	interface CodeFunction;
+	interface CodeVariable;
+	interface CodeParameter;
+	interface CodeTypeRef;
+	interface CodeType;
+	interface TextPoint;
+
+	enum vsCMPart
+	{
+		vsCMPartName = 1,
+		vsCMPartAttributes = 2,
+		vsCMPartHeader = 4,
+		vsCMPartWhole = 8,
+		vsCMPartBody = 16,
+		vsCMPartNavigate = 32,
+		vsCMPartAttributesWithDelimiter = 68,
+		vsCMPartBodyWithDelimiter = 80,
+		vsCMPartHeaderWithAttributes = 6,
+		vsCMPartWholeWithAttributes = 10
+	};
+
+	enum vsCMTypeRef
+	{
+		vsCMTypeRefOther = 0,
+		vsCMTypeRefCodeType = 1,
+		vsCMTypeRefArray = 2,
+		vsCMTypeRefVoid = 3,
+		vsCMTypeRefPointer = 4,
+		vsCMTypeRefString = 5,
+		vsCMTypeRefObject = 6,
+		vsCMTypeRefByte = 7,
+		vsCMTypeRefChar = 8,
+		vsCMTypeRefShort = 9,
+		vsCMTypeRefInt = 10,
+		vsCMTypeRefLong = 11,
+		vsCMTypeRefFloat = 12,
+		vsCMTypeRefDouble = 13,
+		vsCMTypeRefDecimal = 14,
+		vsCMTypeRefBool = 15,
+		vsCMTypeRefVariant = 16
+	};
+
+	enum vsCMAccess
+	{
+		vsCMAccessPublic = 1,
+		vsCMAccessPrivate = 2,
+		vsCMAccessProject = 4,
+		vsCMAccessProtected = 8,
+		vsCMAccessDefault = 32,
+		vsCMAccessAssemblyOrFamily = 64,
+		vsCMAccessWithEvents = 128,
+		vsCMAccessProjectOrProtected = 12
+	};
+
+	enum vsCMElement
+	{
+		vsCMElementOther = 0,
+		vsCMElementClass = 1,
+		vsCMElementFunction = 2,
+		vsCMElementVariable = 3,
+		vsCMElementProperty = 4,
+		vsCMElementNamespace = 5,
+		vsCMElementParameter = 6,
+		vsCMElementAttribute = 7,
+		vsCMElementInterface = 8,
+		vsCMElementDelegate = 9,
+		vsCMElementEnum = 10,
+		vsCMElementStruct = 11,
+		vsCMElementUnion = 12,
+		vsCMElementLocalDeclStmt = 13,
+		vsCMElementFunctionInvokeStmt = 14,
+		vsCMElementPropertySetStmt = 15,
+		vsCMElementAssignmentStmt = 16,
+		vsCMElementInheritsStmt = 17,
+		vsCMElementImplementsStmt = 18,
+		vsCMElementOptionStmt = 19,
+		vsCMElementVBAttributeStmt = 20,
+		vsCMElementVBAttributeGroup = 21,
+		vsCMElementEventsDeclaration = 22,
+		vsCMElementUDTDecl = 23,
+		vsCMElementDeclareDecl = 24,
+		vsCMElementDefineStmt = 25,
+		vsCMElementTypeDef = 26,
+		vsCMElementIncludeStmt = 27,
+		vsCMElementUsingStmt = 28,
+		vsCMElementMacro = 29,
+		vsCMElementMap = 30,
+		vsCMElementIDLImport = 31,
+		vsCMElementIDLImportLib = 32,
+		vsCMElementIDLCoClass = 33,
+		vsCMElementIDLLibrary = 34,
+		vsCMElementImportStmt = 35,
+		vsCMElementMapEntry = 36,
+		vsCMElementVCBase = 37,
+		vsCMElementEvent = 38,
+		vsCMElementModule = 39
+	};
+
+	enum vsCMInfoLocation
+	{
+		vsCMInfoLocationProject = 1,
+		vsCMInfoLocationExternal = 2,
+		vsCMInfoLocationNone = 4,
+		vsCMInfoLocationVirtual = 8
+	};
+
+	enum vsCMFunction
+	{
+		vsCMFunctionOther = 0,
+		vsCMFunctionConstructor = 1,
+		vsCMFunctionPropertyGet = 2,
+		vsCMFunctionPropertyLet = 4,
+		vsCMFunctionPropertySet = 8,
+		vsCMFunctionPutRef = 16,
+		vsCMFunctionPropertyAssign = 32,
+		vsCMFunctionSub = 64,
+		vsCMFunctionFunction = 128,
+		vsCMFunctionTopLevel = 256,
+		vsCMFunctionDestructor = 512,
+		vsCMFunctionOperator = 1024,
+		vsCMFunctionVirtual = 2048,
+		vsCMFunctionPure = 4096,
+		vsCMFunctionConstant = 8192,
+		vsCMFunctionShared = 16384,
+		vsCMFunctionInline = 32768,
+		vsCMFunctionComMethod = 65536
+	};
+
+	[
+		object,
+		uuid(A35694B3-DACB-4772-B8C9-E4357E7BEE0E),
+		dual,
+		helpstring("CodeModel Interface"),
+		pointer_default(unique)
+	]
+	interface CodeModel : IDispatch
+	{
+		[propget, id(1), helpstring("property CodeElements")]
+		HRESULT CodeElements([out, retval] CodeElements** ppCodeElements);
+
+		[propget, id(2), helpstring("property IsCaseSensitive")]
+		HRESULT IsCaseSensitive([out, retval] VARIANT_BOOL* pSensitive);
+
+		[id(101), helpstring("method Remove")]
+		HRESULT Remove(
+			[in] VARIANT Element);
+
+		[id(102), helpstring("method AddNamespace")]
+		HRESULT AddNamespace(
+	        [in] BSTR Name, [in] VARIANT Location, [in] VARIANT Position,
+			[out,retval] CodeNamespace** ppCodeNamespace);
+
+		[id(103), helpstring("method AddClass")]
+		HRESULT AddClass(
+	        [in] BSTR Name, [in] VARIANT Location, [in] VARIANT Position, [in] VARIANT Bases, [in] VARIANT ImplementedInterfaces,
+			[out,retval] CodeClass** ppCodeClass);
+	
+		[id(104), helpstring("method AddFunction")]
+		HRESULT AddFunction(
+			[in] BSTR Name, [in] VARIANT Location, [in] enum vsCMFunction Kind,
+			[in] VARIANT Type, [in] VARIANT Position, [in] enum vsCMAccess Access,
+			[out,retval] CodeFunction** ppCodeFunction);
+
+		[id(105), helpstring("method AddVariable")]
+		HRESULT AddVariable(
+			[in] BSTR Name, [in] VARIANT Location, [in] VARIANT Type, [in] VARIANT Position, [in] enum vsCMAccess Access,
+			[out,retval] CodeVariable** ppCodeVariable);
+
+		[id(106), helpstring("method IsValidID")]
+		HRESULT IsValidID(
+			[in] BSTR Name,
+			[out,retval] VARIANT_BOOL* pValid);
+	};
+
+	[
+		object,
+		uuid(4D77AA14-DFB6-4ACD-A17E-D5406EDF8234),
+		dual,
+		helpstring("CodeElements Interface"),
+		pointer_default(unique)
+	]
+	interface CodeElements : IDispatch
+	{
+		[id(0), helpstring("method Enum")]
+		 HRESULT _NewEnum (
+			[out,retval] IUnknown** lppiuReturn);
+
+		[id(1), helpstring("method Item")]
+		HRESULT Item(
+			[in] VARIANT index,
+			[out,retval] CodeElement** ppCodeElement);
+
+		[propget, id(2), helpstring("property Count")]
+		HRESULT Count(
+			[out, retval] long* pVal);
+	};
+
+	[
+		object,
+		uuid(E25A22E8-3508-4A0F-A37E-A92B849E27E6),
+		dual,
+		helpstring("CodeElement Interface"),
+		pointer_default(unique)
+	]
+	interface CodeElement : IDispatch
+	{
+		[propget, id(1), helpstring("property Name")] HRESULT Name([out, retval] BSTR *pVal);
+		[propput, id(1), helpstring("property Name")] HRESULT Name([in] BSTR newVal);
+
+		[propget, id(2), helpstring("property FullName")]
+		HRESULT FullName(
+			[out, retval] BSTR *pVal);
+
+		[propget, id(3), helpstring("property Kind")]
+		HRESULT Kind(
+			[out, retval] enum vsCMElement* pVal);
+
+		[propget, id(4), helpstring("property IsCodeType")]
+		HRESULT IsCodeType(
+			[out, retval] VARIANT_BOOL* pVal);
+
+		[propget, id(5), helpstring("property InfoLocation")]
+		HRESULT InfoLocation(
+			[out, retval] enum vsCMInfoLocation* pVal);
+
+		[propget, id(6), helpstring("property Children")]
+		HRESULT Children(
+			[out, retval] CodeElements** pVal);
+
+		[propget, id(7), helpstring("property StartPoint")]
+		HRESULT StartPoint(
+			[out, retval] TextPoint** pVal);
+
+		[propget, id(8), helpstring("property EndPoint")]
+		HRESULT EndPoint(
+			[out, retval] TextPoint** pVal);
+
+		[id(9), helpstring("method GetStartPoint")]
+		HRESULT GetStartPoint(
+			[in] enum vsCMPart Part,
+			[out,retval] TextPoint** ppTextPoint);
+
+		[id(10), helpstring("method GetEndPoint")]
+		HRESULT GetEndPoint(
+			[in] enum vsCMPart Part,
+			[out,retval] TextPoint** ppTextPoint);
+	};
+
+	[
+		object,
+		uuid(49695717-2D36-4806-B13D-1AFDC6C5D2C5),
+		dual,
+		helpstring("CodeNamespace Interface"),
+		pointer_default(unique)
+	]
+	interface CodeNamespace : CodeElement
+	{
+		[id(101), helpstring("method Remove")]
+		HRESULT Remove(
+			[in] VARIANT Element);
+
+		[id(102), helpstring("method AddNamespace")]
+		HRESULT AddNamespace(
+	        [in] BSTR Name, [in] VARIANT Location, [in] VARIANT Position,
+			[out,retval] CodeNamespace** ppCodeNamespace);
+
+		[id(103), helpstring("method AddClass")]
+		HRESULT AddClass(
+	        [in] BSTR Name, [in] VARIANT Location, [in] VARIANT Position, VARIANT Bases, VARIANT ImplementedInterfaces,
+			[out,retval] CodeClass** ppCodeClass);
+	
+		[id(104), helpstring("method AddFunction")]
+		HRESULT AddFunction(
+			[in] BSTR Name, [in] VARIANT Location, [in] enum vsCMFunction Kind,
+			[in] VARIANT Type, [in] VARIANT Position, [in] enum vsCMAccess Access,
+			[out,retval] CodeFunction** ppCodeFunction);
+
+		[id(105), helpstring("method AddVariable")]
+		HRESULT AddVariable(
+			[in] BSTR Name, [in] VARIANT Location, [in] VARIANT Type, [in] VARIANT Position, [in] enum vsCMAccess Access,
+			[out,retval] CodeVariable** ppCodeVariable);
+
+		[id(106), helpstring("method IsValidID")]
+		HRESULT IsValidID(
+			[in] BSTR Name,
+			[out,retval] VARIANT_BOOL* pValid);
+
+		[propget, id(200), helpstring("property Members")]
+		HRESULT Members(
+			[out, retval] CodeElements** pVal);
+	};
+
+	[
+		object,
+		uuid(C5D1B2C7-CCDB-49B9-80B7-D18169612145),
+		dual,
+		helpstring("CodeClass Interface"),
+		pointer_default(unique)
+	]
+	interface CodeClass : CodeElement
+	{
+		[id(103), helpstring("method AddClass")]
+		HRESULT AddClass(
+	        [in] BSTR Name, [in] VARIANT Location, [in] VARIANT Position, VARIANT Bases, VARIANT ImplementedInterfaces,
+			[out,retval] CodeClass** ppCodeClass);
+	
+		[id(104), helpstring("method AddFunction")]
+		HRESULT AddFunction(
+			[in] BSTR Name, [in] VARIANT Location, [in] enum vsCMFunction Kind,
+			[in] VARIANT Type, [in] VARIANT Position, [in] enum vsCMAccess Access,
+			[out,retval] CodeFunction** ppCodeFunction);
+
+		[id(105), helpstring("method AddVariable")]
+		HRESULT AddVariable(
+			[in] BSTR Name, [in] VARIANT Location, [in] VARIANT Type, [in] VARIANT Position, [in] enum vsCMAccess Access,
+			[out,retval] CodeVariable** ppCodeVariable);
+
+		[id(106), helpstring("method IsValidID")]
+		HRESULT IsValidID(
+			[in] BSTR Name,
+			[out,retval] VARIANT_BOOL* pValid);
+
+		[propget, id(200), helpstring("property Members")]
+		HRESULT Members(
+			[out, retval] CodeElements** pVal);
+
+		[propget, id(201), helpstring("property Namespace")]
+		HRESULT Namespace(
+			[out, retval] CodeNamespace** pVal);
+
+		[propget, id(202), helpstring("property Bases")] 
+		HRESULT Bases(
+			[out, retval] CodeElements** pVal);
+
+		[id(203), helpstring("method AddBase")] 
+		HRESULT AddBase(
+			[in] VARIANT Base, [in] VARIANT Position,
+			[out,retval] CodeElement** ppOut);
+
+		[id(204), helpstring("method RemoveBase")]
+		HRESULT RemoveBase([in] VARIANT Element);
+
+		[id(205), helpstring("method RemoveMember")]
+		HRESULT RemoveMember([in] VARIANT Element);
+
+		[propget, id(206), helpstring("property IsDerivedFrom")]
+		HRESULT IsDerivedFrom(
+			[out, retval] VARIANT_BOOL *pVal);
+	};
+
+	[
+		object,
+		uuid(7D2E83DD-588D-4B5A-B95C-6BB18FBF4E6C),
+		dual,
+		helpstring("CodeFunction Interface"),
+		pointer_default(unique)
+	]
+	interface CodeFunction : CodeElement
+	{
+		[propget, id(201), helpstring("property FunctionKind")] 
+		HRESULT FunctionKind(
+			[out, retval] enum vsCMFunction* pVal);
+
+		[propget, id(202), helpstring("property Type")] HRESULT Type([out, retval] CodeTypeRef** pVal);
+		[propput, id(202), helpstring("property Type")] HRESULT Type([in] CodeTypeRef* newVal);
+
+		[propget, id(203), helpstring("property Parameters")] 
+		HRESULT Parameters(
+			[out, retval] CodeElements** pVal);
+
+		[propget, id(204), helpstring("property Access")] HRESULT Access([out, retval] enum vsCMAccess *pVal);
+		[propput, id(204), helpstring("property Access")] HRESULT Access([in] enum vsCMAccess newVal);
+
+		[id(205), helpstring("method AddParameter")]
+		HRESULT AddParameter(
+			[in] BSTR Name, [in] VARIANT Type, [in] VARIANT Position,
+			[out,retval] CodeParameter** ppCodeParameter);
+
+		[id(206), helpstring("method RemoveParameter")]
+		HRESULT RemoveParameter([in] VARIANT Element);
+	};
+
+	[
+		object,
+		uuid(0D0C13FA-B397-4E0C-9695-C6C0D3B5FC99),
+		dual,
+		helpstring("CodeVariable Interface"),
+		pointer_default(unique)
+	]
+	interface CodeVariable : CodeElement
+	{
+		[propget, id(202), helpstring("property Type")] HRESULT Type([out, retval] CodeTypeRef** pVal);
+		[propput, id(202), helpstring("property Type")] HRESULT Type([in] CodeTypeRef* newVal);
+
+		[propget, id(204), helpstring("property Access")] HRESULT Access([out, retval] enum vsCMAccess *pVal);
+		[propput, id(204), helpstring("property Access")] HRESULT Access([in] enum vsCMAccess newVal);
+
+		[propget, id(205), helpstring("property IsConstant")] HRESULT IsConstant([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(205), helpstring("property IsConstant")] HRESULT IsConstant([in] VARIANT_BOOL newVal);
+	};
+
+	[
+		object,
+		uuid(8AB948E0-759A-4616-B12F-CBDDF76B9FDF),
+		dual,
+		helpstring("CodeParameter Interface"),
+		pointer_default(unique)
+	]
+	interface CodeParameter : CodeElement
+	{
+		[propget, id(202), helpstring("property Type")] HRESULT Type([out, retval] CodeTypeRef** pVal);
+		[propput, id(202), helpstring("property Type")] HRESULT Type([in] CodeTypeRef* newVal);		
+	};
+
+	[
+		object,
+		uuid(29113FC9-37E7-4506-9DAF-1E2241D343CF),
+		dual,
+		helpstring("CodeType Interface"),
+		pointer_default(unique)
+	]
+	interface CodeType : CodeElement
+	{
+		[propget, id(200), helpstring("property Members")]
+		HRESULT Members(
+			[out, retval] CodeElements** pVal);
+
+		[propget, id(201), helpstring("property Namespace")]
+		HRESULT Namespace(
+			[out, retval] CodeNamespace** pVal);
+
+		[propget, id(202), helpstring("property Bases")] 
+		HRESULT Bases(
+			[out, retval] CodeElements** pVal);
+
+		[id(203), helpstring("method AddBase")] 
+		HRESULT AddBase(
+			[in] VARIANT Base, [in] VARIANT Position,
+			[out,retval] CodeElement** ppOut);
+
+		[id(204), helpstring("method RemoveBase")]
+		HRESULT RemoveBase([in] VARIANT Element);
+
+		[id(205), helpstring("method RemoveMember")]
+		HRESULT RemoveMember([in] VARIANT Element);
+
+		[propget, id(206), helpstring("property IsDerivedFrom")]
+		HRESULT IsDerivedFrom(
+			[out, retval] VARIANT_BOOL *pVal);
+	};
+
+	[
+		object,
+		uuid(F172B96C-7426-4D76-8CE3-A8019B5D8AA1),
+		dual,
+		helpstring("CodeTypeRef Interface"),
+		pointer_default(unique)
+	]
+	interface CodeTypeRef : IDispatch
+	{
+		[propget, id(1), helpstring("property TypeKind")]
+		HRESULT TypeKind(
+			[out, retval] enum vsCMTypeRef* pVal);
+
+		[propget, id(2), helpstring("property CodeType")] HRESULT CodeType([out, retval] CodeType* *pVal);
+		[propput, id(2), helpstring("property CodeType")] HRESULT CodeType([in] CodeType* newVal);
+
+		[propget, id(3), helpstring("property ElementType")] HRESULT ElementType([out, retval] CodeTypeRef* *pVal);
+		[propput, id(3), helpstring("property ElementType")] HRESULT ElementType([in] CodeTypeRef* newVal);
+
+		[propget, id(4), helpstring("property Rank")] HRESULT Rank([out, retval] long *pVal);
+		[propput, id(4), helpstring("property Rank")] HRESULT Rank([in] long newVal);
+
+		[propget, id(5), helpstring("property AsString")]
+		HRESULT AsString(
+			[out, retval] BSTR* pVal);
+
+		[id(6), helpstring("method CreateArrayType")]
+		HRESULT CreateArrayType(
+			[in] long Rank,
+			[out,retval] CodeTypeRef** ppTypeRef);
+	};
+
+	[
+		object,
+		uuid(2518BB7D-580C-4D46-9BFE-6F224D2BEF99),
+		dual,
+		helpstring("TextPoint Interface"),
+		pointer_default(unique)
+	]
+	interface TextPoint : IDispatch
+	{
+	};
+
+	[
+		uuid(EA93371C-5D30-449B-8087-77AE11AE6BBA),
+		helpstring("CodeModel Class")
+	]
+	coclass CCodeModel
+	{
+		[default] interface CodeModel;
+	};
+};
