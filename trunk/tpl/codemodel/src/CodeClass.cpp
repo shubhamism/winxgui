@@ -1,7 +1,6 @@
 // src\CodeClass.cpp : Implementation of CCodeClass
 #include "stdafx.h"
-#include "Codemodel.h"
-#include "src\CodeClass.h"
+#include "CodeClass.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CCodeClass
