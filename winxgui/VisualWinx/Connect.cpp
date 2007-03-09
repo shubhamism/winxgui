@@ -31,7 +31,10 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, ext_ConnectMode Con
 
 		IfFailGoCheck(m_pDTE->get_Commands(&pCommands), pCommands);
 		pCommands2 = pCommands;
-		if(SUCCEEDED(pCommands2->AddNamedCommand2(m_pAddInInstance, CComBSTR("VisualWinx"), CComBSTR("VisualWinx"), CComBSTR("Executes the command for VisualWinx"), VARIANT_TRUE, CComVariant(59), NULL, vsCommandStatusSupported+vsCommandStatusEnabled, vsCommandStylePictAndText, vsCommandControlTypeButton, &pCreatedCommand)) && (pCreatedCommand))
+		if (SUCCEEDED(pCommands2->AddNamedCommand2(
+			m_pAddInInstance, CComBSTR(L"VisualWinx"), CComBSTR(L"VisualWinx"), CComBSTR(L"Executes the command for VisualWinx"),
+			VARIANT_TRUE, CComVariant(59), NULL, vsCommandStatusSupported+vsCommandStatusEnabled, 
+			vsCommandStylePictAndText, vsCommandControlTypeButton, &pCreatedCommand)) && (pCreatedCommand))
 		{
 			//Add a button to the tools menu bar.
 			IfFailGoCheck(m_pDTE->get_CommandBars(&pDisp), pDisp);
@@ -101,6 +104,7 @@ STDMETHODIMP CConnect::Exec(BSTR bstrCmdName, EnvDTE::vsCommandExecOption Execut
 	{
 		if(!_wcsicmp(bstrCmdName, L"VisualWinx.Connect.VisualWinx"))
 		{
+			winx::MsgBox("ok");
 			*pvbHandled = VARIANT_TRUE;
 			return S_OK;
 		}
