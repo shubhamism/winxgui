@@ -7,7 +7,7 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "src\CodeModel.h"
+#include "src/CodeModel.h"
 
 #include <initguid.h>
 #include "codemodel_i.c"
@@ -66,14 +66,3 @@ STDAPI DllUnregisterServer(void)
 {
     return _Module.UnregisterServer(TRUE);
 }
-
-
-#include "src\CodeElement.h"
-#include "src\CodeNamespace.h"
-#include "src\CodeClass.h"
-#include "src\CodeFunction.h"
-#include "src\CodeVariable.h"
-#include "src\CodeTypeRef.h"
-#include "src\CodeParameter.h"
-#include "src\CodeType.h"
-#include "src\TextPoint.h"
