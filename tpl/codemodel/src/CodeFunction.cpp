@@ -1,7 +1,6 @@
 // src\CodeFunction.cpp : Implementation of CCodeFunction
 #include "stdafx.h"
-#include "Codemodel.h"
-#include "src\CodeFunction.h"
+#include "CodeFunction.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CCodeFunction

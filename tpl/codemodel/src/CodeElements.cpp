@@ -1,7 +1,6 @@
 // src\CodeElements.cpp : Implementation of CCodeElements
 #include "stdafx.h"
-#include "Codemodel.h"
-#include "src\CodeElements.h"
+#include "CodeElements.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CCodeElements

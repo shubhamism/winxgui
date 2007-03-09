@@ -1,7 +1,6 @@
 // src\CodeNamespace.cpp : Implementation of CCodeNamespace
 #include "stdafx.h"
-#include "Codemodel.h"
-#include "src\CodeNamespace.h"
+#include "CodeNamespace.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CCodeNamespace
