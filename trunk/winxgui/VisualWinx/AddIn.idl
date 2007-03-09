@@ -1,0 +1,26 @@
+// AddIn.idl : IDL source for AddIn
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AddIn.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(2EB8FE19-E3D5-4C60-BF83-3FB590482B8E),
+	version(1.0),
+	helpstring("VisualWinx 1.0 Type Library")
+]
+library VisualWinxLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(C8062B97-CC1F-4D76-9573-3B0519D48F71),
+		helpstring("Connect Class")
+	]
+	coclass Connect
+	{
+		[default] interface IUnknown;
+	};
+};

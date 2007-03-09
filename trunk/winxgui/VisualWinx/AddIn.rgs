@@ -1,0 +1,56 @@
+HKCR
+{
+	VisualWinx.Connect.1 = s 'Connect Class'
+	{
+		CLSID = s '{C8062B97-CC1F-4D76-9573-3B0519D48F71}'
+	}
+	VisualWinx.Connect = s 'Connect Class'
+	{
+		CLSID = s '{C8062B97-CC1F-4D76-9573-3B0519D48F71}'
+		CurVer = s 'VisualWinx.Connect.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{C8062B97-CC1F-4D76-9573-3B0519D48F71}' = s 'Connect Class'
+		{
+			ProgID = s 'VisualWinx.Connect.1'
+			VersionIndependentProgID = s 'VisualWinx.Connect'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{2EB8FE19-E3D5-4C60-BF83-3FB590482B8E}'
+		}
+	}
+}
+
+HKCU
+{
+	NoRemove 'SOFTWARE'
+	{
+		NoRemove 'Microsoft'
+		{
+			NoRemove 'VisualStudio'
+			{
+				NoRemove '8.0'
+				{
+					NoRemove 'AddIns'
+					{
+						ForceRemove 'VisualWinx.Connect'
+						{
+							val LoadBehavior = d 1
+							val CommandLineSafe = d 0
+							val CommandPreload = d 1
+							val FriendlyName = s 'VisualWinx'
+							val Description = s 'Visual WinxGui Addin for Visual Studio'
+							val AboutBoxDetails = s 'For more information about , see the  website at\r\nhttp://www.winxgui.com\r\nCopyright (c) 2007 WinxGui.'
+							val AboutBoxIcon = s '%MODULE%,1'
+						}
+					}
+				}
+			}
+		}
+	}
+
+}
