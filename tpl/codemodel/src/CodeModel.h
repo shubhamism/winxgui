@@ -48,8 +48,8 @@ public:
         /* [in] */ BSTR Name,
         /* [in] */ VARIANT Location,
         /* [in] */ VARIANT Position,
-        VARIANT Bases,
-        VARIANT ImplementedInterfaces,
+        /* [in] */ VARIANT Bases,
+        /* [in] */ VARIANT ImplementedInterfaces,
         /* [retval][out] */ CodeClass __RPC_FAR *__RPC_FAR *ppCodeClass);
     
     STDMETHODIMP AddFunction( 
