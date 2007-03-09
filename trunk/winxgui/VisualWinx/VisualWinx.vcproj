@@ -321,6 +321,10 @@
 				RelativePath=".\AddIn.rgs"
 				>
 			</File>
+			<File
+				RelativePath=".\res\VisualWinx.dll.manifest"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
