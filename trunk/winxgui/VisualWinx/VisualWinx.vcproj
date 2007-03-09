@@ -76,7 +76,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				OutputFile="$(OutDir)/$(ProjectName)D.dll"
+				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\AddIn.def"
 				GenerateDebugInformation="true"
@@ -207,8 +207,7 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			Name="misc"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
@@ -246,7 +245,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="Connect.cpp"
+				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File
@@ -269,27 +268,13 @@
 					/>
 				</FileConfiguration>
 			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath="Connect.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resource.h"
-				>
-			</File>
 			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
+			Name="res"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
@@ -326,6 +311,14 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="Connect.cpp"
+			>
+		</File>
+		<File
+			RelativePath="Connect.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
