@@ -67,7 +67,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
+				AdditionalIncludeDirectories="tmp"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -158,7 +158,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
+				AdditionalIncludeDirectories="tmp"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
