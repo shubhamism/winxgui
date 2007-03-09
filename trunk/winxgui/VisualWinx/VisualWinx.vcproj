@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="VisualWinx"
 	ProjectGUID="{197C889A-959E-45C8-9452-FC574DC07401}"
+	RootNamespace="VisualWinx"
 	Keyword="AtlProj"
 	>
 	<Platforms>
@@ -50,7 +51,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../winx/include"
+				AdditionalIncludeDirectories="../../winx/include,tmp"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -143,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../winx/include"
+				AdditionalIncludeDirectories="../../winx/include,tmp"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				WarningLevel="3"
@@ -221,6 +222,28 @@
 			<File
 				RelativePath=".\AddIn.idl"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCMIDLTool"
+						TypeLibraryName="tmp/AddIn.tlb"
+						HeaderFileName="tmp/AddIn.h"
+						InterfaceIdentifierFileName="tmp/AddIn_i.c"
+						ProxyFileName="tmp/AddIn_p.c"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCMIDLTool"
+						TypeLibraryName="tmp/AddIn.tlb"
+						HeaderFileName="tmp/AddIn.h"
+						InterfaceIdentifierFileName="tmp/AddIn_i.c"
+						ProxyFileName="tmp/AddIn_p.c"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="Connect.cpp"
@@ -277,6 +300,22 @@
 			<File
 				RelativePath=".\AddIn.rc"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="tmp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalIncludeDirectories="tmp"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\AddIn.rgs"
