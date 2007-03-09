@@ -707,12 +707,12 @@ BEGIN
         END
         BLOCK "041904b0"
         BEGIN
-            VALUE "Comments", "Помогает вставлять обработчики сообщений и DDX переменные для WTL"
+            VALUE "Comments", "Помогает вставлять обработчик?сообщени??DDX переменные для WTL"
             VALUE "CompanyName", "Сергей Соложенцев"
-            VALUE "FileDescription", "Плагин для  Microsoft Visual Studio .NET 2003 и 2005"
+            VALUE "FileDescription", "Плагин для  Microsoft Visual Studio .NET 2003 ?2005"
             VALUE "FileVersion", "1, 1, 6, 0"
             VALUE "InternalName", "WtlHelper.dll"
-            VALUE "LegalCopyright", "Copyright (C) 2004 Сергей Соложенцев. Все права защищены"
+            VALUE "LegalCopyright", "Copyright (C) 2004 Сергей Соложенцев. Вс?прав?защищены"
             VALUE "OriginalFilename", "WtlHelper.dll"
             VALUE "ProductName", "WTL Helper"
             VALUE "ProductVersion", "1, 1, 6, 0"
