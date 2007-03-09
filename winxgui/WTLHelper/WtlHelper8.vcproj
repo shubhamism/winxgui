@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="WtlHelper"
 	ProjectGUID="{36D49126-2EF6-439B-BF38-B01D5EDAB625}"
 	RootNamespace="WtlHelper"
@@ -52,6 +52,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../../wtl/include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;DETECT_LEAKS;_IMAGEHLP64;_FOR_VS2005"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -158,6 +159,7 @@
 				InlineFunctionExpansion="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="2"
+				AdditionalIncludeDirectories="../../wtl/include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_FOR_VS2005"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -269,6 +271,7 @@
 				InlineFunctionExpansion="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="2"
+				AdditionalIncludeDirectories="../../wtl/include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_FOR_VS2005"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -356,11 +359,19 @@
 				RelativePath=".\AddIn8.idl"
 				>
 				<FileConfiguration
+					Name="Debug2005|Win32"
+					>
+					<Tool
+						Name="VCMIDLTool"
+						TypeLibraryName="$(IntDir)/AddIn.tlb"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Release2005|Win32"
 					>
 					<Tool
 						Name="VCMIDLTool"
-						TypeLibraryName="$(IntDir)/AddIn8.tlb"
+						TypeLibraryName="$(IntDir)/AddIn.tlb"
 						HeaderFileName="AddIn8.h"
 						InterfaceIdentifierFileName="AddIn8_i.c"
 						ProxyFileName="AddIn8_p.c"
@@ -411,6 +422,30 @@
 				RelativePath="stdafx.cpp"
 				>
 				<FileConfiguration
+					Name="Debug2005|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release2005|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Static CRT|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
@@ -434,30 +469,6 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug2005|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release2005|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Static CRT|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\TextFile.cpp"
@@ -466,6 +477,30 @@
 			<File
 				RelativePath=".\tracealloc.cpp"
 				>
+				<FileConfiguration
+					Name="Debug2005|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release2005|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Static CRT|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
@@ -476,30 +511,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug2005|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release2005|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Static CRT|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -697,30 +708,6 @@
 				RelativePath=".\Dialog\AddAltMapDlg.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release ATL DLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/$(InputName)1.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug2005|Win32"
 					>
 					<Tool
@@ -744,6 +731,30 @@
 						ObjectFile="$(IntDir)/$(InputName)1.obj"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release ATL DLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\Dialog\AddAltMapDlg.h"
@@ -753,7 +764,7 @@
 				RelativePath=".\Dialog\AddMemberVar.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug2005|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -761,7 +772,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug2005|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -777,7 +788,7 @@
 				RelativePath=".\Dialog\AddMemberVarGL.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug2005|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -785,7 +796,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug2005|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -845,7 +856,7 @@
 				RelativePath=".\Dialog\FunctionPage.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug2005|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -853,7 +864,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug2005|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -869,7 +880,7 @@
 				RelativePath=".\Dialog\GeneralPage.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug2005|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -877,7 +888,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug2005|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -897,7 +908,7 @@
 				RelativePath=".\Dialog\HandlerIDDlg.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug2005|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -905,7 +916,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug2005|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -945,7 +956,7 @@
 				RelativePath=".\Dialog\VariablePage.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Debug2005|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -953,7 +964,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug2005|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"

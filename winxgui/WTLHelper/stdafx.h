@@ -40,6 +40,7 @@
 
 #define _ATL_APARTMENT_THREADED
 #define _ATL_NO_AUTOMATIC_NAMESPACE
+#define _CRT_SECURE_NO_DEPRECATE
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
 
@@ -116,7 +117,6 @@ using namespace ATL;
 #else
 #import "libid:7365C6FE-4191-476B-A3FE-1CB6A7B1C119" version("7.1") lcid("0") no_implementation
 #endif
-
 
 
 #pragma warning( default : 4278 )
