@@ -4,6 +4,7 @@
 #define __CODEELEMENT_H_
 
 #include "resource.h"       // main symbols
+#include <codemodel_i.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // CCodeElement
