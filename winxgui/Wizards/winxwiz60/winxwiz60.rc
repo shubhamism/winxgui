@@ -147,7 +147,7 @@ BEGIN
     GROUPBOX        "View Type",IDC_STATIC,10,164,286,32
 END
 
-IDD_ADVANCEOPT DIALOG DISCARDABLE  0, 0, 242, 139
+IDD_ADVANCEOPT DIALOG DISCARDABLE  0, 0, 242, 141
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Advance Options"
 FONT 10, "System"
@@ -162,12 +162,15 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,40,120,11
     CONTROL         "Enable all features of Windows ",IDC_USE_WINSDK,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,51,120,11
-    EDITTEXT        IDC_FILE_HEADER,7,86,228,46,ES_MULTILINE | 
+    EDITTEXT        IDC_FILE_HEADER,7,88,228,46,ES_MULTILINE | 
                     ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
                     WS_VSCROLL
     DEFPUSHBUTTON   "OK",IDOK,185,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,185,24,50,14
-    LTEXT           "= File Header =",IDC_STATIC,7,76,55,8
+    LTEXT           "= File Header =",IDC_STATIC,7,78,55,8
+    CONTROL         "WinxGui is in standard include/lib path",
+                    IDC_WINX_IN_STDPATH,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,62,143,11
 END
 
 
@@ -213,7 +216,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 235
         TOPMARGIN, 7
-        BOTTOMMARGIN, 132
+        BOTTOMMARGIN, 134
     END
 END
 #endif    // APSTUDIO_INVOKED
