@@ -29,6 +29,10 @@ public:
 	}
 
 protected:
+	BOOL ProcessFileHeader(
+		LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput,
+		LPCTSTR lpszPatternSrc, UINT cchPatternSrc, LPCTSTR lpszPatternDest);
+
 	CDialogChooser* m_pChooser;
 	int m_nLevel;
 };

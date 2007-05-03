@@ -31,7 +31,7 @@ CCustom1Dlg::CCustom1Dlg(CMapStringToString& Dictionary)
 	m_bDDX = FALSE;
 	m_bActiveX = FALSE;
 	//}}AFX_DATA_INIT
-
+	
 	std::WinRegReadKey key(HKEY_CURRENT_USER, WINX_APPWIZ_KEY);
 	if (key.good())
 	{
@@ -153,8 +153,16 @@ void CCustom1Dlg::OnAdvance()
 void CCustom1Dlg::OnAppTypeChanged()
 {
 	UpdateData(TRUE);
-	::EnableWindow(::GetDlgItem(m_hWnd, IDC_VIEWTYPE), m_nAppType != 0);
+	
 	::EnableWindow(::GetDlgItem(m_hWnd, IDC_UI_DDX), m_nAppType == 0);
+	::EnableWindow(::GetDlgItem(m_hWnd, IDC_VIEWTYPE), m_nAppType != 0);
+
+/*	::ShowWindow(::GetDlgItem(m_hWnd, IDC_VIEWTYPE), m_nAppType != 0);
+	::ShowWindow(::GetDlgItem(m_hWnd, IDC_STATIC_VIEWTYPE), m_nAppType != 0);
+	::ShowWindow(::GetDlgItem(m_hWnd, IDC_DLG_SETTINGS), m_nAppType == 0);
+	::ShowWindow(::GetDlgItem(m_hWnd, IDC_RESIZABLE), m_nAppType == 0);
+	::ShowWindow(::GetDlgItem(m_hWnd, IDC_MODELESS), m_nAppType == 0);
+*/
 }
 
 BOOL CCustom1Dlg::OnInitDialog() 

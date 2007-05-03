@@ -20,6 +20,24 @@
 #define __WIZARDUTILS_H__
 
 // -------------------------------------------------------------------------
+// DumpStringMap
+
+inline void DumpStringMap(const CMapStringToString& aMap)
+{
+#ifdef _DEBUG
+	aMap.Dump(afxDump);
+#else
+	CString key, value;
+	for (POSITION pos = aMap.GetStartPosition(); pos; )
+	{
+		aMap.GetNextAssoc(pos, key, value);
+		TRACE(_T("$(%s) = %s\n"), (LPCTSTR)key, (LPCTSTR)value);
+	}
+	TRACE(_T("\n"));
+#endif
+}
+
+// -------------------------------------------------------------------------
 // GetWinxParentPath, MakeRelPath
 
 #include <shlwapi.h>
@@ -120,6 +138,7 @@ class CAdvanceOptionsDlg :
 		DDX_CHECK(IDC_USE_WINSDK, m_bUseWinsdk)
 		DDX_CHECK(IDC_USE_GDIPLUS, m_bGdiplus)
 		DDX_CHECK(IDC_USE_XPTHEME, m_bXPTheme)
+		DDX_CHECK(IDC_USE_MODELESS, m_bModeless)
 		DDX_CHECK(IDC_USE_LOOKNFEEL, m_bLookNFeel)
 		DDX_CHECK(IDC_WINX_IN_STDPATH, m_bWinxInStdPath)
 	WINX_DDX_END();
@@ -127,7 +146,7 @@ private:
 	CMapStringToString& m_Dictionary;
 	std::tstring m_strFileHeader;
 	BOOL m_bUnicode, m_bUseWinsdk, m_bGdiplus, m_bXPTheme, m_bLookNFeel;
-	BOOL m_bWinxInStdPath;
+	BOOL m_bModeless, m_bWinxInStdPath;
 
 public:
 	static BOOL IsWinxInStdPath() {
@@ -168,6 +187,7 @@ public:
 			key.getInt(_T("bGdiplus"), m_bGdiplus);
 			key.getInt(_T("bXPTheme"), m_bXPTheme);
 			key.getInt(_T("bLookNFeel"), m_bLookNFeel);
+			key.getInt(_T("bModeless"), m_bModeless);
 			key.getInt(_T("bWinxInStdPath"), m_bWinxInStdPath);
 			key.getString(_T("FileHeader"), m_strFileHeader);
 		}
@@ -193,6 +213,7 @@ public:
 		_winx_setBool(_T("bUseWinsdk"), m_bUseWinsdk);
 		_winx_setBool(_T("bGdiplus"), m_bGdiplus);
 		_winx_setBool(_T("bXPTheme"), m_bXPTheme || m_bLookNFeel);
+		_winx_setBool(_T("bModeless"), m_bModeless);
 		_winx_setBool(_T("bLookNFeel"), m_bLookNFeel);
 		_winx_setBool(_T("bWinxInStdPath"), m_bWinxInStdPath);
 	}
@@ -216,6 +237,7 @@ public:
 		key.putInt(_T("bUseWinsdk"), m_bUseWinsdk);
 		key.putInt(_T("bGdiplus"), m_bGdiplus);
 		key.putInt(_T("bXPTheme"), m_bXPTheme);
+		key.putInt(_T("bModeless"), m_bModeless);
 		key.putInt(_T("bLookNFeel"), m_bLookNFeel);
 		key.putInt(_T("bWinxInStdPath"), m_bWinxInStdPath);
 

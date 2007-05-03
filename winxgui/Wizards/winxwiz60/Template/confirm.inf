@@ -33,8 +33,12 @@ $$IF(bXPTheme)
 $$ENDIF
 
 Classes to be created:
+$$IF(bModeless)
+   MainFrame: C$$Safe_root$$MainFrame in $$root$$.cpp
+$$ELSE
    Dialog: C$$Safe_root$$Dlg in $$root$$.cpp
+$$ENDIF
 $$IF(DialogApp || HTMLPage)
 $$ELSE
-   View: C$$Safe_root$$View in $$root$$.cpp
+   View: C$$Safe_root$$View in $$Safe_root$$View.h
 $$ENDIF

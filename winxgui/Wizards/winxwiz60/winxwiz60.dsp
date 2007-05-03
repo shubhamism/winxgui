@@ -302,6 +302,13 @@ SOURCE=.\Template\root.ico
 # End Source File
 # Begin Source File
 
+SOURCE=.\Template\root.manifest
+# PROP Exclude_From_Scan -1
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
 SOURCE=.\Template\stdafx.cpp
 # PROP Exclude_From_Scan -1
 # PROP BASE Exclude_From_Build 1
@@ -310,6 +317,13 @@ SOURCE=.\Template\stdafx.cpp
 # Begin Source File
 
 SOURCE=.\Template\stdafx.h
+# PROP Exclude_From_Scan -1
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\Template\view.h
 # PROP Exclude_From_Scan -1
 # PROP BASE Exclude_From_Build 1
 # PROP Exclude_From_Build 1
