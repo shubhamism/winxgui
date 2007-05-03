@@ -84,22 +84,35 @@ CAppWizStepDlg* CWinxwiz60AppWiz::Back(CAppWizStepDlg* pDlg)
 	return m_pChooser->Back(pDlg);
 }
 
-void CWinxwiz60AppWiz::ProcessTemplate(LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput)
+BOOL CWinxwiz60AppWiz::ProcessFileHeader(
+	LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput,
+	LPCTSTR lpszPatternSrc, UINT cchPatternSrc, LPCTSTR lpszPatternDest)
 {
-	if (_tcsncmp(lpszInput, _T("$$RootFileHeader$$"), 18) == 0)
+	if (_tcsncmp(lpszInput, lpszPatternSrc, cchPatternSrc) == 0)
 	{
 		std::vector<TCHAR> strInput;
 		std::tstring strFileHeader = m_Dictionary[_T("FileHeader")];
-		std::replaceText(strFileHeader, std::tstring(_T("$$FileName$$")), std::tstring(_T("$$root$$.cpp")));
+		std::replaceText(strFileHeader, std::tstring(_T("$$FileName$$")), std::tstring(lpszPatternDest));
 		strInput.reserve(strFileHeader.size() + dwSize-18);
 		strInput.insert(strInput.end(), strFileHeader.begin(), strFileHeader.end());
 		strInput.insert(strInput.end(), lpszInput+18, lpszInput+dwSize);
 		CCustomAppWiz::ProcessTemplate(&strInput[0], strInput.size(), pOutput);
+		return TRUE;
 	}
-	else
-	{
-		CCustomAppWiz::ProcessTemplate(lpszInput, dwSize, pOutput);
-	}
+	return FALSE;
+}
+
+void CWinxwiz60AppWiz::ProcessTemplate(LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput)
+{
+//	DumpStringMap(m_Dictionary);
+
+	if (ProcessFileHeader(lpszInput, dwSize, pOutput, _T("$$RootFileHeader$$"), 18, _T("$$root$$.cpp")))
+		return;
+
+	if (ProcessFileHeader(lpszInput, dwSize, pOutput, _T("$$ViewFileHeader$$"), 18, _T("$$Safe_root$$View.h")))
+		return;
+
+	CCustomAppWiz::ProcessTemplate(lpszInput, dwSize, pOutput);
 }
 
 void CWinxwiz60AppWiz::CustomizeProject(IBuildProject* pProject)

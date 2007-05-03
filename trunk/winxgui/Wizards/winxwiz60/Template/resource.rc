@@ -14,13 +14,9 @@
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// Language resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
+$$LANG_PREAMBLE_1$$
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -91,7 +87,7 @@ STYLE DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_C
 EXSTYLE WS_EX_CLIENTEDGE
 $$ELSE
 IDD_MAINDLG DIALOGEX 0, 0, 240, 157
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_VISIBLE
 $$ENDIF
 CAPTION "$$Safe_root$$"
 $$IF(bMenuBar)
@@ -211,7 +207,7 @@ END
 #endif
 
 $$ENDIF
-#endif    // English (U.S.) resources
+$$LANG_POSTAMBLE_0$$    // Language resources
 /////////////////////////////////////////////////////////////////////////////
 
 
