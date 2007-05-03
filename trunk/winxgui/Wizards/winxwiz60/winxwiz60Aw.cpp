@@ -51,8 +51,11 @@ CAppWizStepDlg* CWinxwiz60AppWiz::Next(CAppWizStepDlg* pDlg)
 	m_nLevel = GetWinxParentPath(strPath);
 	if (m_nLevel <= 0)
 	{
-		winx::MsgBox(
-L"ERROR: WinxGui library is not found!\n\n\
+		if (!CAdvanceOptionsDlg::IsWinxInStdPath())
+		{
+			CAdvanceOptionsDlg::SetWinxInStdPath();
+			winx::MsgBox(
+L"WARNING: WinxGui library is not found!\n\n\
 We suggest you put your projects and WinxGui library in the same directory tree.\n\
 For example, you can create a directory tree like this:\n\n\
 \t©À©¤winx\n\
@@ -63,9 +66,10 @@ For example, you can create a directory tree like this:\n\n\
 \t©¦ ©¸©¤include\n\
 \t©¸©¤YourProjects\n\
 \t    ©¸©¤YourPrj",
-		L"Error",
-		MB_OK | MB_TOPMOST | MB_ICONEXCLAMATION
-		);
+			L"Warning",
+			MB_OK | MB_TOPMOST | MB_ICONEXCLAMATION
+			);
+		}
 	}
 
 	// Delegate to the dialog chooser

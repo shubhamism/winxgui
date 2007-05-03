@@ -3,8 +3,8 @@
 // Used by winxwiz60.rc
 //
 #define IDI_WINXWIZ60                   1
-#define IDD_ADVANCEOPT                  122
 #define IDD_CUSTOM1                     123
+#define IDD_ADVANCEOPT                  124
 #define IDC_DIALOG_APP                  1000
 #define IDC_SDI_APP                     1001
 #define IDC_MDI_APP                     1002
@@ -21,6 +21,7 @@
 #define IDC_UI_ACCEL                    1012
 #define IDC_USE_WINSDK                  1013
 #define IDC_UI_DDX                      1014
+#define IDC_WINX_IN_STDPATH             1014
 #define IDC_USE_GDIPLUS                 1015
 #define IDC_UI_ACTIVEX                  1016
 #define IDC_USE_XPTHEME                 1017
@@ -31,9 +32,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        124
+#define _APS_NEXT_RESOURCE_VALUE        125
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1019
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
