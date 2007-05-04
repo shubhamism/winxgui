@@ -7,9 +7,6 @@
 #define AFX_STDAFX_H__E0F6A7A7_66BE_4419_8130_AC9BCE746845__INCLUDED_
 
 #define _ATL_APARTMENT_THREADED
-$$IF(bModeless)
-#define WINX_USE_APPMODULE
-$$ENDIF
 
 $$IF(bUseWinsdk)
 #include <winx/Config.h>
