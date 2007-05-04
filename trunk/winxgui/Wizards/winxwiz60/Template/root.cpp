@@ -28,7 +28,7 @@ $$IF(!bLookNFeel)
 
 $$ENDIF
 $$IF(bAccel)
-	WINX_DLG_ACCEL(); // enable accelerator
+	WINX_ACCELFRAME(); // enable accelerator
 	WINX_ACCEL(IDR_ACCEL);
 
 $$ENDIF
@@ -105,11 +105,7 @@ $$ENDIF
 
 // -------------------------------------------------------------------------
 
-$$IF(bModeless)
-winx::CAppModule _Module;
-$$ELSE
 CComModule _Module;
-$$ENDIF
 
 int APIENTRY WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -131,13 +127,12 @@ $$ENDIF
 $$IF(bGdiplus)
 	GdiplusAppInit gdiplus;
 $$ENDIF
+	CComModuleInit module;
 $$IF(bModeless)
-	CAppModuleInit module;
-
 	C$$Safe_root$$MainFrame wndMain;
 	wndMain.Create(NULL);
 	
-	return module.Run();
+	return RunMsgLoop();
 $$ELSE
 	CComModuleInit module;
 	C$$Safe_root$$Dlg dlg;
