@@ -166,7 +166,7 @@ public:
 		: m_Dictionary(Dictionary)
 	{
 		m_bUnicode = 0;
-		m_bUseWinsdk = 1;
+		m_bUseWinsdk = 0;
 		m_bGdiplus = 0;
 		m_bXPTheme = 0;
 		m_bLookNFeel = 0;
