@@ -1,0 +1,20 @@
+// FCWizard.idl : IDL source for FCWizard.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (FCWizard.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(7D3DB3BE-D0E5-4C3A-939B-FB02A1995747),
+	version(1.0),
+	helpstring("FCWizard 1.0 Type Library")
+]
+library FCWIZARDLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};

@@ -1,0 +1,56 @@
+// FreeCode.odl : type library source for FreeCode.dll
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (FreeCode.tlb).
+
+[	uuid(E7D439DC-0961-4BCE-AA93-D5AFCF2F57D3), version(1.0),
+	helpstring ("FreeCode VS60 Add-in") ]
+library FreeCode
+{
+	importlib("stdole32.tlb");
+	importlib("devshl.dll");
+	importlib("ide\devdbg.pkg");
+	
+
+	//  Dual interface for CCommands
+	//
+	//  All commands that your add-in adds to DevStudio
+	//   must appear in this interface.  You may use the
+	//   ClassView to add methods to this interface, which
+	//   will cause stub implementations of those methods to
+	//   appear in your CCommands class.
+	
+	[	uuid(A5B5FB6C-1BBE-4B0F-B38D-2AF0D922C958),
+		oleautomation,
+		dual
+	]
+
+	interface ICommands : IDispatch
+	{
+		// methods
+		[id(1), helpstring("method ClassWizard")] HRESULT ClassWizard();
+	};
+
+	//  Class information for CCommands
+
+	[ uuid(EBBB095D-ED60-4798-B561-CF18D61FC08E) ]
+	coclass Commands
+	{
+		[default] interface ICommands;
+	};
+
+	[ hidden, uuid(07410535-8442-428D-A2D5-1232E5DCABF7) ]
+	coclass ApplicationEvents
+	{
+		[default] interface IApplicationEvents;
+	}
+
+	[ hidden, uuid(D45A4DB0-1B67-418F-9205-492B8E77144D) ]
+	coclass DebuggerEvents
+	{
+		[default] interface IDebuggerEvents;
+	}
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

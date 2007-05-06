@@ -1,0 +1,7 @@
+QLib::Event 许可协议
+
+你可以遵循CPL许可证下自由使用或发布本软件。
+CPL许可证：Common Public License 1.0 (http://opensource.org/licenses/cpl.php)
+你也可以在这个发布中一个名为CPL.txt的文件中获得CPL许可证的详细信息。无论你以
+何种形式使用本软件，你都必须同意本协议中的所有条款。并且，你必须保证这个软件
+的完整性。你不能从本软件中删除这个声明，以及其他任何东西。

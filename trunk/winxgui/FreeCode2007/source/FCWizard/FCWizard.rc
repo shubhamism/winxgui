@@ -1,0 +1,308 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "1 TYPELIB ""FCWizard.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "FCWizard Module\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "FCWizard\0"
+            VALUE "LegalCopyright", "Copyright 2007\0"
+            VALUE "OriginalFilename", "FCWizard.DLL\0"
+            VALUE "ProductName", "FCWizard Module\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "OLESelfRegister", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WIZARD_DIALOG DIALOG DISCARDABLE  0, 0, 312, 229
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Winx Class Wizard"
+FONT 12, "System"
+BEGIN
+    PUSHBUTTON      "AddClass...",IDC_ADDCLASS_BTN,250,44,50,14,NOT 
+                    WS_VISIBLE | WS_DISABLED
+    COMBOBOX        IDC_PROJECT_COMBO,34,212,73,122,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CLASSNAME_COMBO,12,28,90,111,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_RESDIALOG_COMBO,111,28,90,82,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_RESMENU_COMBO,210,28,90,74,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Project:",IDC_STATIC,3,213,28,8,WS_DISABLED
+    LTEXT           "Class Name:",IDC_STATIC,12,18,45,8
+    LTEXT           "Resource Dialog:",IDC_STATIC,111,18,57,8
+    LTEXT           "Resouce Menu",IDC_STATIC,210,18,50,8
+    LTEXT           "FileName",IDC_FILENAME,12,42,229,8
+    CONTROL         "Tab1",IDC_PANE_TAB,"SysTabControl32",0x0,2,4,307,206
+    DEFPUSHBUTTON   "OK",IDOK,196,212,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,259,212,50,14
+END
+
+IDD_PAGE_WINX_EVENT DIALOG DISCARDABLE  0, 0, 291, 138
+STYLE WS_CHILD
+FONT 12, "System"
+BEGIN
+    LISTBOX         IDC_EVENT_LIST,7,11,223,58,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_EVENT_TOKEN_LIST,7,78,223,53,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Add Event",IDC_ADDEVENT_BTN,234,11,50,14
+    PUSHBUTTON      "Delete Event",IDC_DELEVENT_BTN,234,29,50,14
+    LTEXT           "Winx Event List:",IDC_STATIC,7,1,55,8
+    LTEXT           "Event Member Functions:",IDC_STATIC,7,70,84,8
+    PUSHBUTTON      "Edit Code",IDC_EDITEVENT_BTN,234,47,50,14
+END
+
+IDD_PAGE_WINX_NOTIFY DIALOG DISCARDABLE  0, 0, 322, 154
+STYLE WS_CHILD
+FONT 12, "System"
+BEGIN
+    LISTBOX         IDC_CONTROL_LIST,7,10,116,42,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_MENU_LIST,7,55,116,42,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_NOTIFY_LIST,128,10,133,87,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_NOTIFY_TOKEN_LIST,7,105,254,42,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Dialog Controls:",IDC_STATIC,7,1,53,8
+    LTEXT           "Menu Items:",IDC_STATIC,62,1,41,8
+    LTEXT           "Message:",IDC_STATIC,128,1,33,8
+    PUSHBUTTON      "Add Message",IDC_ADDNOTIFY_BTN,265,10,50,14
+    PUSHBUTTON      "Del Message",IDC_DELNOTIFY_BTN,265,27,50,14
+    LTEXT           "Member Functions:",IDC_STATIC,7,97,63,8
+    PUSHBUTTON      "Edit Code",IDC_EDITNOTIFY_BTN,265,45,50,14
+END
+
+IDD_PAGE_WINX_PROP DIALOG DISCARDABLE  0, 0, 268, 171
+STYLE WS_CHILD
+FONT 12, "System"
+BEGIN
+    LISTBOX         IDC_PROP_LIST,7,11,118,153,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_PROP_TOKEN_LIST,130,11,118,153,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_ADD_NOTIFY_DIALOG DIALOG DISCARDABLE  0, 0, 209, 58
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add Member Function"
+FONT 10, "System"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,152,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,152,24,50,14
+    EDITTEXT        IDC_FUNCTIONNAME_EDIT,7,18,132,14,ES_AUTOHSCROLL
+    LTEXT           "Member function name:",IDC_STATIC,7,7,96,8
+    LTEXT           "Notify",IDC_NOTIFY_STATIC,7,34,118,8
+    LTEXT           "ObjectID",IDC_OBJECTID_STATIC,7,43,114,8
+END
+
+IDD_PAGE_CLASSINFO DIALOGEX 0, 0, 200, 158
+STYLE WS_CHILD
+FONT 10, "System", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Class Info",IDC_INFO_STATIC,7,7,186,68
+    LTEXT           "Base Class:",IDC_STATIC,14,21,41,8
+    LTEXT           "Resource:",IDC_STATIC,14,57,41,8
+    LTEXT           "NULL",IDC_INFO_RESOURCE,58,55,124,14,SS_CENTERIMAGE,
+                    WS_EX_STATICEDGE
+    EDITTEXT        IDC_INFO_BASECLASS,58,20,124,32,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER,
+                    WS_EX_STATICEDGE
+END
+
+IDD_PAGE_ABOUT DIALOG DISCARDABLE  0, 0, 209, 139
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    LTEXT           "Name:     FreeCode for VS60 Addin",IDC_STATIC,7,7,177,8
+    LTEXT           "Version:  0.3. 0501  (2007.5.1)",IDC_STATIC,7,19,177,8
+    LTEXT           "Author:    qwl1996@gmail.com",IDC_STATIC,7,31,176,8
+    LTEXT           "The wxWidgets http://www.wxwidgets.org",IDC_STATIC,7,
+                    112,168,8
+    LTEXT           "The Code::Blocks http://www.codeblocks.org",IDC_STATIC,
+                    7,124,168,8
+    LTEXT           "The WTLHelper  http://www.codeproject.net",IDC_STATIC,7,
+                    100,168,8
+    LTEXT           "The Winx Project http://www.winxgui.com",IDC_STATIC,7,
+                    88,168,8
+    LTEXT           "Thanks to:",IDC_STATIC,7,65,35,8
+    LTEXT           "The WTL Project  http://sourceforge.net/projects/wtl/",
+                    IDC_STATIC,7,76,168,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_WIZARD_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 309
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 226
+    END
+
+    IDD_PAGE_WINX_EVENT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 284
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 131
+    END
+
+    IDD_PAGE_WINX_NOTIFY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 315
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_PAGE_WINX_PROP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 261
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 164
+    END
+
+    IDD_ADD_NOTIFY_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 51
+    END
+
+    IDD_PAGE_CLASSINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 193
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 151
+    END
+
+    IDD_PAGE_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 132
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PROJNAME            "FCWizard"
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "FCWizard.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
