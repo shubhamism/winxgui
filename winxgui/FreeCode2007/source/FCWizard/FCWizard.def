@@ -1,0 +1,10 @@
+; FCWizard.def : Declares the module parameters.
+
+LIBRARY      "FCWizard.DLL"
+
+EXPORTS
+	DllCanUnloadNow     @1 PRIVATE
+	DllGetClassObject   @2 PRIVATE
+	DllRegisterServer   @3 PRIVATE
+	DllUnregisterServer	@4 PRIVATE
+	fox_get_interface	@5 PRIVATE

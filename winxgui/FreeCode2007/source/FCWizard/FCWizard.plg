@@ -1,0 +1,56 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: FCWizard - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1.DLC\LOCALS~1\Temp\2\RSPE55.tmp" with contents
+[
+/nologo /MD /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FR"Release/" /Fp"Release/FCWizard.pch" /YX"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\FreeCode\FreeCode2007\source\FCWizard\FCWizard.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1.DLC\LOCALS~1\Temp\2\RSPE55.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1.DLC\LOCALS~1\Temp\2\RSPE56.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wxbase25.lib wxmsw25_core.lib /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/FCWizard.pdb" /machine:I386 /def:".\FCWizard.def" /out:"../bin/FCWizard.dll" /implib:"Release/FCWizard.lib" 
+.\Release\FCWizard.obj
+.\Release\parserthread.obj
+.\Release\ResAccelerators.obj
+.\Release\ResDialog.obj
+.\Release\ResMenu.obj
+.\Release\Resources.obj
+.\Release\ResToolbar.obj
+.\Release\StdAfx.obj
+.\Release\token.obj
+.\Release\tokenizer.obj
+.\Release\FCWizard.res
+]
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1.DLC\LOCALS~1\Temp\2\RSPE56.tmp"
+Creating temporary file "C:\DOCUME~1\ADMINI~1.DLC\LOCALS~1\Temp\2\RSPE57.bat" with contents
+[
+@echo off
+regsvr32 /s /c "\FreeCode\FreeCode2007\source\bin\FCWizard.dll"
+echo regsvr32 exec. time > ".\Release\regsvr32.trg"
+]
+Creating command line "C:\DOCUME~1\ADMINI~1.DLC\LOCALS~1\Temp\2\RSPE57.bat"
+Compiling...
+FCWizard.cpp
+E:\FreeCode\FreeCode2007\source\FCWizard\././cbparser/parserthread.h(56) : warning C4309: 'default argument' : truncation of constant value
+E:\FreeCode\FreeCode2007\source\FCWizard\./codeparser.h(473) : warning C4552: '>=' : operator has no effect; expected operator with side-effect
+C:\Program Files\Microsoft Visual Studio\VC98\INCLUDE\xstring(525) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify -GX
+        C:\Program Files\Microsoft Visual Studio\VC98\INCLUDE\xstring(521) : while compiling class-template member function 'void __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::_Copy(unsigned int)'
+Linking...
+   Creating library Release/FCWizard.lib and object Release/FCWizard.exp
+LINK : warning LNK4089: all references to "ADVAPI32.dll" discarded by /OPT:REF
+<h3>Output Window</h3>
+Performing registration
+
+
+
+<h3>Results</h3>
+FCWizard.dll - 0 error(s), 4 warning(s)
+</pre>
+</body>
+</html>
