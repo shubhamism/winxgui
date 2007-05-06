@@ -134,7 +134,6 @@ $$IF(bModeless)
 	
 	return RunMsgLoop();
 $$ELSE
-	CComModuleInit module;
 	C$$Safe_root$$Dlg dlg;
 	dlg.DoModal();
 	return 0;
