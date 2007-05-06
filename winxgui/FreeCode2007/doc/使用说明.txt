@@ -1,0 +1,42 @@
+欢迎使用 FreeCode for VS60 Add-in
+
+版本: 0.3.0501 
+
+一 安装
+
+VS60菜单 Tools->Customeze...->Add-ins and Macro Files ->Browse...
+选择FreeCode.dll安装即可，安装后插件名为 FreeCode for VS60 Add-in,
+安装后将有一个新的FreeCode工具栏,目前只有一个功能按钮-类向导,名称为"Winx Class Wizard".
+
+二 使用
+新建或打开一个WINX项目.
+按下FreeCode工具栏上的类向导按钮,将打开与MFC的类向导相似的向导界面.
+
+1.Winx Event
+可以进行Winx特有的事件的插入和删除操作
+Add Event : 插入一个新的事件
+Delete Event: 删除一个已有事件,删除后原事件函数的名称为 _winxDEL+事件名.
+
+2.Winx Message
+可以对对话框控件和菜单资源进行WINX的命令和通知消息的增加和删除操作:
+
+a.对话框资源和菜单资源的选择:
+如果类向导未能正确对类进行资源判断自动选择,可以使用ResourceDialog组合框进行自行选择,菜单资源也可以使用ResourceMenu组合框进行自行选择.
+
+b.增加消息 选择控件或菜单将在Message:窗口出现可供使用的消息代码,使用Add Message按钮将添加出现添加函数对话框,可以对函数进行更改,按确定后添加到下面的列表中.
+
+c.删除消息 在成员函数列表选定不需要的事件处理消息,按Delete Message将其删除,FreeCode将其从列表中删除.注意消息的消除只是在对应的CMDS或NOTIFY表中使用//进行标记,并且对应的函数并没有删除掉.
+
+3.确定操作和取消
+按确定按钮将进行实际的操作,对消息进行增加和删除,按取消按钮将取消更改,直接退出.
+
+4.Class Info
+可以显示一个类的基类是什么,以供使用者查看该类是否是winx窗口类.
+
+三 已知问题
+
+1.如果VS60工程包括多个项目,只提供对当前项目的识别支持,
+
+2.目前版本未提供winx类识别机制,使用者可以通过Class Info窗口查看基类的方法判断当前类是否是WINX类,以便进行WINX事件和消息的更改.
+
+3.目前在Winx Message操作中,未加入控件和消息窗口识别功能,故需要使用者在Member Function窗口中自行查看一个消息是否已经添加了.

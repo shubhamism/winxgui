@@ -1,0 +1,14 @@
+\bin	   编译好的FreeCode插件
+\doc       说明文件
+
+\source目录下为源文件:
+
+\FreeCode  VS60向导项目-VS60插件
+
+\FCWizard  FreeCode的WINX类向导项目
+
+\FCWizard\cbparser CODE::BLOCKS的C++分析组件
+
+\FCWizard\resource WTLHelper的资源分析组件
+
+\public  QWL1996写的一些通用组件

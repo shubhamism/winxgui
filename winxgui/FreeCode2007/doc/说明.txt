@@ -1,0 +1,28 @@
+FreeCode for VS60 Addin
+
+名称: FreeCode
+版本: 0.3.0501 (2007-05-01)
+作者: qwl1996 at gmail.com
+
+提供WINX类向导支持
+1. 支持winx的事件
+2. 支持WINX的对话框及菜单命令和通知消息
+
+对以下WINX部分属性提供识别和支持:
+winx event
+WINX_CMD
+WINX_CMDEX
+WINX_NOTIFY
+
+本软件
+
+包含部分其他组件:
+\cbparser     CODE::BLOCKS的Parser组件
+\resource     WTLHelper的资源组件
+
+感谢以下项目:
+The WTL Project http://sourceforge.net/projects/wtl
+The Winx Project http://www.winxgui.com
+The WTLHelper http://codeproject.net
+The wxWidgets http://www.wxwidgets.org
+The Code::Blocks http://www.codeblocks.org

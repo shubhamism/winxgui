@@ -1,0 +1,22 @@
+欢迎使用 FreeCode for VS60 Add-in
+
+版本: 0.3.0501 
+
+目前版本还很不完善,只提供了事件和消息的部分支持,
+不过您可以自行编译FreeCode,增加新功能或修改错误.
+
+FreeCode的FCWizard组件使用了wxWidget和WTL,所以你必须下载这两个组件,进行安装以能够正确编译.
+
+我编译时使用的版本:
+WTL80_6356
+wxWidgets-2.5.3
+
+我只在以上两个版本条件下使用VS60+SP5进行编译,其他环境不保证能够正常编译执行.
+
+我的EMAIL:
+qwl1996 at gmail.com
+
+您可以通过GMAIL邮件或GTALK与我进行联系.
+
+注:
+Code::Blocks的parser我使用的是2005年1.0RC2版本的代码,很不完善,对其进行了部分修改,提供了宏识别的支持和EndLine的支持,目前仍不支持的功能是解析MFC和ATL/WTL的IDD值.
