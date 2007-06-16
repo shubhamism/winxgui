@@ -1,0 +1,12 @@
+ 
+// Commands (ID_* and IDM_*) 
+ 
+// Prompts (IDP_*) 
+ 
+// Resources (IDR_*) 
+ 
+// Dialogs (IDD_*) 
+HIDD_CUSTOM1                            0x2007B
+HIDD_ADVANCEOPT                         0x2007C
+ 
+// Frame Controls (IDW_*) 

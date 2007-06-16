@@ -1,0 +1,89 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: winxwiz60 - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP5D.bat" with contents
+[
+@echo off
+echo. >"hlp\winxwiz60chs.hm"
+echo // Commands (ID_* and IDM_*) >>"hlp\winxwiz60chs.hm"
+makehm ID_,HID_,0x10000 IDM_,HIDM_,0x10000 resource.h >>"hlp\winxwiz60chs.hm"
+echo. >>"hlp\winxwiz60chs.hm"
+echo // Prompts (IDP_*) >>"hlp\winxwiz60chs.hm"
+makehm IDP_,HIDP_,0x30000 resource.h >>"hlp\winxwiz60chs.hm"
+echo. >>"hlp\winxwiz60chs.hm"
+echo // Resources (IDR_*) >>"hlp\winxwiz60chs.hm"
+makehm IDR_,HIDR_,0x20000 resource.h >>"hlp\winxwiz60chs.hm"
+echo. >>"hlp\winxwiz60chs.hm"
+echo // Dialogs (IDD_*) >>"hlp\winxwiz60chs.hm"
+makehm IDD_,HIDD_,0x20000 resource.h >>"hlp\winxwiz60chs.hm"
+echo. >>"hlp\winxwiz60chs.hm"
+echo // Frame Controls (IDW_*) >>"hlp\winxwiz60chs.hm"
+makehm IDW_,HIDW_,0x50000 resource.h >>"hlp\winxwiz60chs.hm"
+]
+Creating command line ""C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP5D.bat""
+Creating command line "rc.exe /l 0x804 /fo"Release/winxwiz60.res" /d "NDEBUG" /d "_AFXDLL" "C:\WIZ\Wizards\winxwiz60\winxwiz60.rc"" 
+Making help include file...
+Creating temporary file "C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP5E.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /I "../../../winx/include" /I "../../../stdext/include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Fp"Release/winxwiz60.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\WIZ\Wizards\winxwiz60\Chooser.cpp"
+"C:\WIZ\Wizards\winxwiz60\Cstm1Dlg.cpp"
+"C:\WIZ\Wizards\winxwiz60\Debug.cpp"
+"C:\WIZ\Wizards\winxwiz60\winxwiz60.cpp"
+"C:\WIZ\Wizards\winxwiz60\winxwiz60Aw.cpp"
+]
+Creating command line "cl.exe @"C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP5E.tmp"" 
+Creating temporary file "C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP5F.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /I "../../../winx/include" /I "../../../stdext/include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Fp"Release/winxwiz60.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\WIZ\Wizards\winxwiz60\StdAfx.cpp"
+]
+Creating command line "cl.exe @"C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP5F.tmp"" 
+Creating temporary file "C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP60.tmp" with contents
+[
+/nologo /subsystem:windows /dll /incremental:no /pdb:"Release/winxwiz60chs.pdb" /machine:I386 /out:"../../../winx/bin/winxwiz60chs.awx" /implib:"Release/winxwiz60chs.lib" 
+.\Release\Chooser.obj
+.\Release\Cstm1Dlg.obj
+.\Release\Debug.obj
+.\Release\StdAfx.obj
+.\Release\winxwiz60.obj
+.\Release\winxwiz60Aw.obj
+.\Release\winxwiz60.res
+]
+Creating command line "link.exe @"C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP60.tmp""
+Creating temporary file "C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP61.bat" with contents
+[
+@echo off
+if not exist "C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Template\nul" md "C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Template"
+copy "\winx\bin\winxwiz60chs.awx" "C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Template"
+if exist ".\Release\winxwiz60chs.pdb" copy ".\Release\winxwiz60chs.pdb" "C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Template"
+]
+Creating command line ""C:\DOCUME~1\张露月\LOCALS~1\Temp\RSP61.bat""
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+Chooser.cpp
+Cstm1Dlg.cpp
+Debug.cpp
+winxwiz60.cpp
+winxwiz60Aw.cpp
+Generating Code...
+Linking...
+<h3>Output Window</h3>
+Copying custom AppWizard to Template directory...
+子目录或文件 C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Template 已经存在。
+已复制         1 个文件。
+
+
+
+<h3>Results</h3>
+winxwiz60chs.awx - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
