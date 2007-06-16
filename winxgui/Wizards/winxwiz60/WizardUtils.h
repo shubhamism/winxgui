@@ -171,6 +171,7 @@ public:
 		m_bXPTheme = 0;
 		m_bLookNFeel = 0;
 		m_bWinxInStdPath = 0;
+		m_bModeless = 0;
 		m_strFileHeader = _T("\
 // -------------------------------------------------------------------------\n\
 // Module: $(FileName)\n\

@@ -104,7 +104,9 @@ BOOL CWinxwiz60AppWiz::ProcessFileHeader(
 
 void CWinxwiz60AppWiz::ProcessTemplate(LPCTSTR lpszInput, DWORD dwSize, OutputStream* pOutput)
 {
-//	DumpStringMap(m_Dictionary);
+#if defined(_PSEUDO_DEBUG) || defined(_DEBUG)
+	DumpStringMap(m_Dictionary);
+#endif
 
 	if (ProcessFileHeader(lpszInput, dwSize, pOutput, _T("$$RootFileHeader$$"), 18, _T("$$root$$.cpp")))
 		return;
