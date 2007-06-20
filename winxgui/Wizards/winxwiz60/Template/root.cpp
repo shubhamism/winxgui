@@ -105,12 +105,14 @@ $$ENDIF
 
 // -------------------------------------------------------------------------
 
+#include <tchar.h>
+
 CComModule _Module;
 
-int APIENTRY WinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     LPSTR     lpCmdLine,
-                     int       nCmdShow)
+int APIENTRY _tWinMain(HINSTANCE hInstance,
+                       HINSTANCE hPrevInstance,
+                       LPTSTR    lpCmdLine,
+                       int       nCmdShow)
 {
 	InitCommonControls(ICC_WIN95_CLASSES);
 $$IF(RichEdit)
