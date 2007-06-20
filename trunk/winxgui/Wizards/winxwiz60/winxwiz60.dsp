@@ -19,6 +19,7 @@ CFG=winxwiz60 - Win32 Pseudo-Debug
 !MESSAGE 
 !MESSAGE "winxwiz60 - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "winxwiz60 - Win32 Pseudo-Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "winxwiz60 - Win32 Release_zh_CN" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -55,12 +56,12 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"../../../winx/bin/winxwiz60.awx"
+# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"../../../winx/bin/en/winxwiz60.awx"
 # Begin Custom Build - Copying custom AppWizard to Template directory...
 OutDir=.\Release
-TargetPath=\sourceforge\winx\bin\winxwiz60.awx
+TargetPath=\sourceforge\winx\bin\en\winxwiz60.awx
 TargetName=winxwiz60
-InputPath=\sourceforge\winx\bin\winxwiz60.awx
+InputPath=\sourceforge\winx\bin\en\winxwiz60.awx
 SOURCE="$(InputPath)"
 
 "$(MSDEVDIR)\Template\$(TargetName).awx" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -111,12 +112,55 @@ SOURCE="$(InputPath)"
 	
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "winxwiz60 - Win32 Release_zh_CN"
+
+# PROP BASE Use_MFC 2
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "winxwiz60___Win32_Release_zh_CN"
+# PROP BASE Intermediate_Dir "winxwiz60___Win32_Release_zh_CN"
+# PROP BASE Target_Ext "awx"
+# PROP BASE Ignore_Export_Lib 0
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 2
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "winxwiz60___Win32_Release_zh_CN"
+# PROP Intermediate_Dir "winxwiz60___Win32_Release_zh_CN"
+# PROP Target_Ext "awx"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /I "../../../winx/include" /I "../../../stdext/include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "../../../winx/include" /I "../../../stdext/include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_AFXEXT" /Yu"stdafx.h" /FD /c
+# ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
+# ADD BASE RSC /l 0x804 /d "NDEBUG" /d "_AFXDLL"
+# ADD RSC /l 0x804 /d "NDEBUG" /d "_AFXDLL"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"../../../winx/bin/en/winxwiz60.awx"
+# ADD LINK32 /nologo /subsystem:windows /dll /machine:I386 /out:"../../../winx/bin/zh-CN/winxwiz60.awx"
+# Begin Custom Build - Copying custom AppWizard to Template directory...
+OutDir=.\winxwiz60___Win32_Release_zh_CN
+TargetPath=\sourceforge\winx\bin\zh-CN\winxwiz60.awx
+TargetName=winxwiz60
+InputPath=\sourceforge\winx\bin\zh-CN\winxwiz60.awx
+SOURCE="$(InputPath)"
+
+"$(MSDEVDIR)\Template\$(TargetName).awx" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	if not exist "$(MSDEVDIR)\Template\nul" md "$(MSDEVDIR)\Template" 
+	copy "$(TargetPath)" "$(MSDEVDIR)\Template" 
+	if exist "$(OutDir)\$(TargetName).pdb" copy "$(OutDir)\$(TargetName).pdb" "$(MSDEVDIR)\Template" 
+	
+# End Custom Build
+
 !ENDIF 
 
 # Begin Target
 
 # Name "winxwiz60 - Win32 Release"
 # Name "winxwiz60 - Win32 Pseudo-Debug"
+# Name "winxwiz60 - Win32 Release_zh_CN"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -144,12 +188,42 @@ SOURCE=.\winxwiz60.cpp
 # Begin Source File
 
 SOURCE=.\hlp\winxwiz60.hpj
+
+!IF  "$(CFG)" == "winxwiz60 - Win32 Release"
+
 # PROP Exclude_From_Build 1
 # PROP Ignore_Default_Tool 1
+
+!ELSEIF  "$(CFG)" == "winxwiz60 - Win32 Pseudo-Debug"
+
+# PROP Exclude_From_Build 1
+# PROP Ignore_Default_Tool 1
+
+!ELSEIF  "$(CFG)" == "winxwiz60 - Win32 Release_zh_CN"
+
+# PROP BASE Exclude_From_Build 1
+# PROP BASE Ignore_Default_Tool 1
+# PROP Exclude_From_Build 1
+# PROP Ignore_Default_Tool 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\winxwiz60.rc
+
+!IF  "$(CFG)" == "winxwiz60 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "winxwiz60 - Win32 Pseudo-Debug"
+
+!ELSEIF  "$(CFG)" == "winxwiz60 - Win32 Release_zh_CN"
+
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409 /d "WINX_WIZARD_CHINESE_SIMPLIFIED"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -203,6 +277,33 @@ InputPath=.\Resource.h
 
 !ELSEIF  "$(CFG)" == "winxwiz60 - Win32 Pseudo-Debug"
 
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Making help include file...
+TargetName=winxwiz60
+InputPath=.\Resource.h
+
+"hlp\$(TargetName).hm" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	echo. >"hlp\$(TargetName).hm" 
+	echo // Commands (ID_* and IDM_*) >>"hlp\$(TargetName).hm" 
+	makehm ID_,HID_,0x10000 IDM_,HIDM_,0x10000 resource.h >>"hlp\$(TargetName).hm" 
+	echo. >>"hlp\$(TargetName).hm" 
+	echo // Prompts (IDP_*) >>"hlp\$(TargetName).hm" 
+	makehm IDP_,HIDP_,0x30000 resource.h >>"hlp\$(TargetName).hm" 
+	echo. >>"hlp\$(TargetName).hm" 
+	echo // Resources (IDR_*) >>"hlp\$(TargetName).hm" 
+	makehm IDR_,HIDR_,0x20000 resource.h >>"hlp\$(TargetName).hm" 
+	echo. >>"hlp\$(TargetName).hm" 
+	echo // Dialogs (IDD_*) >>"hlp\$(TargetName).hm" 
+	makehm IDD_,HIDD_,0x20000 resource.h >>"hlp\$(TargetName).hm" 
+	echo. >>"hlp\$(TargetName).hm" 
+	echo // Frame Controls (IDW_*) >>"hlp\$(TargetName).hm" 
+	makehm IDW_,HIDW_,0x50000 resource.h >>"hlp\$(TargetName).hm" 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "winxwiz60 - Win32 Release_zh_CN"
+
+# PROP BASE Ignore_Default_Tool 1
 # PROP Ignore_Default_Tool 1
 # Begin Custom Build - Making help include file...
 TargetName=winxwiz60
@@ -281,7 +382,7 @@ SOURCE=.\Template\resource.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Template\resource.rc
+SOURCE=.\Template\en\resource.rc
 # PROP Exclude_From_Scan -1
 # PROP BASE Exclude_From_Build 1
 # PROP Exclude_From_Build 1

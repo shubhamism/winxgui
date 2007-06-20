@@ -210,12 +210,13 @@ public:
 	else \
 		m_Dictionary.RemoveKey(szKey)
 
-		_winx_setBool(_T("bUnicode"), m_bUnicode);
-		_winx_setBool(_T("bUseWinsdk"), m_bUseWinsdk);
+		const BOOL bXP = m_bXPTheme || m_bLookNFeel;
 		_winx_setBool(_T("bGdiplus"), m_bGdiplus);
-		_winx_setBool(_T("bXPTheme"), m_bXPTheme || m_bLookNFeel);
-		_winx_setBool(_T("bModeless"), m_bModeless);
 		_winx_setBool(_T("bLookNFeel"), m_bLookNFeel);
+		_winx_setBool(_T("bXPTheme"), bXP);
+		_winx_setBool(_T("bUseWinsdk"), bXP || m_bUseWinsdk || m_bGdiplus);
+		_winx_setBool(_T("bUnicode"), m_bUnicode);
+		_winx_setBool(_T("bModeless"), m_bModeless);
 		_winx_setBool(_T("bWinxInStdPath"), m_bWinxInStdPath);
 	}
 
