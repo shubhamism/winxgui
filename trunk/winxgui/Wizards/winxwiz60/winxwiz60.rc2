@@ -1,0 +1,5 @@
+#if defined(WINX_WIZARD_CHINESE_SIMPLIFIED)
+RESOURCE.RC             TEMPLATE DISCARDABLE    "Template\\zh-CN\\resource.rc"
+#else
+RESOURCE.RC             TEMPLATE DISCARDABLE    "Template\\en\\resource.rc"
+#endif
