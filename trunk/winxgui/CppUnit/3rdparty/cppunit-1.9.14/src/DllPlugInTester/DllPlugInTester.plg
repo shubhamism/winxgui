@@ -1,0 +1,48 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: DllPlugInTester - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPE6.tmp" with contents
+[
+/nologo /MT /W3 /GR /GX /O1 /I "..\..\include" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /D "CPPUNIT_DLL" /Fo"ReleaseDll/" /Fd"ReleaseDll/" /FD /c 
+"E:\cppunit-1.9.14\src\DllPlugInTester\CommandLineParser.cpp"
+"E:\cppunit-1.9.14\src\DllPlugInTester\DllPlugInTester.cpp"
+]
+Creating command line "cl.exe @D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPE6.tmp" 
+Creating temporary file "D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPE7.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib cppunit_dll.lib /nologo /subsystem:console /incremental:no /pdb:"ReleaseDll/DllPlugInTester_dll.pdb" /machine:I386 /out:"ReleaseDll\DllPlugInTester_dll.exe" /libpath:"../../lib" 
+".\ReleaseDll\CommandLineParser.obj"
+".\ReleaseDll\DllPlugInTester.obj"
+"\cppunit-1.9.14\src\cppunit\Release\cppunit.lib"
+"\cppunit-1.9.14\src\cppunit\ReleaseDll\cppunit_dll.lib"
+]
+Creating command line "link.exe @D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPE7.tmp"
+<h3>Output Window</h3>
+Compiling...
+CommandLineParser.cpp
+..\..\include\cppunit/plugin/PlugInParameters.h(27) : warning C4251: 'm_commandLine' : class 'std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >' needs to have dll-interface to be used by clients of class 'CppUnit::PlugInParameters'
+DllPlugInTester.cpp
+..\..\include\cppunit/CompilerOutputter.h(138) : warning C4251: 'm_locationFormat' : class 'std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >' needs to have dll-interface to be used by clients of class 'CppUnit::CompilerOutputter'
+Generating Code...
+Linking...
+Creating temporary file "D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPE9.bat" with contents
+[
+@echo off
+copy .\ReleaseDll\DllPlugInTester_dll.exe ..\..\lib\DllPlugInTester_dll.exe
+]
+Creating command line "D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPE9.bat"
+Copying target to lib/
+        1 file(s) copied.
+
+
+
+<h3>Results</h3>
+DllPlugInTester_dll.exe - 0 error(s), 2 warning(s)
+</pre>
+</body>
+</html>
