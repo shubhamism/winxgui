@@ -12,7 +12,6 @@
 
 
 // TODO: reference additional headers your program requires here
-#include <kfc.h>
 #include <cppunit/cppunit.h>
 
 //{{AFX_INSERT_LOCATION}}

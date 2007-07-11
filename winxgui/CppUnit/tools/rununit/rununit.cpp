@@ -6,60 +6,10 @@
 #include <fstream>
 #include <direct.h>
 
-/*
-void _AddUnits(LPCSTR argv)
-{
-	char ext[_MAX_EXT];
-	_splitpath(argv, NULL, NULL, NULL, ext);
-	if (stricmp(ext, ".dll") == 0)
-		LoadLibrary(argv);
-	else if (stricmp(ext, ".units") == 0)
-	{
-		std::ifstream fin(argv);
-		if (fin.good())
-		{
-			for (;;)
-			{
-				std::string strDll;
-				std::getline(fin, strDll);
-				if (
-					strDll.empty() ||
-					strchr(" \t\r\n", strDll[0]) != 0)
-				{
-					break;
-				}
-				LoadLibrary(strDll.c_str());
-			}
-		}
-	}
-}
-
-int main()
-{
-	USES_CONVERSION;
-	if (__argc > 1)
-	{
-		_XInitCppUnitEnv();
-		_CppUnit_Initialize(_TestAppType);
-		_AddUnits(W2A(__wargv[1]));
-		HRESULT hr = _CppUnit_RunAllTests(__argc, __wargv);
-		_CppUnit_Terminate();
-		if (FAILED(hr))
-			getchar();
-	}
-	return 0;
-}
-*/
-
 //
 // rununit.exe testcase[.dll] [testclass] [testmethod] [/ndebug] [/pause] [/output:<xmlfile>]
-// 其中，/ndebug /output:<xmlfile>是通用开关，由cppunit完成的。参考：
-//		STDAPI _CppUnit_RunAllTests(
-//			IN int argc,
-//			IN WCHAR** argv);
-//		STDAPI_(BOOL) _CppUnit_IsDebugMode();
 //
-int main()
+int wmain(int argc, const wchar_t* argv[])
 {
 	USES_CONVERSION;
 
@@ -70,17 +20,17 @@ int main()
 	UINT idxArg = 0;
 	LPCWSTR targetModule = NULL;
 
-	for (int i = 1; i < __argc; ++i)
+	for (int i = 1; i < argc; ++i)
 	{
-		if (__wargv[i][0] == '/' || __wargv[i][0] == '-')
+		if (argv[i][0] == '/' || argv[i][0] == '-')
 		{
-			switch (tolower(__wargv[i][1]))
+			switch (tolower(argv[i][1]))
 			{
 			case 'p':
 				fPause = TRUE;
 				break;
 			case 'm':
-				targetModule = __wargv[++i];
+				targetModule = argv[++i];
 				break;
 			}
 		}
@@ -88,9 +38,9 @@ int main()
 		{
 			switch (idxArg)
 			{
-			case 0:	szModule = __wargv[i]; break;
-			case 1: szClass = W2A(__wargv[i]); break;
-			case 2: szMethod = W2A(__wargv[i]); break;
+			case 0:	szModule = argv[i]; break;
+			case 1: szClass = W2A(argv[i]); break;
+			case 2: szMethod = W2A(argv[i]); break;
 			}
 			++idxArg;
 		}
@@ -127,10 +77,8 @@ int main()
 	return 0;
 }
 
+// -------------------------------------------------------------------------
 // $Log: rununit.cpp,v $
-// Revision 1.8  2007/02/26 02:16:35  wangdong
-// *** empty log message ***
-//
 // Revision 1.7  2005/03/24 10:03:21  xushiwei
 // 去除/debug开关。rununit默认改为debug状态，除非使用了通用开关/ndebug。
 //

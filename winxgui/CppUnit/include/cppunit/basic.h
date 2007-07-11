@@ -15,55 +15,12 @@
 #include "platapi.h"
 #endif
 
-// -------------------------------------------------------------------------
-/*@@delete
-
-#ifndef __KFC_PLATFORM_H__
-#include <kfc/platform.h>
+#if !defined(W2A)
+#include <atlbase.h>
 #endif
 
-#if defined(X_APPTYPE_CONSOLE)
-#define _TestAppType	AppTypeConsole
-
-#elif defined(X_APPTYPE_WINDOWS)
-#define _TestAppType	AppTypeWindow
-
-#elif defined(X_APPTYPE_DLL)
-#define _TestAppType	AppTypeDynLib
-
-#else
-#define _TestAppType	AppTypeUnknown
-#endif
-*/
-
-// -------------------------------------------------------------------------
-// 通用开关 /ndebug 的检测
-
-inline BOOL _CppUnit_IsDebugMode()
-{
-	const WCHAR _g_ndebugsw[] = { 'n', 'd', 'e', 'b', 'u', 'g', '\0' };
-	
-	for (int i = 1; i < __argc; ++i)
-	{
-		if (__wargv[i][0] == '/' || __wargv[i][0] == '-')
-		{
-			if (wcsicmp(__wargv[i]+1, _g_ndebugsw) == 0)
-				return FALSE;
-		}
-	}
-
-	// 默认是debug模式。
-	return TRUE;
-}
-
-// -------------------------------------------------------------------------
-
-#if defined(_KFC)
-#define _CppUnit_InitEnv()			_XInitCppUnitEnv()
-#define _CppUnit_GetModuleName()	_XGetModuleName()
-#else
-#define _CppUnit_InitEnv()			NULL
-#define _CppUnit_GetModuleName()	NULL
+#ifndef _STRING_
+#include <string>
 #endif
 
 // -------------------------------------------------------------------------
@@ -86,7 +43,9 @@ private:
 
 public:
 	AutoRegisterTestSuite()
-	{	// TestFixtureType::suite是一个创建suite的函数指针，被m_factory保存并被其makeTest（）函数利用
+	{
+		// TestFixtureType::suite是一个创建suite的函数指针，
+		// 被m_factory 保存并被其 makeTest 函数调用
 		_CppUnit_CreateTestSuiteFactory(TestFixtureType::suite, &m_factory);
 		_CppUnit_RegisterFactory1(m_factory);
 	}
@@ -97,24 +56,42 @@ public:
 	}
 };
 
+template <class TestFixtureType>
+class AutoRegisterTestSuite_ByName
+{
+private:
+	TestFactory* m_factory;
+	
+public:
+	AutoRegisterTestSuite_ByName(const char* strName) : m_strName(strName)
+	{	
+		_CppUnit_CreateTestSuiteFactory(TestFixtureType::suite, &m_factory);
+		_CppUnit_RegisterFactory_ByName(m_factory, m_strName);
+	}
+	~AutoRegisterTestSuite_ByName()
+	{
+		_CppUnit_UnregisterFactory_ByName(m_factory, m_strName);
+		_CppUnit_DeleteTestSuiteFactory(m_factory);
+	}
+
+private:
+	std::string m_strName;
+};
+
 // -------------------------------------------------------------------------
 
-#define _CppUnit_Abort()	0
+#define _CppUnit_Abort()			0
+#define _CppUnit_GetModuleName()	0
 
 class TestApp
 {
+private:
+	LPCSTR m_name;
+
 public:
-	TestApp(EnumRunUnitType runtype = rununitNone)
+	TestApp(EnumRunUnitType runtype = rununitNone, LPCSTR name = NULL)
 	{
-		if (!_CppUnit_IsDebugMode())
-			_CppUnit_InitEnv();
-		_CppUnit_Initialize(runtype);
-		_CppUnit_FilterCase(_CppUnit_GetModuleName(), NULL, NULL);
-	}
-	TestApp(BOOL fInitCppUnitEnv, EnumRunUnitType runtype = rununitNone)
-	{
-		if (fInitCppUnitEnv)
-			_CppUnit_InitEnv();
+		m_name = name;
 		_CppUnit_Initialize(runtype);
 		_CppUnit_FilterCase(_CppUnit_GetModuleName(), NULL, NULL);
 	}
@@ -122,7 +99,7 @@ public:
 	{
 		try
 		{
-			_CppUnit_RunAllTests(__argc, __wargv);
+			_CppUnit_RunAllTests_ByName(__argc, __wargv, m_name);
 		}
 		catch (...)
 		{
@@ -143,57 +120,6 @@ public:
 		USES_CONVERSION;
 		return LoadLibraryA(W2A(szDll)) ? S_OK : E_ACCESSDENIED;
 	}
-};
-
-template <class TestFixtureType>
-class AutoRegisterTestSuite_ByName
-{
-private:
-	TestFactory* m_factory;
-	
-public:
-	AutoRegisterTestSuite_ByName(const char* strName) : m_strName(strName)
-	{	
-		// TestFixtureType::suite是一个创建suite的函数指针，被m_factory保存并被其makeTest（）函数利用
-		_CppUnit_CreateTestSuiteFactory(TestFixtureType::suite, &m_factory);
-		_CppUnit_RegisterFactory_ByName(m_factory, m_strName);
-	}
-	~AutoRegisterTestSuite_ByName()
-	{
-		_CppUnit_UnregisterFactory_ByName(m_factory, m_strName);
-		_CppUnit_DeleteTestSuiteFactory(m_factory);
-	}
-
-private:
-	std::string m_strName;
-};
-
-class TestApp_ByName
-{
-public:
-	TestApp_ByName(const char* pName, 
-		EnumRunUnitType runtype = rununitNone) : m_strName(pName)
-	{
-		if (!_CppUnit_IsDebugMode())
-			_CppUnit_InitEnv();
-		_CppUnit_Initialize(runtype);
-		_CppUnit_FilterCase(_CppUnit_GetModuleName(), NULL, NULL);
-	}
-	~TestApp_ByName()
-	{
-		try
-		{
-			_CppUnit_RunAllTests_ByName(__argc, __wargv, m_strName);
-		}
-		catch (...)
-		{
-			_CppUnit_Abort();
-		}
-		_CppUnit_Terminate();
-	}
-
-private:
-	std::string m_strName;
 };
 
 // -------------------------------------------------------------------------
@@ -246,12 +172,22 @@ private: /* dummy typedef so that the macro can still end with ';'*/		\
 // CPPUNIT_ASSERT
 
 #define CPPUNIT_ASSERT(condition)											\
+do {																		\
 	if ( !(condition) )														\
 		_CppUnit_Fail(														\
 			"Expression: CPPUNIT_ASSERT(" #condition ");",					\
 			__FILE__,														\
-			__LINE__														\
-			)
+			__LINE__);														\
+} while (0)
+
+#define	CPPUNIT_ASSERT_OK(hr)												\
+do {																		\
+	if ( !(condition) )														\
+		_CppUnit_Fail(														\
+			"Expression: CPPUNIT_ASSERT_OK(" #hr ");",						\
+			__FILE__,														\
+			__LINE__);														\
+} while (0)
 
 // -------------------------------------------------------------------------
 // CPPUNIT_ASSERT_EQUAL
@@ -297,8 +233,8 @@ while (0)
 	static AutoRegisterTestSuite<TestFixtureType>							\
 			TestFixtureType ## AutoRegister__ ## __LINE__
 
-#define CPPUNIT_TEST_SUITE_REGISTRATION_BYNAME(TestFixtureType, SuiteName)			\
-	static AutoRegisterTestSuite_ByName<TestFixtureType>							\
+#define CPPUNIT_TEST_SUITE_REGISTRATION_BYNAME(TestFixtureType, SuiteName)	\
+	static AutoRegisterTestSuite_ByName<TestFixtureType>					\
 		TestFixtureType ## AutoRegister__ ## __LINE__ ## __ByName__(SuiteName)
 
 // -------------------------------------------------------------------------
@@ -319,24 +255,6 @@ while (0)
 
 // -------------------------------------------------------------------------
 // $Log: basic.h,v $
-// Revision 1.24  2007/05/22 07:35:08  xuehua
-// *** empty log message ***
-//
-// Revision 1.23  2006/04/18 05:42:56  xulingjiao
-// 修复25796号BUG
-//
-// Revision 1.22  2005/12/06 02:31:46  xushiwei
-// 引入<kfc/osllite.h>，将常见的os相关代码纳入。
-//
-// Revision 1.21  2005/12/05 05:48:24  xushiwei
-// 为kfclite.h提供一个lite版的debug。不使用调试策略（X_NO_DEBUG_STRATEGY）。
-//
-// Revision 1.20  2005/03/25 03:12:36  xushiwei
-// 让cppunit不依赖kfc照样工作。
-//
-// Revision 1.19  2005/03/24 09:57:34  xushiwei
-// 引入新的通用开关: /ndebug。参考_CppUnit_IsDebugMode。
-//
 // Revision 1.18  2005/03/15 03:34:26  xushiwei
 // 1、_CppUnit_RunAllTests - 增加/run:<testclass>.<testmethod>参数支持。
 // 2、_CppUnit_FilterCase - 支持修改部分Filter参数。

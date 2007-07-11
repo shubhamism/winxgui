@@ -12,18 +12,9 @@
 
 using namespace CPPUNIT_NS;
 
-// -------------------------------------------------------------------------
+BOOL _g_isDebugMode;
 
-STDAPI_(void) _CppUnit_ThrowException(
-							 IN LPCSTR szShortDescription,
-							 IN LPCSTR szDetailMsg,
-							 IN LPCSTR szFile,
-							 IN int nLine)
-{
-	throw Exception(
-		Message(szShortDescription, szDetailMsg),
-		SourceLine(szFile, nLine));
-}
+// -------------------------------------------------------------------------
 
 STDAPI_(void) _CppUnit_Fail(
 					const char* message, 
@@ -60,6 +51,4 @@ STDAPI_(void) _CppUnit_FailNotEqual_1(
 
 // -------------------------------------------------------------------------
 // $Log: assert.cpp,v $
-// Revision 1.3  2005/03/25 03:31:00  xushiwei
-// 增加_CppUnit_ThrowException。以便让kfc的调试模块dbgcons.dll可以调用。
 //
