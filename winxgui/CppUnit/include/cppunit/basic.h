@@ -79,9 +79,35 @@ private:
 };
 
 // -------------------------------------------------------------------------
+// _CppUnit_GetModuleHandleEx
+
+inline HMODULE _CppUnit_GetModuleHandleEx(LPCVOID lpAddress)
+{
+	MEMORY_BASIC_INFORMATION mInfo;
+	VirtualQuery(lpAddress, &mInfo, sizeof(mInfo));
+	return (HMODULE)mInfo.AllocationBase;
+}
+
+// -------------------------------------------------------------------------
+// _CppUnit_GetModuleName
+
+inline VOID _DummyFunction() {}
+
+inline LPCWSTR _CppUnit_GetModuleName()
+{
+	static WCHAR szModule[_MAX_PATH];
+	static int cch = GetModuleFileNameW(
+		_CppUnit_GetModuleHandleEx((void*)_DummyFunction), szModule, _MAX_PATH);
+	return szModule;
+}
+
+// -------------------------------------------------------------------------
+// _CppUnit_Abort
 
 #define _CppUnit_Abort()			0
-#define _CppUnit_GetModuleName()	0
+
+// -------------------------------------------------------------------------
+// class TestApp
 
 class TestApp
 {
