@@ -15,8 +15,7 @@
 #include <cppunit/TestResult.h>
 
 #include <fstream>
-#include <kfc/base.h>
-#include <stl/algorithm.h>
+#include <algorithm>
 
 #define rununitNone 0
 
