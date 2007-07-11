@@ -12,3 +12,4 @@
 #endif
 
 SIMPLE_API int DoubleOf(int n);
+SIMPLE_API int DoubleOf2(int n);
