@@ -91,7 +91,7 @@ public:
 	{
 		try
 		{
-			_CppUnit_RunAllTests_ByName(__argc, __wargv, m_name);
+			_CppUnit_RunTests_ByName(__argc, __wargv, m_name);
 		}
 		catch (...)
 		{

@@ -101,7 +101,7 @@ STDAPI _CppUnit_RunAllTests(
 							IN WCHAR** argv
 							);
 
-STDAPI _CppUnit_RunAllTests_ByName(
+STDAPI _CppUnit_RunTests_ByName(
 							IN int argc,
 							IN WCHAR** argv,
 							IN LPCSTR strName);

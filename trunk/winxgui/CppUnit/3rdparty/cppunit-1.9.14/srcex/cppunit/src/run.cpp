@@ -107,7 +107,7 @@ EXPORTAPI_(void) _CppUnit_TestRunnerError(IN LPCSTR message)
 	// TestRunner在cppunit.dll中，我们选择了TextUi::TestRunner，该类通过std::cout输出信息。
 }
 
-EXPORTAPI _CppUnit_RunAllTests_ByName(
+EXPORTAPI _CppUnit_RunTests_ByName(
 							   IN int argc,
 							   IN WCHAR** wargv,
 							   IN LPCSTR strName)
@@ -218,7 +218,7 @@ EXPORTAPI _CppUnit_RunAllTests(
 							   IN WCHAR** wargv
 							   )
 {
-	return _CppUnit_RunAllTests_ByName(argc, wargv, "All Tests");
+	return _CppUnit_RunTests_ByName(argc, wargv, "All Tests");
 }
 
 // -------------------------------------------------------------------------
