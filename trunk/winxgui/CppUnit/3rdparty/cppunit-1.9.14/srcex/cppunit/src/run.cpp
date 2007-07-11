@@ -81,7 +81,7 @@ const WCHAR _g_outputsw[] = { 'o', 'u', 't', 'p', 'u', 't', ':' };
 const WCHAR _g_runsw[] = { 'r', 'u', 'n', ':' };
 const WCHAR _g_ndebugsw[] = { 'n', 'd', 'e', 'b', 'u', 'g', '\0' };
 
-extern BOOL _g_isDebugMode;
+BOOL _g_isDebugMode;
 
 #ifndef CPPUNIT_NOFILTER_MODULE
 #define CPPUNIT_NOFILTER_MODULE			((LPCWSTR)1)
@@ -94,6 +94,18 @@ STDAPI_(void) _CppUnit_FilterCase(
 								  IN LPCSTR szTestClass,
 								  IN LPCSTR szTestMethod
 								  );
+
+EXPORTAPI_(BOOL) _CppUnit_IsDebugMode()
+{
+	return _g_isDebugMode;
+}
+
+EXPORTAPI_(void) _CppUnit_TestRunnerError(IN LPCSTR message)
+{
+	puts(message);
+	// TestRunner的输出是由Runner自己决定的，而与Outputter无关。
+	// TestRunner在cppunit.dll中，我们选择了TextUi::TestRunner，该类通过std::cout输出信息。
+}
 
 EXPORTAPI _CppUnit_RunAllTests_ByName(
 							   IN int argc,
@@ -126,7 +138,7 @@ EXPORTAPI _CppUnit_RunAllTests_ByName(
 					if (pszTestMethod)
 						*pszTestMethod++ = '\0';
 				}
-				else if (wcsicmp(__wargv[i]+1, _g_ndebugsw) == 0)
+				else if (wcsicmp(wargv[i]+1, _g_ndebugsw) == 0)
 				{
 					_g_isDebugMode = FALSE;
 				}
@@ -143,8 +155,8 @@ EXPORTAPI _CppUnit_RunAllTests_ByName(
 	// 创建案例
 	if (strName == NULL)
 		strName = "All Tests";
-	CPPUNIT_NS::Test *suite = 
-		CPPUNIT_NS::TestFactoryRegistry::getRegistry(strName).makeTest();
+	CPPUNIT_NS::Test* suite = CPPUNIT_NS::TestFactoryRegistry::getRegistry(strName).makeTest();
+
 	CPPUNIT_NS::TextUi::TestRunner runner;
 	runner.addTest( suite );
 	

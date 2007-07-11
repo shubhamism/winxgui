@@ -23,3 +23,5 @@ EXPORTS
 	_CppUnit_RegisterFactory_ByName
 	_CppUnit_UnregisterFactory_ByName
 	_CppUnit_RunAllTests_ByName
+	_CppUnit_TestRunnerError
+	_CppUnit_IsDebugMode
