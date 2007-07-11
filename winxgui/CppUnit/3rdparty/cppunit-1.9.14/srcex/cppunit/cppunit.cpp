@@ -8,7 +8,7 @@
 // _CppUnit_BreakAlloc
 
 #if defined(_DEBUG)
-#pragma linklib("cppunitd")
+#pragma comment(lib, "cppunitd")
 
 #include <crtdbg.h>
 
@@ -18,7 +18,7 @@ EXPORTAPI_(UINT) _CppUnit_BreakAlloc(UINT nAllocBreak)
 }
 
 #else
-#pragma linklib("cppunit")
+#pragma comment(lib, "cppunit")
 
 EXPORTAPI_(UINT) _CppUnit_BreakAlloc(UINT nAllocBreak)
 {

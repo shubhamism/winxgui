@@ -14,7 +14,17 @@
 // Insert your headers here
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
-#include <kfc/stddef.h>
+#include <windows.h>
+#include <atlbase.h>
+
+#ifndef EXPORTAPI_
+#define EXPORTAPI			STDAPI
+#define EXPORTAPI_(Type)	STDAPI_(Type)
+#endif
+
+#ifndef countof
+#define countof(array)		(sizeof(array) / sizeof(*array))
+#endif
 
 // TODO: reference additional headers your program requires here
 
