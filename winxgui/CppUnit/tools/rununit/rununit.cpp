@@ -72,6 +72,7 @@ int wmain(int argc, const wchar_t* argv[])
 	}
 	if (fPause)
 	{
+		printf("\nPress ENTER key to continue...");
 		getchar();
 	}
 	return 0;

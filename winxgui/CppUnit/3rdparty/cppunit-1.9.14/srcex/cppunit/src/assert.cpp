@@ -12,8 +12,6 @@
 
 using namespace CPPUNIT_NS;
 
-BOOL _g_isDebugMode;
-
 // -------------------------------------------------------------------------
 
 STDAPI_(void) _CppUnit_Fail(

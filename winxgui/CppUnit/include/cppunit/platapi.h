@@ -106,6 +106,10 @@ STDAPI _CppUnit_RunAllTests_ByName(
 							IN WCHAR** argv,
 							IN LPCSTR strName);
 
+STDAPI_(BOOL) _CppUnit_IsDebugMode();
+
+STDAPI_(void) _CppUnit_TestRunnerError(IN LPCSTR message);
+
 STDAPI_(void) _CppUnit_Terminate();
 
 STDAPI_(void) _CppUnit_CreateTestSuiteBuilderContext(
