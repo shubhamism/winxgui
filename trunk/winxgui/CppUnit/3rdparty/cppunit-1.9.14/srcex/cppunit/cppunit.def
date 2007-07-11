@@ -12,7 +12,6 @@ EXPORTS
 	_CppUnit_RegisterFactory1
 	_CppUnit_UnregisterFactory
 	_CppUnit_UnregisterFactory1
-	_CppUnit_ThrowException
 	_CppUnit_Fail
 	_CppUnit_FailNotEqual
 	_CppUnit_FailNotEqual_1

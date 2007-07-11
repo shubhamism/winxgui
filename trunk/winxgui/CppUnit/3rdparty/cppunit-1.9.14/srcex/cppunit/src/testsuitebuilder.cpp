@@ -121,10 +121,11 @@ STDAPI_(void) _CppUnit_SuiteEx(
 							   TestSuite** ppv
 							   )
 {
-	wcslwr((WCHAR*)szModuleName);
+	if (szModuleName)
+		wcslwr((WCHAR*)szModuleName);
 	if (
-		(_g_szFilterModuleName != NULL && wcsstr(szModuleName, _g_szFilterModuleName) == NULL) ||
-		(_g_szFilterTestClass != NULL && strstr(szClassName, _g_szFilterTestClass) == NULL)
+		(_g_szFilterModuleName && szModuleName && wcsstr(szModuleName, _g_szFilterModuleName) == NULL) ||
+		(_g_szFilterTestClass && strstr(szClassName, _g_szFilterTestClass) == NULL)
 		)
 	{
 		*ppv = new TestSuite(szClassName);
@@ -249,14 +250,14 @@ STDAPI_(void) _CppUnit_UnregisterFactory1(
 }
 
 STDAPI_(void) _CppUnit_RegisterFactory_ByName(TestFactory* factory,
-										  const std::string& strName)
+										  LPCSTR strName)
 {
 	TestFactoryRegistry* registry = &TestFactoryRegistry::getRegistry(strName);
 	registry->registerFactory(factory);
 }
 
 STDAPI_(void) _CppUnit_UnregisterFactory_ByName(TestFactory* factory,
-											 const std::string& strName)
+											 LPCSTR strName)
 {
     if ( TestFactoryRegistry::isValid() )
 	{
@@ -267,15 +268,6 @@ STDAPI_(void) _CppUnit_UnregisterFactory_ByName(TestFactory* factory,
 
 // -------------------------------------------------------------------------
 // $Log: testsuitebuilder.cpp,v $
-// Revision 1.9  2007/05/22 07:35:07  xuehua
-// *** empty log message ***
-//
-// Revision 1.8  2006/04/18 05:42:56  xulingjiao
-// 修复25796号BUG
-//
-// Revision 1.7  2005/10/27 02:01:55  xushiwei
-// cppunit增加DebugBreak。
-//
 // Revision 1.6  2005/03/25 03:29:27  xushiwei
 // _CppUnit_FilterCase支持:
 //   CPPUNIT_NOFILTER_MODULE/TESTCLASS/TESTMETHOD参数。

@@ -104,18 +104,16 @@ STDAPI _CppUnit_RunAllTests(
 STDAPI _CppUnit_RunAllTests_ByName(
 							IN int argc,
 							IN WCHAR** argv,
-							IN const std::string& strName);
+							IN LPCSTR strName);
 
 STDAPI_(void) _CppUnit_Terminate();
 
 STDAPI_(void) _CppUnit_CreateTestSuiteBuilderContext(
-													 IN TestSuiteBuilderContextBase* contextBase,
-													 OUT TestSuiteBuilderContextType** ppv
-													 );
+						IN TestSuiteBuilderContextBase* contextBase,
+						OUT TestSuiteBuilderContextType** ppv);
 
 STDAPI_(void) _CppUnit_DeleteTestSuiteBuilderContext(
-													 IN TestSuiteBuilderContextType* context
-													 );
+						IN TestSuiteBuilderContextType* context);
 
 STDAPI _CppUnit_AddTest(
 						IN TestSuiteBuilderContextType* context,
@@ -200,19 +198,15 @@ STDAPI_(void) _CppUnit_UnregisterFactory1(
 										 IN TestFactory* factory
 										 );
 
-STDAPI_(void) _CppUnit_RegisterFactory_ByName(TestFactory* factory,
-										  const std::string& strName);
+STDAPI_(void) _CppUnit_RegisterFactory_ByName(
+										IN TestFactory* factory,
+										IN LPCSTR strName);
 
-STDAPI_(void) _CppUnit_UnregisterFactory_ByName(TestFactory* factory,
-											 const std::string& strName);
+STDAPI_(void) _CppUnit_UnregisterFactory_ByName(
+										IN TestFactory* factory,
+										IN LPCSTR strName);
 
 // -------------------------------------------------------------------------
-
-STDAPI_(void) _CppUnit_ThrowException(
-									  IN LPCSTR szShortDescription,
-									  IN LPCSTR szDetailMsg,
-									  IN LPCSTR szFile,
-									  IN int nLine);
 
 STDAPI_(void) _CppUnit_Fail(
 							IN const char* message, 
@@ -243,14 +237,8 @@ STDAPI_(UINT) _CppUnit_BreakAlloc(UINT nAllocBreak);
 
 // -------------------------------------------------------------------------
 // $Log: platapi.h,v $
-// Revision 1.9  2007/05/22 07:35:09  xuehua
-// *** empty log message ***
-//
 // Revision 1.8  2005/10/27 02:02:46  xushiwei
 // cppunit增加DebugBreak。
-//
-// Revision 1.7  2005/03/25 03:12:36  xushiwei
-// 让cppunit不依赖kfc照样工作。
 //
 // Revision 1.6  2005/03/15 03:34:26  xushiwei
 // 1、_CppUnit_RunAllTests - 增加/run:<testclass>.<testmethod>参数支持。
