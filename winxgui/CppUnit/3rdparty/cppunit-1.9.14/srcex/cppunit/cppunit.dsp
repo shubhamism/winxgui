@@ -110,10 +110,6 @@ SOURCE=.\StdAfx.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\..\include\cppunit\advunit.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\..\include\cppunit\basic.h
 # End Source File
 # Begin Source File

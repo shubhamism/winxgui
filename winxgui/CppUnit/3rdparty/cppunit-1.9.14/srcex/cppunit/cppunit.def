@@ -1,5 +1,4 @@
 EXPORTS
-	_CppUnit_RunAllTests
 	_CppUnit_Initialize
 	_CppUnit_Terminate
 	_CppUnit_CreateTestSuiteBuilderContext
@@ -22,6 +21,7 @@ EXPORTS
 	_CppUnit_BreakAlloc
 	_CppUnit_RegisterFactory_ByName
 	_CppUnit_UnregisterFactory_ByName
-	_CppUnit_RunAllTests_ByName
+	_CppUnit_RunAllTests
+	_CppUnit_RunTests_ByName
 	_CppUnit_TestRunnerError
 	_CppUnit_IsDebugMode
