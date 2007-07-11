@@ -1,7 +1,7 @@
 @set RIF=c:\GreenSoft\RemoveIntermedialFiles.exe
 @set CPY=xcopy /S
 @cd..
-%RIF% lib
+%RIF% examples
 if not exist "release" md "release"
 if not exist "release\cppunit" md "release\cppunit"
 %CPY% bin release\cppunit\bin\
