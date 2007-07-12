@@ -7,7 +7,32 @@
 #include <direct.h>
 
 //
-// rununit.exe testcase[.dll] [testclass] [testmethod] [/ndebug] [/pause] [/output:<xmlfile>]
+// === command line ===
+//
+//	rununit.exe TestCases[.dll] [TestCaseClass] [testMethod]
+//		TestCases.dll - A dll with some TestCases.
+//		TestCaseClass - Specify which TestCaseClass to be tested. 
+//						If not specified, all test cases within the TestCases.dll will be tested.
+//		testMethod - Specify which testMethod to be tested.
+//					 If not specified, all test methods within TestCaseClass will be tested.
+//	
+// === switch ===
+//
+//	/ndebug - Specify to run test cases in non-debug mode. 
+//		In default condition, rununit.exe is running in debug mode, not in auto test scripts.
+//		In debug mode, if some test cases are failed, AssertDialogs will be shown to indicate 
+//		the errors.	But you can specify switch /ndebug to run in non-debug mode. In this case,
+//		All the user interfaces with interaction, AssertDialogs for example, will be omitted.
+//		As substitute, some error information will be printed to console(stderr), or to an
+//		logfile with XML format.
+//
+//	/output:<xmlfile> - Specify to print error information to an XML logfile. If the xmlfile
+//		exists, the orginal content error information will be appended to the end of file.
+//		In default condition, rununit.exe prints error information to console(stderr) in 
+//		non-debug mode. But you can specify switch /output:<xmlfile> to redirect.
+//		Note: there are no whitespaces between '/output:' and the xml file name.
+//
+//	/pause - Pause when rununit.exe have run all test cases, and wait the user press ENTER key.
 //
 int wmain(int argc, const wchar_t* argv[])
 {
