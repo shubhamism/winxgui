@@ -1,6 +1,0 @@
-1>------ Build started: Project: Swc, Configuration: Debug Win32 ------
-1>Compiling...
-1>CWinDock.cpp
-1>Build log was saved at "file://c:\Users\fco\Documents\Informacion\prog\Swc\Debug\BuildLog.htm"
-1>Swc - 0 error(s), 0 warning(s)
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
