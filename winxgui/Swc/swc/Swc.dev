@@ -1,0 +1,104 @@
+[Project]
+FileName=E:\MyProjects\Swc\Swc.dev
+Name=Swc
+Ver=1
+IsCpp=1
+Type=2
+Compiler=-D__GNUWIN32__ -W -DWIN32 -DNDEBUG -D_MBCS -D_LIB 
+CppCompiler=-D__GNUWIN32__ -W -DWIN32 -DNDEBUG -D_MBCS -D_LIB 
+Includes=
+Linker=
+Libs=
+UnitCount=13
+Folders="Source Files","Header Files"
+[Unit1]
+FileName=./CMenuSpawn.cpp
+Folder="Source Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit2]
+FileName=./StdAfx.cpp
+Folder="Source Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit3]
+FileName=./CApp.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit4]
+FileName=./CCommonCtrl.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit5]
+FileName=./CDialogControls.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit6]
+FileName=./CFrame.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit7]
+FileName=./CGdi.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit8]
+FileName=./CMacrodefine.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit9]
+FileName=./CMenuSpawn.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit10]
+FileName=./CWin.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit11]
+FileName=./StdAfx.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit12]
+FileName=./Swc.h
+Folder="Header Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+[Unit13]
+FileName=./Readme.txt
+Folder=
+Compile=0
+CompileCpp=0
+Link=0
+Priority=1000

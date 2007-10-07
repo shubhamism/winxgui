@@ -1,0 +1,437 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_WINCLASS            ICON                    "WinClass.ICO"
+IDI_SMALL               ICON                    "SMALL.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDC_BASEMENU MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open\tCtrl+O",               ID_FILE_OPEN
+        MENUITEM "&Save ",                      ID_FILE_SAVE
+        MENUITEM SEPARATOR
+        MENUITEM "&Exit",                       IDM_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Toolbars"
+        BEGIN
+            MENUITEM "&Main Toolbar",               ID_TOOLBAR
+            MENUITEM "&Compile Toolbar",            32812
+        END
+        MENUITEM "&Status Bar",                 ID_VIEWSTATUSBAR
+        MENUITEM SEPARATOR
+        MENUITEM "&ResourceView",               ID_VIEWRESOURCEVIEW
+        MENUITEM "Help &Window",                ID_VIEWHELPWINDOW
+        MENUITEM "T&oolBox",                    ID_VIEWTOOLBOX
+        MENUITEM "&Class View",                 ID_VIEWCLASSVIEW
+        MENUITEM "O&utlook Window",             ID_VIEW_OUTLOOKWINDOW
+        MENUITEM "Solution &Explorer",          ID_VIEW_SOLUTIONEXPLORER
+        MENUITEM "Wortab Demo",                 ID_VIEW_WORTABDEMO
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "&Macro...",                   ID_VIEWHELPWINDOW
+        MENUITEM "&Options...",                 32856
+        MENUITEM "&Options...",                 32856
+        MENUITEM "<User defined tools>",        ID_VIEW_OUTLOOKWINDOW
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About ...",                  IDM_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_WINCLASS ACCELERATORS 
+BEGIN
+    "?",            IDM_ABOUT,              ASCII,  ALT
+    "/",            IDM_ABOUT,              ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 22, 17, 232, 105
+STYLE DS_SETFONT | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,181,86,50,17,WS_GROUP
+    LTEXT           "DevStudio",IDC_STATIC,15,9,67,10
+    LTEXT           "Pretty WinApi Class version 1.0 \nTodos los derechos reservados Francisco Campos",IDC_STATIC,14,23,154,80
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""resource.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_STANDAR TOOLBAR  18, 16
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    BUTTON      ID_SAVE_ALL
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    SEPARATOR
+    BUTTON      ID_EDIT_PASTE
+    BUTTON      ID_COMBOBOX
+    BUTTON      ID_EDIT_UNDO
+    BUTTON      ID_EDIT_REDO
+    BUTTON      ID_NAVIGATE
+    BUTTON      ID_EDIT_FIND
+END
+
+IDR_EDITTOOLBAR TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_BOTONNEGRO
+    SEPARATOR
+    BUTTON      ID_BOTONROJO
+    BUTTON      ID_BUTTON32785
+    BUTTON      ID_BUTTON32786
+    SEPARATOR
+    BUTTON      ID_BUTTON32787
+    BUTTON      ID_BUTTON32788
+    BUTTON      ID_TOOLBAR
+    BUTTON      ID_BUTTON32790
+END
+
+IDR_BUILD TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_BUILPROJECT
+    BUTTON      ID_COMPILE
+    BUTTON      ID_BUILPROJECT
+    BUTTON      ID_CANCEL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_STANDAR             BITMAP                  "toolbar1.bmp"
+IDR_EDITTOOLBAR         BITMAP                  "toolbar_.bmp"
+IDR_BUILD               BITMAP                  "toolbar2.bmp"
+IDB_OUTLOOK             BITMAP                  "bitmap1.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        RIGHTMARGIN, 231
+        BOTTOMMARGIN, 103
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "New\nNew Project"
+    ID_FILE_OPEN            "Open\nOpen Project"
+    ID_FILE_SAVE            "Save an existing document\nSave"
+    ID_EDIT_CUT             "Cut\nCut"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_BASEMENU            "PwcStudio"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_SAVE_ALL             "Save All\nSave all documents"
+    ID_BUILPROJECT          "Build\nBuild project"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_COPY            "Copy\nCopy"
+    ID_EDIT_FIND            "Find\nFind"
+    ID_EDIT_PASTE           "Paste\nPaste"
+    ID_EDIT_UNDO            "Undo\nUndo"
+    ID_EDIT_REDO            "Redo\nRedo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NAVIGATE             "Navigate\nNavigate"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_COMPILE              "Compile\nCompile file"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_CANCEL               "Cancel\nCancel"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Spanish resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESN)
+#ifdef _WIN32
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_GUI_DOCKBAR         BITMAP                  "gui_dock.bmp"
+#endif    // Spanish resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Spanish (Colombia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESO)
+#ifdef _WIN32
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_COLOMBIA
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MENUHELLO           ICON                    "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENUHELLO MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           32810
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       IDM_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_CUT
+        MENUITEM "&Redo",                       ID_EDIT_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "&Find...",                    ID_EDIT_FIND
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Toolbars"
+        BEGIN
+            MENUITEM "&Main Toolbar",               ID_TOOLBAR
+            MENUITEM "&Compile Toolbar",            32812
+        END
+        MENUITEM "&Status Bar",                 ID_VIEWSTATUSBAR
+        MENUITEM SEPARATOR
+        MENUITEM "&ResourceView",               ID_VIEWRESOURCEVIEW
+        MENUITEM "Help &Window",                ID_VIEWSHELPWINDOW
+        MENUITEM "T&oolBox",                    ID_VIEWTOOLBOX
+        MENUITEM "&Class View",                 ID_VIEWCLASSVIEW
+        MENUITEM "O&utlook Window",             ID_VIEW_OUTLOOKWINDOW
+        MENUITEM "Solution &Explorer",          ID_VIEW_SOLUTIONEXPLORER
+        MENUITEM "Wortab Demo",                 ID_VIEW_WORTABDEMO
+    END
+    POPUP "&Build"
+    BEGIN
+        MENUITEM "&Compile",                    ID_COMPILE
+        MENUITEM "&Build",                      ID_DUMMY_BUILD
+        MENUITEM "Rebuild &All",                ID_DUMMY_REBUILD_ALL
+        MENUITEM "&Clean",                      32799
+        MENUITEM SEPARATOR
+        MENUITEM "&Go",                         32791
+        MENUITEM "&Execute",                    32790
+        MENUITEM SEPARATOR
+        MENUITEM "Select Active Configuration", 32794
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "&Macro...",                   32816
+        MENUITEM "&Options...",                 32856
+        MENUITEM "<User defined tools>",        ID_VIEW_OUTLOOKWINDOW
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About DevStudio",            IDM_ABOUT
+    END
+END
+
+IDR_MENUOPTION MENU 
+BEGIN
+    POPUP "Toolbars"
+    BEGIN
+        MENUITEM "&Docking         ",           32787
+        MENUITEM "&Floating",                   32791
+        MENUITEM "&Hide",                       32789
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_MAINTOOLBAR         BITMAP                  "bitmapMAINTOOLBAR.bmp"
+IDB_BUILD               BITMAP                  "bmpbuild.bmp"
+IDB_STANDAR             BITMAP                  "bmpStandar.bmp"
+IDB_TREEEXPLORER        BITMAP                  "BmpTreeExplorer.bmp"
+133                     BITMAP                  "bmpToolbox.bmp"
+IDB_DB                  BITMAP                  "bitmapDB.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CUT             "Cut"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_COPY            "Copy"
+    ID_EDIT_PASTE           "Paste"
+    ID_EDIT_REDO            "Redo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_DUMMY_REBUILD_ALL    "Rebuild All"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_TOOLBAR              "Toolbar\\Show hide"
+END
+
+#endif    // Spanish (Colombia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
