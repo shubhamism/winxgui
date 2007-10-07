@@ -840,7 +840,7 @@ void DockManager::CalSizeWindow()
 				}
 			}
 			
-
+			if(1)
 				for (int i = FirstVisible; i <= LastVisible; i++)
 				{
 					CWin* pWin=((CDockStruct*)m_DockWindows[i])->m_WinDock;
