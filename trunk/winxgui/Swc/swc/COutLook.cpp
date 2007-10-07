@@ -171,13 +171,13 @@ void COutLook::RecalLayout()
 	m_iDrawFrameDown=FALSE;	    //y abajo
 	
 	int m_iNumBotton= m_ArrayButtons.GetSize();
-	for( int iCont=0; iCont< m_iNumBotton;iCont++)
+{	for( int iCont=0; iCont< m_iNumBotton;iCont++)
 	{
 		CItems* cit=(CItems*)m_ArrayButtons[iCont];
 		CSize sz=cit->m_bt.GetSizeButton();
 		iMinRequerido+=sz.cy; //+18;
 	}
-
+}
 	int iy=5+m_Avance; //a partir de esta posición se comienza a escribir
 	//calculo real del espacio que ocuparan los botones
 	CRect rcMsg;

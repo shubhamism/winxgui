@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I "." /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I "." /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D WINVER=0x0500 /Yu"stdafx.h" /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -49,7 +49,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\lib\swc.lib"
 
 !ELSEIF  "$(CFG)" == "Swc - Win32 Debug"
 
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /Gm /GX /ZI /Od /I "." /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /Gm /GX /ZI /Od /I "." /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D WINVER=0x0500 /Yu"stdafx.h" /FD /GZ /c
 # SUBTRACT CPP /WX /Fr
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
@@ -73,7 +73,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\lib\swcd.lib"
 
 !ENDIF 
 
@@ -86,7 +86,59 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=.\CComboBoxExt.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CContainer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CFolder.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CHeaderCtrl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CMainFrame.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CMainWin.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\CMenuSpawn.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CMMedia.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\COutLook.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CSplitter.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CTabbed.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CToolButton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CWinDock.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CWorkTab.cpp
 # End Source File
 # Begin Source File
 

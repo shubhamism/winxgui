@@ -40,6 +40,15 @@
 	#include <new>
 #endif
 
+#if defined(_MSC_VER) && _MSC_VER > 1200
+#define SUPPORT_PUSH_MACRO
+#endif
+
+#if defined(SUPPORT_PUSH_MACRO)
+#pragma push_macro("new")
+#undef new
+#endif
+
 template<class TYPE, class ARG_TYPE = const TYPE&>
 class NewBValArray 
 {
@@ -311,10 +320,7 @@ NEWB_INT NewBValArray<TYPE, ARG_TYPE>::SetSize(NEWB_INT nNewSize, NEWB_INT nGrow
 		//  [3/15/2002]
 		//  Call placement new to "construct" elements
 		for(i = 0; i < nNewSize; i++ )
-#pragma push_macro("new")
-#undef new
 			::new( (NEWB_VOID*)( m_pData + i ) ) TYPE;
-#pragma pop_macro("new")
 
 		m_nSize = nNewSize;
 		m_nMaxSize = nAllocSize;
@@ -329,11 +335,7 @@ NEWB_INT NewBValArray<TYPE, ARG_TYPE>::SetSize(NEWB_INT nNewSize, NEWB_INT nGrow
 			memset((NEWB_VOID*)(m_pData + m_nSize), 0, (size_t)(nNewSize-m_nSize) * sizeof(TYPE));
 
 			for(i = 0; i < nNewSize-m_nSize; i++ )
-#pragma push_macro("new")
-#undef new
 				::new( (NEWB_VOID*)( m_pData + m_nSize + i ) ) (TYPE);
-#pragma pop_macro("new")
-
 		}
 		else if (m_nSize > nNewSize)
 		{
@@ -384,10 +386,7 @@ NEWB_INT NewBValArray<TYPE, ARG_TYPE>::SetSize(NEWB_INT nNewSize, NEWB_INT nGrow
 		memset((NEWB_VOID*)(pNewData + m_nSize), 0, (size_t)(nNewSize-m_nSize) * sizeof(TYPE));
 
 		for( int i = 0; i < nNewSize-m_nSize; i++ )
-#pragma push_macro("new")
-#undef new
 			::new( (NEWB_VOID*)( pNewData + m_nSize + i ) ) TYPE;
-#pragma pop_macro("new")
 
 		// get rid of old stuff (note: no destructors called)
 		delete[] (NEWB_BYTE*)m_pData;
@@ -456,10 +455,7 @@ NEWB_VOID NewBValArray<TYPE, ARG_TYPE>::SetAtGrow(NEWB_INT nIndex, ARG_TYPE newE
 	if (nIndex >= m_nMaxSize)
 		SetSize(nIndex+1, -1); // Need to grow. Bad!!!!
 
-#pragma push_macro("new")
-#undef new
 	::new( (NEWB_VOID*)( m_pData + nIndex ) ) TYPE;
-#pragma pop_macro("new")
 
 	m_pData[nIndex] = newElement;
 }
@@ -498,10 +494,7 @@ NEWB_VOID NewBValArray<TYPE, ARG_TYPE>::InsertAt(NEWB_INT nIndex, ARG_TYPE newEl
 		memset((NEWB_VOID*)(m_pData + nIndex), 0, (size_t)nCount * sizeof(TYPE));
 
 		for( i = 0; i < nCount; i++ )
-#pragma push_macro("new")
-#undef new
 			::new( (NEWB_VOID*)( m_pData + nIndex + i ) ) TYPE;
-#pragma pop_macro("new")
 	}
 
 	// insert new value in the gap
@@ -547,5 +540,9 @@ NEWB_VOID NewBValArray<TYPE, ARG_TYPE>::InsertAt(NEWB_INT nStartIndex, NewBValAr
 			SetAt(nStartIndex + i, pNewArray->GetAt(i));
 	}
 }
+
+#if defined(SUPPORT_PUSH_MACRO)
+#pragma pop_macro("new")
+#endif
 
 #endif __NEWB_VAL_ARRAY_H__
