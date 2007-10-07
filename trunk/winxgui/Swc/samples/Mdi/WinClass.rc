@@ -1,0 +1,295 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_WINCLASS            ICON                    "WinClass.ICO"
+IDI_SMALL               ICON                    "SMALL.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDC_WINCLASS MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open\tCtrl+O",               ID_FILE_OPEN
+        MENUITEM "&Save ",                      ID_FILE_SAVE
+        MENUITEM SEPARATOR
+        MENUITEM "&Exit",                       IDM_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Cut",                        ID_EDIT_CUT
+        MENUITEM "&ToolBar",                    ID_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_STATUSBAR
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About ...",                  IDM_ABOUT
+    END
+END
+
+IDR_MENUHELLO MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        POPUP "&Open...\tCtrl+O"
+        BEGIN
+            MENUITEM "Open1",                       IDM_OPEN1
+            MENUITEM "&Open2",                      IDM_OPEN2
+        END
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save",                       ID_FILE_SAVE
+        MENUITEM SEPARATOR
+        MENUITEM "&Exit",                       IDM_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&ToolBar",                    ID_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_STATUSBAR, GRAYED
+        MENUITEM "Cut",                         ID_EDIT_CUT
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&New Window",                 ID_BOTONROJO
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About ...",                  IDM_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_WINCLASS ACCELERATORS 
+BEGIN
+    "?",            IDM_ABOUT,              ASCII,  ALT
+    "/",            IDM_ABOUT,              ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG  22, 17, 211, 76
+STYLE DS_SETFONT | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,156,56,50,17,WS_GROUP
+    LTEXT           "Simple MDI test",IDC_STATIC,15,19,67,10
+    EDITTEXT        IDC_EDIT,87,16,111,13,ES_AUTOHSCROLL
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""resource.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_TOOLBAR TOOLBAR  18, 16
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+END
+
+IDR_TOOLBAR1 TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_BOTONNEGRO
+    SEPARATOR
+    BUTTON      ID_BOTONROJO
+    BUTTON      ID_BUTTON32785
+    BUTTON      ID_BUTTON32786
+    SEPARATOR
+    BUTTON      ID_BUTTON32787
+    BUTTON      ID_BUTTON32788
+    BUTTON      ID_TOOLBAR
+    BUTTON      ID_BUTTON32790
+END
+
+IDR_SYSTEMBAR TOOLBAR  16, 15
+BEGIN
+    BUTTON      61728
+    BUTTON      61472
+    BUTTON      61488
+    BUTTON      61536
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_TOOLBAR             BITMAP                  "toolbar1.bmp"
+IDR_TOOLBAR1            BITMAP                  "toolbar_.bmp"
+IDR_SYSTEMBAR           BITMAP                  "toolbar2.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        RIGHTMARGIN, 210
+        BOTTOMMARGIN, 74
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_APP_TITLE           "SWC MDI"
+    IDS_HELLO               "Hello World!"
+    IDC_WINCLASS            "SWC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_MENU_NEW             "New\nNew"
+    ID_FILE_NEW             "Crea un nuevo documento\nNuevo"
+    ID_FILE_OPEN            "Abre un documento ya existente\nAbrir"
+    ID_FILE_SAVE            "Guarda el documento activo\nGuardar"
+    ID_EDIT_CUT             "Cut\nCut"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Spanish (Colombia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESO)
+#ifdef _WIN32
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_COLOMBIA
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MENUHELLO           ICON                    "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDr_BITMAP1             BITMAP                  "bitmap1.bmp"
+IDB_TOOLBAR             BITMAP                  "bmp00001.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RS
+//
+
+IDR_RS1                 RS                      "Pretty.manifest"
+#endif    // Spanish (Colombia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

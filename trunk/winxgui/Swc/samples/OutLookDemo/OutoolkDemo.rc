@@ -1,0 +1,258 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_OUTOOLKDEMO         ICON                    "OutoolkDemo.ICO"
+IDI_SMALL               ICON                    "SMALL.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDC_OUTOOLKDEMO MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        POPUP "&New"
+        BEGIN
+            MENUITEM "&Mail Message...",            ID_FILE_NEW
+            MENUITEM "Fa&x Message...",             32778
+            MENUITEM "&Post in this Folder...",     32779
+            MENUITEM SEPARATOR
+            MENUITEM "&Folder...",                  32780
+            MENUITEM "Outlook Bar Shortcut...",     32781
+            MENUITEM SEPARATOR
+            MENUITEM "&Appoinment...",              32782
+            MENUITEM "Meeting Re&quest....",        32783
+            MENUITEM "&Contract...",                32784
+            MENUITEM "&Distribution List...",       32785
+            MENUITEM "&Task...",                    32786
+            MENUITEM "Task &Request...",            32787
+            MENUITEM "&Journal Entry...",           32788
+            MENUITEM "&Note...",                    32789
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "S&end",                       32790
+        MENUITEM SEPARATOR
+        MENUITEM "Pr&operties...",              32800
+        MENUITEM SEPARATOR
+        MENUITEM "&Close",                      32801
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo",                       32802
+        MENUITEM "&Redo",                       32803
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t",                        32804
+        MENUITEM "&Copy",                       32805
+        MENUITEM "&Paste",                      32806
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "&Spelling...",                32807
+        MENUITEM "Chec&k Names...",             32808
+        MENUITEM "&Address Book...",            32809
+        MENUITEM "&<User-defined tools",        32810
+        MENUITEM SEPARATOR
+        MENUITEM "&Customize...",               32811
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About ...",                  IDM_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_OUTOOLKDEMO ACCELERATORS 
+BEGIN
+    "?",            IDM_ABOUT,              ASCII,  ALT
+    "/",            IDM_ABOUT,              ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG  22, 17, 230, 75
+STYLE DS_SETFONT | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "System"
+BEGIN
+    ICON            IDI_OUTOOLKDEMO,IDC_MYICON,14,9,16,16
+    LTEXT           "OutoolkDemo Version 1.0",IDC_STATIC,49,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2003",IDC_STATIC,49,20,119,8
+    DEFPUSHBUTTON   "OK",IDOK,195,6,30,11,WS_GROUP
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""resource.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP1             BITMAP                  "bitmap1.bmp"
+IDR_TOOLBAR             BITMAP                  "toolbar1.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_TOOLBAR TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    SEPARATOR
+    BUTTON      ID_FILE_PRINTER
+    SEPARATOR
+    BUTTON      ID_FIND
+    BUTTON      ID_ADDRESBOOK
+    BUTTON      ID_COMBOBOX
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_APP_TITLE           "OutoolkDemo"
+    IDS_HELLO               "Hello World!"
+    IDC_OUTOOLKDEMO         "OutlookDemo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "New Mail Message\nNew"
+    ID_FILE_PRINTER         "Print the active document\nPrint"
+    ID_FIND                 "Find\nFind"
+    ID_APP_ABOUT            "Address Book\nAddress Book"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ADDRESBOOK           "Address Book\nAddress Book"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Spanish resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESN)
+#ifdef _WIN32
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_GUI_DOCKBAR         BITMAP                  "gui_dock.bmp"
+#endif    // Spanish resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Spanish (Colombia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESO)
+#ifdef _WIN32
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_COLOMBIA
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_TOOLBOX             BITMAP                  "Toolbox.bmp"
+IDB_TREE                BITMAP                  "DB.bmp"
+IDB_TOOLBAR             BITMAP                  "bitmap2.bmp"
+#endif    // Spanish (Colombia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
