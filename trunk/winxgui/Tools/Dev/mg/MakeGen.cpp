@@ -70,7 +70,9 @@ STDMETHODIMP GetSection(LPTSTR szLine, FILE* fpList, KHandlerParam* pParam)
 			if (StrCmpI(g_hndrs[i].szSection, token) == 0)
 			{
 				pParam->fnHandler = g_hndrs[i].fnHandler;
-				pParam->szSecParam = strdup(_tcstok(NULL, g_szSectSeps)); //@@todo: memory leak
+				pParam->szSecParam = _tcstok(NULL, g_szSectSeps);
+                if (pParam->szSecParam)
+                   pParam->szSecParam = strdup(pParam->szSecParam); //@@todo: memory leak
 				//{{ by tsingbo ---> tools_mg_bugfix(1) sols-printf
 				TRACE("------------ %s : %s ----------\n", 
 						token, pParam->szSecParam ? pParam->szSecParam : "(null)");
