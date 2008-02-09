@@ -1,0 +1,59 @@
+<html>
+<body>
+<pre>功能：
+	mg程序用于将.prj文件转换为Linux标准的Makefile文件。
+	其中.prj文件格式是我们推荐的Linux平台工程文件。
+	关于.prj文件格式的介绍，参考<a href="prjmanual.htm">V6工程配置手册</a>。
+	Makefile文件格式，参考make程序相关的文档，各种Linux使用手册有比较详细的介绍。
+	
+命令行：
+
+mg [-n] [prjfile][.prj] [Makefile][.mak] [Config]
+
+
+开关说明：
+
+-n:
+	不检测文件的依赖关系。
+	
+	在默认情况下，我们会检测文件的依赖关系。
+	例如，某个.cpp文件包含一个.h文件，则在该.h文件发生变化后，我们会编译包含该文件的所有.cpp文件。
+	如果指定了-n，则不检测这种依赖关系。
+
+
+参数说明：
+
+prjfile:
+	要转换的源文件。如果没有指定后缀，会自动加上合适的后缀。
+	
+	在linux平台下，会先检测是否存在prjfile.prj.li这样的文件；
+	如果没有找到prjfile.prj.li，则检测是否存在prjfile.prj。
+	
+	另外，prjfile也可以不指定。
+	如果没有指明prjfile，则尝试取prjfile与当前目录同名。eg:
+		如果在/home/xsw/v6/kfc/目录下输入mg，则prjfile=kfc
+	也就是说，mg程序会先检测是否存在/home/xsw/v6/kfc/kfc.prj.li，
+	如果没有，再检测是否存在/home/xsw/v6/kfc/kfc.prj。
+
+Makefile:
+	要转换的目标文件。如果没有指定后缀，会自动加上.mak后缀。
+
+	Makefile参数也可以不指定。此时取与prjfile文件同名的一个.mak文件。例如：
+	如果prj文件为：/home/xsw/v6/kfc/kfc.prj，则.mak文件为：
+		/home/xsw/v6/kfc/kfc.mak
+	如果prj文件为：/home/xsw/v6/kfc/kfc.prj.li，则.mak文件为：
+		/home/xsw/v6/kfc/kfc.prj.mak
+
+Config:
+	要转换的配置。如果没有指定，则生成的Makefile中包含所有配置。并且默认配置为Release版本。
+	如果指定了一个特定的配置，则生成的Makefile中仅仅包含该配置。
+	例如，你要生成只支持Debug版本编译的Makefile，则输入：
+		mg kfc.prj kfc.mak Debug
+		
+相关程序：
+	<a href="mk.htm">mk程序</a>
+	<a href="mks.htm">mks程序</a>
+	
+</pre>
+</body>
+</html>

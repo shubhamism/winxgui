@@ -1,0 +1,210 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>WPS 2002 文件</title>
+<style>
+<!--
+h1           { font-family: Times New Roman }
+h3           { font-family: Times New Roman }
+p            { font-family: Times New Roman; text-align:justify }
+li           { font-family: Times New Roman; text-align:justify }
+td           { font-family: Times New Roman; text-align:justify }
+-->
+</style>
+</head>
+
+<body>
+
+<h3>WPS 2002 文件</h3>
+
+<h1 align="center">文字属性（Control Code）保存格式与过程 (2)</h1>
+
+<h3 align="left">各种类型变量的保存方式</h3>
+<p align="center">没有Byte类型的数据。Word, DWord, QWord 的 spra 分别是0、1、2。枚举类型和布尔值统一都用 
+Word 类型。字符串采用变长序列表示，即 spra 为3，后跟一个Word表示长度，不要求有0结尾符。由于字符串统一采用Unicode，不用考虑字对齐的问题。</p>
+<h3 align="left">字符属性</h3>
+<p align="left">字符属性如下表所示：</p>
+<table border="1" cellspacing="1" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="33%">ID</td>
+    <td width="33%">类型</td>
+    <td width="34%">说明</td>
+  </tr>
+  <tr>
+    <td width="33%">CharSet</td>
+    <td width="33%">w</td>
+    <td width="34%">字符集</td>
+  </tr>
+  <tr>
+    <td width="33%">FontNameDefault</td>
+    <td width="33%">str</td>
+    <td width="34%">字体名（字母文字）</td>
+  </tr>
+  <tr>
+    <td width="33%">FontNameFE</td>
+    <td width="33%">str</td>
+    <td width="34%">字体名（远东文字）</td>
+  </tr>
+  <tr>
+    <td width="33%">FontSize</td>
+    <td width="33%">w</td>
+    <td width="34%">字号（单位0.01mm）</td>
+  </tr>
+  <tr>
+    <td width="33%">FontWeight</td>
+    <td width="33%">w</td>
+    <td width="34%">参见LOGFONT</td>
+  </tr>
+  <tr>
+    <td width="33%">FontItalic</td>
+    <td width="33%">w</td>
+    <td width="34%">倾斜（单位0.1<span lang="en">&ordm;</span>）</td>
+  </tr>
+  <tr>
+    <td width="33%">ForeColor</td>
+    <td width="33%">dw</td>
+    <td width="34%">字符颜色</td>
+  </tr>
+  <tr>
+    <td width="33%">UpperLine</td>
+    <td width="33%">LINE</td>
+    <td width="34%">上划线</td>
+  </tr>
+  <tr>
+    <td width="33%">UnderLine</td>
+    <td width="33%">LINE</td>
+    <td width="34%">下划线</td>
+  </tr>
+  <tr>
+    <td width="33%">StrikeOut</td>
+    <td width="33%">LINE</td>
+    <td width="34%">删除线</td>
+  </tr>
+  <tr>
+    <td width="33%">Stress</td>
+    <td width="33%">LINE</td>
+    <td width="34%">着重号</td>
+  </tr>
+  <tr>
+    <td width="33%">SSS</td>
+    <td width="33%">SSS</td>
+    <td width="34%">上标和下标</td>
+  </tr>
+  <tr>
+    <td width="33%">AspectX</td>
+    <td width="33%">w</td>
+    <td width="34%">长宽比（0.01）</td>
+  </tr>
+  <tr>
+    <td width="33%">Tracking</td>
+    <td width="33%">UNIT_VALUE</td>
+    <td width="34%">字符间距</td>
+  </tr>
+  <tr>
+    <td width="33%">HSS</td>
+    <td width="33%">CHARFXHSS</td>
+    <td width="34%">字符特效</td>
+  </tr>
+  <tr>
+    <td width="33%">Visible</td>
+    <td width="33%">b</td>
+    <td width="34%">隐藏文字</td>
+  </tr>
+  <tr>
+    <td width="33%">Revise</td>
+    <td width="33%">REVISE_DATA</td>
+    <td width="34%">修订</td>
+  </tr>
+  <tr>
+    <td width="33%">Border</td>
+    <td width="33%">BORDER</td>
+    <td width="34%">边框</td>
+  </tr>
+  <tr>
+    <td width="33%">Fill</td>
+    <td width="33%">FILL</td>
+    <td width="34%">底纹</td>
+  </tr>
+  <tr>
+    <td width="33%">Hyperlink</td>
+    <td width="33%">HYPERLINK</td>
+    <td width="34%">超级链接</td>
+  </tr>
+  <tr>
+    <td width="33%">BookMark</td>
+    <td width="33%">BOOKMARK</td>
+    <td width="34%">书签</td>
+  </tr>
+</table>
+<h3>段落属性</h3>
+<p>段落属性如下表所示：</p>
+<table border="1" cellspacing="1" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber3">
+  <tr>
+    <td width="33%">ID</td>
+    <td width="33%">类型</td>
+    <td width="34%">说明</td>
+  </tr>
+  <tr>
+    <td width="33%">LeftIndent</td>
+    <td width="33%">UNIT_VALUE</td>
+    <td width="34%">左缩进</td>
+  </tr>
+  <tr>
+    <td width="33%">FirstIndent</td>
+    <td width="33%">UNIT_VALUE</td>
+    <td width="34%">首行缩进</td>
+  </tr>
+  <tr>
+    <td width="33%">RightIndent</td>
+    <td width="33%">UNIT_VALUE</td>
+    <td width="34%">右缩进</td>
+  </tr>
+  <tr>
+    <td width="33%">HAlignment</td>
+    <td width="33%">enum</td>
+    <td width="34%">水平对齐</td>
+  </tr>
+  <tr>
+    <td width="33%">VAlignment</td>
+    <td width="33%">enum</td>
+    <td width="34%">垂直对齐</td>
+  </tr>
+  <tr>
+    <td width="33%">LineHeight</td>
+    <td width="33%">UNIT_VALUE</td>
+    <td width="34%">行高</td>
+  </tr>
+  <tr>
+    <td width="33%">ParaMargin</td>
+    <td width="33%">UNIT_VALUE</td>
+    <td width="34%">段前间距</td>
+  </tr>
+  <tr>
+    <td width="33%">PostParaMargin</td>
+    <td width="33%">UNIT_VALUE</td>
+    <td width="34%">段后间距</td>
+  </tr>
+  <tr>
+    <td width="33%">Tabs</td>
+    <td width="33%">TABS</td>
+    <td width="34%">制表位</td>
+  </tr>
+  <tr>
+    <td width="33%">AutoNumber</td>
+    <td width="33%">AUTONUMBER</td>
+    <td width="34%">自动编号</td>
+  </tr>
+  <tr>
+    <td width="33%">Border</td>
+    <td width="33%">BORDER</td>
+    <td width="34%">段边框</td>
+  </tr>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+[Include]
+../../../include/_backward/kscomm
+
+[Config Release]
+Product		Exe ../../../product/linux/develop/mks
+Options		Release; MultiThread; AnsiChar; NoRtti; Exception
+ObjDir		LRelease
+LibDir		../../../lib/linux
+Libraries	kscomm
+
+[Config Debug]
+Product		Exe ../../../product/linuxd/develop/mks
+Options		Debug; MultiThread; AnsiChar; NoRtti; Exception
+ObjDir		LDebug
+LibDir		../../../lib/linuxd
+Libraries	kscommd
+
+[Source]
+mks.cpp

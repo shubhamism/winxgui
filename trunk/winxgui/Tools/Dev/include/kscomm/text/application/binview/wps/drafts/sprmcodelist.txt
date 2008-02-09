@@ -1,0 +1,102 @@
+// Common Properties
+601	sprm_cc_ForeColor
+
+// Character Properties
+201	sprm_ch_CharSet
+202	sprm_ch_FontNameDef
+203	sprm_ch_FontNameFE
+
+205	sprm_ch_FontSize
+206	sprm_ch_FontWeight
+207	sprm_ch_FontItalic
+
+209	sprm_ch_UpperLine
+20A	sprm_ch_UnderLine
+20B	sprm_ch_StrikeOut
+20C	sprm_ch_Stress
+
+20D	sprm_ch_SSS
+20E	sprm_ch_AspectX
+20F	sprm_ch_Tracking
+210	sprm_ch_HSS
+
+211	sprm_ch_Visible
+212	sprm_ch_Revise
+213	sprm_ch_Border
+214	sprm_ch_Fill
+
+215	sprm_ch_HyperLink
+216	sprm_ch_BookMark
+
+101	sprm_pa_LeftIndent
+102	sprm_pa_FirstIndent
+103	sprm_pa_RightIndent
+
+105	sprm_pa_HorzAlign
+106	sprm_pa_VertAlign
+
+109	sprm_pa_LineHeight
+10A	sprm_pa_ParaMargin
+10B	sprm_pa_PostPMargin
+
+10D	sprm_pa_TabStops
+10E	sprm_pa_AutoNumber
+10F	sprm_pa_Border
+
+// UNIT_VALUE
+610	sprm_uval_Unit
+611	sprm_uval_Value
+
+// LINE
+618	sprm_line_Style
+// 线条颜色即为cc_ForeColor
+
+// FILL / RECT
+620	sprm_cc_PenStyle
+621	sprm_cc_BrushStyle
+// 前景色即为cc_ForeColor
+622	sprm_cc_PenWidth
+623	sprm_brc_Distance
+
+// HYPERLINK	这是按CtrlCode的数据来的，因此定义的非常别扭，但是现在也只有这样了 :-)
+628	sprm_hyper_Style
+629	sprm_hyper_URL
+62A	sprm_hyper_Bookmark
+
+// BOOKMARK	这是按CtrlCode的数据来的，因此定义的非常别扭，但是现在也只有这样了 :-)
+62B	sprm_bmark_ID
+62C	sprm_bmark_IsBlock
+62D	sprm_bmark_Bookmark
+
+// HSS	这是按CtrlCode的数据来的，因此定义的非常别扭，但是现在也只有这样了 :-)
+630	sprm_hss_Style
+631	sprm_hss_Depth
+632	sprm_hss_Degree
+// 起始颜色就是 cc_ForeColor
+633	sprm_hss_EndColor
+634	sprm_hss_Para
+	
+// COMPLEX RECT		目前用在段落边框
+638	sprm_brc_Flag
+639	sprm_brc_Left
+63A	sprm_brc_Top
+63B	sprm_brc_Right
+63C	sprm_brc_Bottom
+
+// REVISE_DATA		修订
+640	sprm_rev_Count
+641	sprm_rev_Item
+642	sprm_rvi_Type
+643	sprm_rvi_UserID
+644	sprm_rvi_Time
+
+// SUPERSUBSCRIPT	上下标
+648	sprm_sss_Style
+649	sprm_sss_RelHeight
+64A	sprm_sss_RelShift
+
+// TABITEM			制表位
+650	sprm_tab_Count
+651	sprm_tab_Item
+652	sprm_tbi_Pos
+653	sprm_tbi_Char

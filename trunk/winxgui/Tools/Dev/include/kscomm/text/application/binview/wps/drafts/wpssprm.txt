@@ -1,0 +1,32 @@
+
+ *
+ * Word属性的描述: (sprm, sprmValue)
+ * sprm : WORD	各个bit含义如下：
+       ispmd			0..8		9bits	// unique identifier within sgc group
+       fSpec			9			1bit	// sprm requires special handling
+	   sgc				10..12		3bits	// sprm group; type of sprm (PAP, CHP, etc)
+	   spra				13..15		3bits	// size of sprm argument, = 7 代表变长
+
+   当spra=7（变长指令）时，紧跟的下一个字节代表指令长度。
+   
+   sprmTDefTable, sprmTDefTable10 两个指令很特殊，紧跟着一个WORD代表指令长度。
+
+
+ *
+ * WPS的文字属性（段，句，表格，章等）的sprm定义
+ *
+       isprm            0..7        8bits   // unique identifier within sgc group
+       sgc              8..12       5bits   // sprm group
+       fReserved        13          1bit    // reserved = 0
+       spra             14..15      2bits   // size of sprm argument
+
+    spra 描述指令参数的长度。有如下可能：
+        spra    = 0     sprmValue-size = 1 WORD     // 2 bytes
+        spra    = 1     sprmValue-size = 2 WORD     // 4 bytes
+        spra    = 2     sprmValue-size = 4 WORD     // 8 bytes
+        spra    = 3     sprmValue-size = 变长
+
+    spra=3（变长指令）时，紧跟一个 WORD 来指定指令长度（以WORD为单位）。
+
+  * 特别注意，我们的指令用WORD为基本单位，而不是BYTE。
+    可以算出，我们最长的指令可以达到 65536*2 bytes。

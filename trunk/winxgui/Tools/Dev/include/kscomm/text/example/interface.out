@@ -1,0 +1,6 @@
+${Interface=
+$(InterfaceName) = interface($(BaseInterface))
+begin
+    ${Func=	function $(FuncName)(${Arg=$(ArgName): $(ArgType)$[; $]$}): $<RetType?any=$(RetType); stdcall$;HRESULT; stdcall$>;
+$}end;
+$}

@@ -1,0 +1,9 @@
+Title:  tools_mg_bugfix
+Author: 许式伟
+Create At: 2002-5-9 14:54:22
+
+1) Solaris平台下的printf ---> sols-printf
+   它不能够接受%s为NULL, 这一点在不注意时就容易犯错。
+
+   参考 MakeGen.cpp 函数：
+    STDMETHODIMP GetSection(LPTSTR szLine, FILE* fpList, KHandlerParam* pParam)

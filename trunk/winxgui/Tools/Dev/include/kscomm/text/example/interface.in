@@ -1,0 +1,74 @@
+
+doc = 
+	{ $(Interface) | $(Comment) };
+
+Interface =
+	"interface" $(_blank) $(_csymbol = InterfaceName) $(_Imp);
+
+Comment =
+	"//" $(_eol=CommentText) |
+	"/*" $(*=CommentText) "*/"
+	;
+	
+Imp =
+	";" |
+	$(_BaseInterfaceImp) $(_Content) |
+	$(_Content)
+	;
+	
+BaseInterfaceImp = 
+	":" [$(_AccessModifier)] $(_csymbol = BaseInterface);
+
+AccessModifier =
+	"public" | "protected" | "private";
+	
+Content =
+	"{" $(_FuncList) "}" ";" ;
+	
+FuncList = {
+	$(_AccessModifier) ":" |
+	$(_Comment) |
+	$(Func) };
+
+Func = 
+	$(_RetTypeImpl) "(" $(_ArgList) ")" $(_Pure) ";" ;
+	
+RetTypeImpl =
+	"STDPROC_" "(" $(_Type = RetType) ")" $(_csymbol = FuncName) |
+	"STDPROC" $(_blank) $(_csymbol = FuncName) |
+	"STDMETHOD_" "(" $(_Type = RetType) "," $(_csymbol = FuncName) ")" |
+	"STDMETHOD" "(" $(_csymbol = FuncName) ")" |
+	$(_Type = RetType) $(_blank) "__stdcall" $(_blank) $(_csymbol = FuncName)
+	;
+	
+Type =
+	$(_Modifier) $(_csymbol) $(_Pointer);
+	
+Pure =
+	"PURE" | "=" "0";
+	
+Modifier =
+	"const" $(_blank) | "";
+	
+Pointer =
+	{ "*" } | "";
+
+ArgList =
+	{ $(Arg) "," } $(Arg) | $(Arg) | "";
+
+Arg = $(_ArgModifier) $(_Arg0);
+
+ArgModifier =
+	"IN" | "OUT" | "";
+
+Arg0 =
+	$(_ArgImpl) $(_DefaultValueImp);
+	
+DefaultValueImp =
+	"=" $(_csymbol = DefaultValue) | "";
+
+ArgImpl =
+	$(_Type = ArgType) $(_csymbol = ArgName) |
+	$(_Type = ArgType)
+	;
+

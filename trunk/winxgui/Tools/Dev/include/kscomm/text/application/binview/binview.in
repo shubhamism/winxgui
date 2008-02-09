@@ -1,0 +1,51 @@
+
+doc = 
+	{ $(ARecord) | $(_Comment) };
+
+Comment =
+	"//" $(_eol) | "/*" $(*) "*/";
+
+ARecord = 
+	$(_csymbol = RecordName) "=" $(_Record) ";" ;
+
+Record =
+	$(UserRecord) |
+	$(_BuiltinRecordImp = BuiltinRecord) |
+	$(_RecordDeclareImp)
+	;
+
+BuiltinRecordImp =
+	"DWORD" | "LONG" | "WORD" | "SHORT" | "BYTE" | "CHAR" | "char" | "CLSID" | "IID" | "GUID";
+
+RecordDeclareImp =
+	"struct" $(_csymbol = RecordDeclare) ";" ;
+
+UserRecord =
+	("struct" | "class") ["(" $(_csymbol = BaseRecord) ")"] [ $(_Comment) ]
+	"{" $(_RecordElems) "}"
+	;
+
+RecordElems =
+	*{ $(_RecordElem) };
+
+RecordElem =
+	$(Org) | $(If) | $(Var) | $(_Comment);
+
+Org =
+	"org" "(" $(_regular = Exp) ")" ";" ;
+
+If =
+	"if" "(" $(_regular = IfCond) ")" [ $(_Comment) ] "{" $(_RecordElems) "}" ;
+
+Var =
+	$(_csymbol = VarType) $(_csymbol = VarName)
+		[ "[" $(_regular = ArraySize) "]" ] [ "=" $(FixValue) ] ";" ;
+
+FixValue =
+	$(_FixValueSingle) |
+	"{" *{ $(_FixValueSingle) "," } $(_FixValueSingle) "}";
+
+FixValueSingle =
+	$(_cstring = StringConst) |
+	$(_cint = IntConst)
+	;
