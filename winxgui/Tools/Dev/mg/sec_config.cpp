@@ -37,7 +37,7 @@
 #else
 #	define g_szExportDefFile	"_export_.def"
 #	define g_szExportDef		"-Wl,--version-script," g_szExportDefFile
-#	define g_szCFlagsDef0		"-fwritable-strings -fPIC "
+#	define g_szCFlagsDef0		"-fPIC "
 #	define g_szCCompiler		"gcc"
 #	define g_szCXXCompiler		"g++"
 #   define g_szExeLinker        "@g++ $(LibDir) -ldl -o $(Product)"

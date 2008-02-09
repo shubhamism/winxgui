@@ -9,6 +9,7 @@
 #define __STDAFX_H__
 
 #define __Linked_KSCommon
+//#define _DEBUG
 #include "ksx_common.h"
 #include "ks_fileutils.h"
 #include "ks_strutils.h"
