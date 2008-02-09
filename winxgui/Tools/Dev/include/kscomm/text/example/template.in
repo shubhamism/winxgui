@@ -1,0 +1,35 @@
+
+doc =
+	{ $(ARule) };
+
+ARule = 
+	$(_csymbol = ARuleName) "=" $(Rule) ";";
+
+RuleFactor = 
+	$(_cstring = MatchString) |
+	"$" "(" $(MatchRule) ")" |
+	$(RuleRepeat)
+	;
+
+MatchRule =
+	$(_RuleNameImp = RuleName) $(_VarNameImp);
+
+RuleNameImp =
+	$(_csymbol) | "*";
+
+VarNameImp =
+	"=" $(_csymbol = VarName) | "";
+
+RuleRepeat =
+	"{" $(Rule) "}";
+
+RuleAnd =
+	{ $(_RuleFactor) };
+
+Rule =
+	$(RuleOr) |
+	$(RuleAnd)
+	;
+
+RuleOr =
+	{ $(RuleAnd) "|" } $(RuleAnd);

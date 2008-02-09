@@ -1,0 +1,303 @@
+<html>
+
+<head>
+<meta http-equiv="GENERATOR" content="U:\wdj\rebuild.pl">
+<meta http-equiv="WEBMASTER" content="Dana LaPoint">
+<meta http-equiv="COMPANY" content="Miller Freeman, Inc.">
+<meta http-equiv="COPYRIGHT" content="1999 : All Rights Reserved">
+<meta http-equiv="GENERATED_ON" content="10:45:11 10-Sep-1999">
+<meta http-equiv="Content-Type"
+content="text/html; charset=gb_2312-80">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>August 98: Listings</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#CC0000"
+vlink="#330099" alink="#FF3300" topmargin="0" leftmargin="0">
+<div align="center"><center>
+
+<table border="0" cellpadding="0" cellspacing="0" width="600">
+    <tr>
+        <td valign="top"><table border="0" cellpadding="0"
+        cellspacing="0" width="600">
+            <tr>
+                <td valign="top" width="300" bgcolor="#FFFFFF"
+                height="75">¡¡</td>
+            </tr>
+        </table>
+        <table border="0" cellpadding="0" cellspacing="0"
+        width="600">
+            <tr>
+                <td valign="top" width="455"><table border="0"
+                cellpadding="0" cellspacing="0" width="455">
+                    <tr>
+                        <td valign="top"><hr noshade>
+                        <h3>A DynaCall() Function for Win32</h3>
+                        <p><b>by Ton Plooy</b> <br>
+                        &nbsp;<br>
+                        <a name="l1"></a><b> Listing 1: docall.c
+                        - Example calls to DynaCall() </b></p>
+                        <pre>
+//------------------------------------------------------------------
+//  DoCall.c - Test app for the DynaCall DLL. Ton Plooy 1998
+//------------------------------------------------------------------
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define  WIN32_LEAN_AND_MEAN
+#include &lt;windows.h&gt;
+#include &quot;dynacall.h&quot;
+
+//------------------------------------------------------------------
+
+int main(int argc, char *argv[])
+{
+    UINT       t_uint;
+    DYNAPARM   Parm[10];
+    HINSTANCE  hInst;
+    DWORD      lpFunction;
+    RESULT     rc;
+    double     d = 3.14159;
+
+    // Call the MessageBox function. 
+    hInst      = LoadLibrary(&quot;USER32.DLL&quot;);
+    lpFunction = SearchProcAddress(hInst, &quot;MessageBoxA&quot;);
+    if ((LPVOID)lpFunction != NULL) {
+        // MessageBox(HWND hWnd, LPCTSTR lpText,
+        //            LPCTSTR lpCaption, UINT uType)
+        memset(Parm, 0, sizeof(Parm));
+        t_uint          = MB_YESNO;
+        Parm[0].nWidth  = sizeof(HWND);    
+        Parm[1].nWidth  = sizeof(LPCTSTR);
+        Parm[2].nWidth  = sizeof(LPCTSTR);
+        Parm[3].nWidth  = sizeof(UINT);
+        Parm[0].pArg    = NULL;
+        Parm[1].pArg    = &quot;Dynacall Demo&quot;;
+        Parm[2].pArg    = &quot;WDJ&quot;;
+        Parm[3].dwArg   = MB_YESNO;          
+        rc = DynaCall(DC_CALL_STD, lpFunction, 4, Parm, NULL, 0);
+        FreeLibrary(hInst);
+        printf(&quot;MessageBox: %d\n&quot;, rc.Int);
+    }
+
+    hInst      = LoadLibrary(&quot;msvcrt.dll&quot;);
+    lpFunction = SearchProcAddress(hInst, &quot;sin&quot;);
+    if ((LPVOID)lpFunction != NULL) {
+        memset(Parm, 0, sizeof(Parm));
+        Parm[0].nWidth  = sizeof(double);
+        Parm[0].pArg    = &amp;d;               // Arg is &gt; 4 bytes,
+        Parm[0].dwFlags = DC_FLAG_ARGPTR;   //   use pointer
+        rc = DynaCall(DC_CALL_STD_M8, lpFunction, 1, Parm, NULL, 0);
+        FreeLibrary(hInst);
+
+        printf(&quot;sin(%lf): %.12lf\n&quot;, d, rc.Double);
+    }
+
+    return 0;
+}
+//End of File
+</pre>
+                        <p><a href="feature.html#r1">Return to
+                        article</a> <br>
+                        &nbsp;<br>
+                        </p>
+                        <hr noshade>
+                        <p><br>
+                        &nbsp;<br>
+                        <a name="l2"></a><b> Listing 2:
+                        dynacall.h - Interface to DynaCall() </b></p>
+                        <pre>
+//------------------------------------------------------------------
+//  Dynacall.h - 32-bit Dynamic function calls. Ton Plooy 1998
+//------------------------------------------------------------------
+#ifndef __DYNACALL_H
+#define __DYNACALL_H
+
+#define  DC_MICROSOFT           0x0000      // Default
+#define  DC_BORLAND             0x0001      // Borland compat
+#define  DC_CALL_CDECL          0x0010      // __cdecl
+#define  DC_CALL_STD            0x0020      // __stdcall
+#define  DC_RETVAL_MATH4        0x0100      // Return value in ST
+#define  DC_RETVAL_MATH8        0x0200      // Return value in ST
+
+#define  DC_CALL_STD_BO         (DC_CALL_STD | DC_BORLAND)
+#define  DC_CALL_STD_MS         (DC_CALL_STD | DC_MICROSOFT)
+#define  DC_CALL_STD_M8         (DC_CALL_STD | DC_RETVAL_MATH8)
+
+#define  DC_FLAG_ARGPTR         0x00000002
+
+#pragma pack(1)                 // Set struct packing to one byte
+
+typedef union RESULT {          // Various result types
+    int     Int;                // Generic four-byte type
+    long    Long;               // Four-byte long
+    void   *Pointer;            // 32-bit pointer
+    float   Float;              // Four byte real
+    double  Double;             // 8-byte real
+    __int64 int64;              // big int (64-bit)
+} RESULT;
+
+typedef struct DYNAPARM {
+    DWORD       dwFlags;        // Parameter flags
+    int         nWidth;         // Byte width
+    union {                     // 
+        DWORD   dwArg;          // 4-byte argument
+        void   *pArg;           // Pointer to argument
+    };
+} DYNAPARM;
+
+WINBASEAPI DWORD  WINAPI SearchProcAddress(HINSTANCE hInst,
+                                           LPSTR szFunction);
+WINBASEAPI RESULT WINAPI DynaCall(int Flags, DWORD lpFunction,
+                                  int nArgs, DYNAPARM Parm[],
+                                  LPVOID pRet, int nSize);
+#endif
+//End of File
+</pre>
+                        <p><a href="feature.html#r2">Return to
+                        article</a> <br>
+                        &nbsp;<br>
+                        </p>
+                        <hr noshade>
+                        <p><br>
+                        &nbsp;<br>
+                        <a name="l3"></a><b> Listing 3:
+                        dynacall.c - Implementation of DynaCall()
+                        </b></p>
+                        <pre>
+//------------------------------------------------------------------
+//  Dynacall.c - 32-bit Dynamic function calls. Ton Plooy 1998
+//------------------------------------------------------------------
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define  WIN32_LEAN_AND_MEAN
+#include &lt;windows.h&gt;
+#undef   WINBASEAPI         // Is __declspec(dllimport) in winbase.h
+#define  WINBASEAPI         __declspec(dllexport)
+#include &quot;dynacall.h&quot;
+
+//------------------------------------------------------------------
+
+WINBASEAPI DWORD WINAPI SearchProcAddress(HINSTANCE hInst,
+                                          LPSTR szFunction)
+{
+    // Add some simple searching to the GetProcAddress function.
+    // Various Win32 functions have two versions, a ASCII and
+    // a Unicode version.
+    DWORD dwAddr;
+    char  szName[128];
+
+    if ((dwAddr = (DWORD)GetProcAddress(hInst, szFunction)) == 0) {
+        // Function name not found, try some variants
+        strcpy(szName, szFunction);
+        strcat(szName, &quot;A&quot;);            // ASCII
+        dwAddr = (DWORD)GetProcAddress(hInst, szName);
+    }
+    return dwAddr;
+}
+
+//------------------------------------------------------------------
+
+WINBASEAPI RESULT WINAPI DynaCall(int Flags, DWORD lpFunction,
+                                  int nArgs, DYNAPARM Parm[],
+                                  LPVOID pRet, int nRetSiz)
+{
+    // Call the specified function with the given parameters. Build a
+    // proper stack and take care of correct return value processing.
+    RESULT  Res = { 0 };
+    int     i, nInd, nSize;
+    DWORD   dwEAX, dwEDX, dwVal, *pStack, dwStSize = 0;
+    BYTE   *pArg;
+
+    // Reserve 256 bytes of stack space for our arguments
+    _asm mov pStack, esp
+    _asm sub esp, 0x100
+
+    // Push args onto the stack. Every argument is aligned on a
+    // 4-byte boundary. We start at the rightmost argument.
+    for (i = 0; i &lt; nArgs; i++) {
+        nInd  = (nArgs - 1) - i;
+        // Start at the back of the arg ptr, aligned on a DWORD 
+        nSize = (Parm[nInd].nWidth + 3) / 4 * 4;
+        pArg  = (BYTE *)Parm[nInd].pArg + nSize - 4;
+        dwStSize += (DWORD)nSize; // Count no of bytes on stack
+        while (nSize &gt; 0) {
+            // Copy argument to the stack
+            if (Parm[nInd].dwFlags &amp; DC_FLAG_ARGPTR) {
+                // Arg has a ptr to a variable that has the arg
+                dwVal = *(DWORD *)pArg; // Get first four bytes
+                pArg -= 4;              // Next part of argument
+            }
+            else {
+                // Arg has the real arg
+                dwVal = Parm[nInd].dwArg;
+            }
+            // Do push dwVal
+            pStack--;           // ESP = ESP - 4
+            *pStack = dwVal;    // SS:[ESP] = dwVal
+            nSize -= 4;
+        }
+    }
+    if ((pRet != NULL) &amp;&amp; ((Flags &amp; DC_BORLAND) || (nRetSiz &gt; 8))) {
+        // Return value isn't passed through registers, memory copy
+        // is performed instead. Pass the pointer as hidden arg.
+        dwStSize += 4;          // Add stack size
+        pStack--;               // ESP = ESP - 4
+        *pStack = (DWORD)pRet;  // SS:[ESP] = pMem
+    }
+
+    _asm add esp, 0x100         // Restore to original position
+    _asm sub esp, dwStSize      // Adjust for our new parameters
+
+    // Stack is now properly built, we can call the function
+    _asm call [lpFunction]
+
+    _asm mov dwEAX, eax         // Save eax/edx registers
+    _asm mov dwEDX, edx         //
+
+    // Possibly adjust stack and read return values.
+    if (Flags &amp; DC_CALL_CDECL) {
+        _asm add esp, dwStSize
+    }
+    if (Flags &amp; DC_RETVAL_MATH4) {
+        _asm fstp dword ptr [Res]
+    }
+    else if (Flags &amp; DC_RETVAL_MATH8) {
+        _asm fstp qword ptr [Res]
+    }
+    else if (pRet == NULL) {
+        _asm mov  eax, [dwEAX]
+        _asm mov  DWORD PTR [Res], eax
+        _asm mov  edx, [dwEDX]
+        _asm mov  DWORD PTR [Res + 4], edx
+    }
+    else if (((Flags &amp; DC_BORLAND) == 0) &amp;&amp; (nRetSiz &lt;= 8)) {
+        // Microsoft optimized less than 8-bytes structure passing
+        _asm mov ecx, DWORD PTR [pRet]
+        _asm mov eax, [dwEAX]
+        _asm mov DWORD PTR [ecx], eax
+        _asm mov edx, [dwEDX]
+        _asm mov DWORD PTR [ecx + 4], edx
+    }
+    return Res;
+}
+//End of File
+</pre>
+                        <p><a href="feature.html#r3">Return to
+                        article</a> <br>
+                        </p>
+                        </td>
+                    </tr>
+                </table>
+                </td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+</table>
+</center></div>
+
+<p>¡¡</p>
+</body>
+</html>
+
+<html></html>

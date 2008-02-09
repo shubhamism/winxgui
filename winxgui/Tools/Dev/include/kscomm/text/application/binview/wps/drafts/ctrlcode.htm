@@ -1,0 +1,530 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>Control Code 保存格式与过程</title>
+<style>
+<!--
+h1           { font-family: Times New Roman }
+h3           { font-family: Times New Roman }
+p            { font-family: Times New Roman; text-align:justify }
+li           { font-family: Times New Roman; text-align:justify }
+td           { font-family: Times New Roman; text-align:justify }
+pre          { font-family: Fixedsys }
+-->
+</style>
+</head>
+
+<body>
+
+<h3>WPS 2002 文件</h3>
+
+<h1 align="center">文字属性（Control Code）保存格式与过程</h1>
+
+<h3>关于大小标注的说明</h3>
+
+<p>下面将使用一些简单缩写标明一个数据的大小，如下面所示：</p>
+<table border="1" cellspacing="1" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="25%" bgcolor="#FFFF99"><b>缩写</b></td>
+    <td width="25%" bgcolor="#FFFF99"><b>全称</b></td>
+    <td width="25%" bgcolor="#FFFF99"><b>大小（字节）</b></td>
+    <td width="25%" bgcolor="#FFFF99"><b>备注</b></td>
+  </tr>
+  <tr>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>b</b></font></td>
+    <td width="25%">Boolean</td>
+    <td width="25%">注1</td>
+    <td width="25%">只有真/假两种取值。</td>
+  </tr>
+  <tr>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>by</b></font></td>
+    <td width="25%">Byte</td>
+    <td width="25%">1</td>
+    <td width="25%">　</td>
+  </tr>
+  <tr>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>w</b></font></td>
+    <td width="25%">Word</td>
+    <td width="25%">2</td>
+    <td width="25%">　</td>
+  </tr>
+  <tr>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>dw</b></font></td>
+    <td width="25%">Double word</td>
+    <td width="25%">4</td>
+    <td width="25%">　</td>
+  </tr>
+  <tr>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>qw</b></font></td>
+    <td width="25%">Quaternary word</td>
+    <td width="25%">8</td>
+    <td width="25%">　</td>
+  </tr>
+  <tr>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>i</b></font></td>
+    <td width="25%">Integer</td>
+    <td width="25%">4 注3</td>
+    <td width="25%">　</td>
+  </tr>
+  <tr>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>str</b></font></td>
+    <td width="25%">String</td>
+    <td width="25%">可变</td>
+    <td width="25%">注4</td>
+  </tr>
+  <tr>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>enum</b></font></td>
+    <td width="25%">Enumeration</td>
+    <td width="25%">注1</td>
+    <td width="25%">特定集合的成员</td>
+  </tr>
+  </table>
+<p>注：</p>
+<ol>
+  <li>
+  布尔值和枚举值所占的空间依赖于具体的设定：在最少空间的原则下，布尔值可以只需要1位，而枚举值一般安排1字节；在空间宽松的情况下，一般都采用与普通的整数类型（Integer）一样的空间。在WPS2002文件中，均存放为2个字节。<br>
+  另外，枚举集合一般仅限于集合成员数目不大，并且没有标准化编码的集合。否则，字符集甚至字符编码都可以算枚举，这也太夸张了。</li>
+  <li>
+  Byte等4种类型用于精确标定所占用的空间，它们在这里并没有规定数据的符号类型，因此，数据既可以是有符号位的，也可以是无符号位的。</li>
+  <li>
+  整数所占用的空间通常依赖于具体的平台，在目前流行的大多数平台下，都是4个字节。</li>
+  <li>
+  字符串的存放方式取决于具体的设定：既可以是没有长度前缀，以0结尾；也可以是有长度前缀，不要求以0结尾。另外，单个字符的长度也是依据环境的具体设定。在WPS2002文件中，字符串采用2字节的Unicode编码，另外，由于可以获取数据长度，因此不要求以0结尾。</li>
+</ol>
+<h3>字符属性</h3>
+<p>下表是已有的几个不同场合下字符属性的设定：</p>
+<table border="1" cellspacing="1" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="18%" align="center" bgcolor="#FFFF99"><b>内容</b></td>
+    <td width="20%" align="center" bgcolor="#FFFF99"><b>Word SPRM</b></td>
+    <td width="19%" align="center" bgcolor="#FFFF99"><b>WPS中间层</b></td>
+    <td width="54%" align="center" bgcolor="#FFFF99" colspan="2"><b>WPS Control Code 
+    (ID / Data)</b></td>
+  </tr>
+  <tr>
+    <td width="18%">语言（字母文字）</td>
+    <td width="20%"><font face="Microsoft Sans Serif" size="2"><b>w lidDefault</b></font></td>
+    <td width="19%">　</td>
+    <td width="18%">　</td>
+    <td width="25%">　</td>
+  </tr>
+  <tr>
+    <td width="18%">语言（远东文字）</td>
+    <td width="20%"><font face="Microsoft Sans Serif" size="2"><b>w lidFE</b></font></td>
+    <td width="19%">　</td>
+    <td width="18%">　</td>
+    <td width="25%">　</td>
+  </tr>
+  <tr>
+    <td width="18%">字符集</td>
+    <td width="20%">　</td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">i CharSet</font></b></td>
+    <td width="18%"><font face="Microsoft Sans Serif" size="2"><b>SETWCHARSET</b></font></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">dw</font></b><font face="Microsoft Sans Serif" size="2"><b> 
+    CharSet.CharSet</b></font></td>
+  </tr>
+  <tr>
+    <td width="18%">字体（字母文字）</td>
+    <td width="20%"><font face="Microsoft Sans Serif" size="2"><b>w ftcDefault
+    </b></font>(索引值)</td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">str</font></b><font face="Microsoft Sans Serif" size="2"><b> FontNameEn</b></font></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETENGFONT</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">str 
+    Font.FaceName</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">字体（远东文字）</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">w ftcFE </font></b>(索引值)</td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">str</font></b><font face="Microsoft Sans Serif" size="2"><b> FontNameCh</b></font></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETCHNFONT</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">str 
+    Font.FaceName</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">字号</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">w hps</font></b> 
+    (半磅)</td>
+    <td width="19%"><font face="Microsoft Sans Serif" size="2"><b>i Size</b></font> 
+    (0.01mm)</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETFONTSIZE</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">dw 
+    Size.CharSize<br>
+    w Size.Unit</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">粗体</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">b fBold</font></b></td>
+    <td width="19%"><font face="Microsoft Sans Serif" size="2"><b>i Weight</b></font></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETBOLD</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">dw Bold.Weight</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">斜体</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">b fItalic</font></b></td>
+    <td width="19%"><font face="Microsoft Sans Serif" size="2"><b>i Italic</b></font> 
+    (0.1<span lang="en">&ordm;</span>)</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETITALIC</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">dw 
+    Italic.Degree</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">字符颜色</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">w ico<br>
+    dw CusColor</font></b></td>
+    <td width="19%"><font face="Microsoft Sans Serif" size="2"><b>dw TextColor</b></font></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETCOLOR</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">dw 
+    Color.CharColor</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">上划线</td>
+    <td width="20%">　</td>
+    <td width="19%"><font face="Microsoft Sans Serif" size="2"><b>enum UpperLine<br>
+    dw UpperLineColor</b></font></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETUPPERLINE</font></b></td>
+    <td width="25%">同UnderLine</td>
+  </tr>
+  <tr>
+    <td width="18%">下划线</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">enum kul<br>
+    w kulIco<br>
+    dw kulCusColor</font></b></td>
+    <td width="19%"><font face="Microsoft Sans Serif" size="2"><b>enum UnderLine<br>
+    dw UnderLineColor</b></font></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETUNDERLINE</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">w 
+    UnderLine.Style<br>
+    dw UnderLine.LineColor</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">删除线</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">b fStrike<br>
+    b fDStrike</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">enum StrikeOut</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETSTRIKEOUT</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">w 
+    StrikeOut.Flag</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">着重号</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">enum kcd</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">enum 
+    StressType<br>
+    dw StressColor</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETSTRESS</font></b></td>
+    <td width="25%">同UnderLine</td>
+  </tr>
+  <tr>
+    <td width="18%">上标和下标</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">enum iss</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">enum SSS<br>
+    int SSSHeight<br>
+    int SSSShift</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETSSS</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">w 
+    SSScripti.Flag<br>
+    dw SSScript.Height<br>
+    dw SSScript.Shift</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">长宽比</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">w wCharScale</font></b><font face="Microsoft Sans Serif" size="2"><b>
+    </b></font>(1%)</td>
+    <td width="19%"><font face="Microsoft Sans Serif" size="2"><b>int AspectX
+    </b></font>(1%)</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETASPECTX</font></b></td>
+    <td width="25%"><font face="Microsoft Sans Serif" size="2"><b>w 
+    AspectX.AspectX</b></font></td>
+  </tr>
+  <tr>
+    <td width="18%">字间距</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">dw dxaSpace</font></b> 
+    (twip)</td>
+    <td width="19%"><font face="Microsoft Sans Serif" size="2"><b>int Tracking
+    </b></font>(0.1mm)</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETTRACKING</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">w 
+    Tracking.Unit<br>
+    dw Tracking.Value</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">字符特效</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">b fOutline<br>
+    b fShadow<br>
+    b fEmboss<br>
+    b fImprint</font></b></td>
+    <td width="19%">单独的 styWordEffect 标签。</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETHSS</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">CHARFXHSS 
+    HSS.data</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">隐藏</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">b fVanish</font></b></td>
+    <td width="19%">　</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETSENVISIBLE</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">b 
+    Visible.Visible</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">修订</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">b fRMark<br>
+    b fRMarkDel</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">enum Revise</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETREVISE</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">REVISE_DATA 
+    Revise.data</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">边框</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">BRC brc<br>
+    BRCEX BrcEx</font></b></td>
+    <td width="19%">单独的 styLine 标签。</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETOUTRECT</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">dw 
+    OutRect.Color<br>
+    i OutRect.PenStyle<br>
+    i OutRect.Width</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">底纹</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">SHD shd</font></b></td>
+    <td width="19%">单独的 styFill 标签。</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETBGVEIN</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">dw 
+    BGVein.Color<br>
+    i BGVein.BrushStyle</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">超级链接</td>
+    <td width="20%">域</td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">str Hyperlink</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETHYPERREF</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">w 
+    HotRef.HyperID<br>
+    str HotRef.Data<br>
+    str HotRef.Anchor</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">书签</td>
+    <td width="20%">　</td>
+    <td width="19%">　</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETLABEL</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">i Label.ID<br>
+    str Label.pszString<br>
+    b Label.bIsBlock</font></b></td>
+  </tr>
+</table>
+
+<p>注：</p>
+<ol>
+  <li>WPS中，Control Code分为ID和数据两个部分，不同的ID可能会使用同一种对象来储存不同的数据，比如中文字体和英文字体，都使用<b><font face="Microsoft Sans Serif" size="2">CCtrlCode_Font</font></b>对象来储存字体名，而使用不同的ID来区分。<br>
+  另外，数据部分是按照“类名.属性名”的格式来简化书写，并且类名去掉了“<b><font face="Microsoft Sans Serif" size="2">CCtrlCode_</font></b>”前缀，比如“字号”的Control 
+  Code描述的实际意思如下：<br>
+  <b><font face="Microsoft Sans Serif" size="2">class CCtrlCode_Size<br>
+  {<br>
+&nbsp;&nbsp;&nbsp; LONG m_lCharSize;<br>
+&nbsp;&nbsp;&nbsp; WORD m_Unit;<br>
+  };</font></b></li>
+  <li>Word中将字符分成了四种：ASCII Text, Far East Text, Non-Far East Text, Bi-Directional 
+  Text。WPS将字符分成两种：中文，英文。</li>
+</ol>
+
+<h3>段落属性</h3>
+<p>下表是已有的几个不同场合下段落属性的设定：</p>
+<table border="1" cellspacing="1" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="18%" align="center" bgcolor="#FFFF99"><b>内容</b></td>
+    <td width="20%" align="center" bgcolor="#FFFF99"><b>Word SPRM</b></td>
+    <td width="19%" align="center" bgcolor="#FFFF99"><b>WPS中间层</b></td>
+    <td width="54%" align="center" bgcolor="#FFFF99" colspan="2"><b>WPS Control Code 
+    (ID / Data)</b></td>
+  </tr>
+  <tr>
+    <td width="18%">左缩进</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">dw dxaLeft</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">i LeftIndentM<br>
+    i LeftIndentP</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETLEFTINDENT</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">UNIT_VALUE 
+    ParaIndent.Indent</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">首行缩进</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">dw dxaLeft1</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">i FirstIndentM<br>
+    i FirstIndentP</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETFIRSTINDENT</font></b></td>
+    <td width="25%">同左缩进</td>
+  </tr>
+  <tr>
+    <td width="18%">右缩进</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">dw dxaRight</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">i RightIndentM<br>
+    i RightIndentP</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETRIGHTINDENT</font></b></td>
+    <td width="25%">同左缩进</td>
+  </tr>
+  <tr>
+    <td width="18%">水平对齐</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">enum jc</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">enum HAlign</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETHALIGNMENT</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">w 
+    Alignment.Alignment</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">垂直对齐</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">enum 
+    wAlignFont</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">enum VAlign</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETVALIGNMENT</font></b></td>
+    <td width="25%">同水平对齐</td>
+  </tr>
+  <tr>
+    <td width="18%">行高</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">LSPD dyaLine</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">i LineHeightP<br>
+    i LineHeightM<br>
+    b LineHeightIsFixed</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETLINEMARGIN</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">UNIT_VALUE 
+    LineMargin.LineMargin</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">段前间距</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">dw dyaBefore<br>
+    dw dyaBeforeP</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">i ParaMarginM<br>
+    i ParaMarginP</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETPARAMARGIN</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">UNIT_VALUE 
+    ParaMargin.ParaMargin</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">段后间距</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">dw dyaAfter<br>
+    dw dyaAfterP</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">i 
+    PostParaMarginM<br>
+    i PostParaMarginP</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETAFPAMARGIN</font></b></td>
+    <td width="25%">同段前间距</td>
+  </tr>
+  <tr>
+    <td width="18%">行网格对齐</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">b 
+    fUsePgsuSettings</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">b 
+    AdjustRowGrid</font></b></td>
+    <td width="18%">　</td>
+    <td width="25%">　</td>
+  </tr>
+  <tr>
+    <td width="18%">制表位</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">ChgTabsPapx<br>
+    ChgTabs</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">dw TabDistance<br>
+    dw TabPos<br>
+    str TabChar</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETTABS</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">TABITEM 
+    Tabs.Tabs<br>
+&nbsp;&nbsp; [MAX_TABSTOPS + 1]</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">自动编号</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">w ilfo<br>
+    w ilvl</font></b></td>
+    <td width="19%"><b><font face="Microsoft Sans Serif" size="2">b 
+    HasAutoNumber<br>
+    i AutoNumber<br>
+    i AutoNumberLevel</font></b></td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETAUTONUMBER</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">i 
+    AutoNumber.GroupID</font></b></td>
+  </tr>
+  <tr>
+    <td width="18%">段边框</td>
+    <td width="20%"><b><font face="Microsoft Sans Serif" size="2">BRC brcLeft, 
+    brcRight<br>
+    BRC brcTop, brcBottom<br>
+    BRC brcBetween, brcBar</font></b></td>
+    <td width="19%">单独的 styLine 标签。</td>
+    <td width="18%"><b><font face="Microsoft Sans Serif" size="2">SETPARAFRAME</font></b></td>
+    <td width="25%"><b><font face="Microsoft Sans Serif" size="2">PARAFRAME 
+    ParaFrame.data</font></b></td>
+  </tr>
+  </table>
+
+<h3>几个结构体的定义</h3>
+<p>CHARFXHSS，储存字符特效</p>
+<pre>struct CHARFXHSS
+{
+	int hssFlag; // 指定设为空心, 立体或阴影等
+	int hssDepth; // 空心/立体/阴影的程度
+	int hssDegree; // 立体/阴影的角度
+	KCOLORINDEX hssFromColor; // 起始颜色
+	KCOLORINDEX hssToColor; // 终止颜色
+	int hssPara; // 辅助参数
+};</pre>
+<p>REVISE_DATA，储存修订信息</p>
+<pre>struct REVISE_DATA
+{
+	WORD wReviseType; // 修订类型
+	WORD wUserID; // 用户ID
+	SYSTEMTIME sReviseTime; // 修订时间
+};</pre>
+<p>UNIT_VALUE，单位与值</p>
+<pre>struct UNIT_VALUE
+{
+	WORD wUnit; // 单位
+	int nValue; // 值，其含义由 wUnit 决定
+};</pre>
+<p>其中，单位的取值可能有：</p>
+<ul>
+  <li>UNIT_METRIC：绝对单位：0.1mm</li>
+  <li>UNIT_PERCENT：相对单位：百分比</li>
+  <li>UNIT_GRID：相对单位：字符(格)数</li>
+</ul>
+<p>TAB_ITEM，制表位信息</p>
+<pre>struct TABITEM
+{
+	__int16 nTabPosition; // 以文字框逻辑坐标记录各Tab位置
+	WORD wFrontChar; // 前导字符
+};</pre>
+<p>PARAFRAME，段落边框</p>
+<pre>struct PARAFRAME
+{
+	DWORD dwFlag;
+	KCOLORINDEX dwColorLeft;
+	int nPenStyleLeft;
+	int nWidthLeft;
+	LONG lDistanceL;
+	KCOLORINDEX dwColorTop;
+	int nPenStyleTop;
+	int nWidthTop;
+	LONG lDistanceT;
+	KCOLORINDEX dwColorRight;
+	int nPenStyleRight;
+	int nWidthRight;
+	LONG lDistanceR;
+	KCOLORINDEX dwColorBottom;
+	int nPenStyleBottom;
+	int nWidthBottom;
+	LONG lDistanceB;
+};</pre>
+<h3>附注</h3>
+<p>如下的Control Code尚未处理：</p>
+<ul>
+  <li>CCtrlCode_DISPLAY</li>
+  <li>CCtrlCode_ObliqueLine</li>
+</ul>
+
+</body>
+
+</html>

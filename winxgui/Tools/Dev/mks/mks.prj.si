@@ -1,0 +1,19 @@
+[Include]
+../../include
+
+[Config Release]
+Product		Exe ../../product/solia/mks
+Options		Release; MultiThread; AnsiChar; NoRtti; Exception
+ObjDir		LRelease
+LibDir		../../lib/solia
+Libraries	kscomm
+
+[Config Debug]
+Product		Exe ../../productd/solia/mks
+Options		Debug; MultiThread; AnsiChar; NoRtti; Exception
+ObjDir		LDebug
+LibDir		../../libd/solia
+Libraries	kscommd
+
+[Source]
+mks.cpp

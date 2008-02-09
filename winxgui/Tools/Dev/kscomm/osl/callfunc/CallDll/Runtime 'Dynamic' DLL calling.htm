@@ -1,0 +1,331 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="Author" content="Zafir Anjum">
+<meta name="description"
+content="Source codes for DLL programming">
+<meta name="keywords" content="SOURCE CODE DLL">
+<meta name="Author" content="developer.com">
+<meta name="Keywords"
+content="visual c++ java vb source code software downloads freeware shareware visual basic c++ web development general internet internet security news articles directory reference sample example guide tutorial help resource developer discussion earthweb developer.com">
+<meta name="description"
+content="Developer.com offers dedicated downloads for the IT professional developer. Features include visual c++, java, visual basic, vb, source code and more.&gt;
+&lt;META NAME=">
+<meta name="resource-type" content="document">
+<meta name="language" content="en">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>MFC Programmer's SourceBook : DLL</title>
+</head>
+
+<body background="/images/curve_codeguru.gif" bgcolor="#FFFFFF"
+text="#000000" link="#DD0000" vlink="#999999" alink="#FF0000"
+alt="wave">
+
+<table border="0">
+    <tr>
+        <td valign="top" width="468"><table border="0"
+        cellpadding="0" cellspacing="0" width="468">
+            
+            <tr>
+                <td><h3 align="center"><font color="#00000A">Runtime
+                'Dynamic' DLL calling </font></h3>
+                <hr>
+                <p>This article was contributed by <a
+                href="mailto:a.straughan@mdsi.co.uk">Adam
+                Straughan</a>.</p>
+                <p><u>Environment:</u>Visual C++ (SP3), Windows
+                NT4 (SP3)</p>
+                <h1>The Problem: Call a function in a DLL passing
+                some arguments. The DLL, function and arguments
+                are not known until run-time. The argument types
+                are limited to standard types (i.e. char, short,
+                long, float, char*) but not, for the sake of
+                simplicity, doubles (due to their 8 bytes).
+                Further types could be added, I think, but for
+                now we'll leave them alone. I'm still not sure
+                about return types and the solution that I
+                propose can only cope with return types that fit
+                into 4 bytes. </h1>
+                <h2>Notes on the problem</h2>
+                <ol type="1">
+                    <li>I have posted this article not so much as
+                        to give a solution but, as an idea that I
+                        expect to get ripped to shreds in the
+                        hope that what comes out is neat, tidy
+                        and useable. </li>
+                    <li>The solution should fix the problem as it
+                        stands i.e. we can't say, &quot;just use
+                        COM&quot; or &quot;only have functions
+                        that take some complex object that can
+                        work out its own parameter list&quot;. </li>
+                    <li><code>void func(...)</code> style
+                        functions are for the callee not the
+                        caller. </li>
+                </ol>
+                <h1>Possible Solution</h1>
+                <ol type="1">
+                    <li>We start by going against rule two and
+                        limiting the maximum number of arguments
+                        to 10. We do this by creating a structure
+                        which contains an array of ten DWORDS and
+                        pass the struct by value to the DLL. The
+                        DLL will get all the data it needs on the
+                        stack (and probably a bit to spare). <pre><font
+color="#990000"><tt>
+typedef struct
+{
+	DWORD dwARG[10];
+}STACK;
+
+typedef DWORD (*PFNDLL)(STACK);
+
+void main()
+{
+	HINSTANCE hDll = LoadLibrary(&quot;MyDll.dll&quot;)
+	PFDLL pfFunc = (PFDLL)GetProcAddress(hDll,&quot;MyFunc&quot;);
+	STACK args;
+	char szBuf[] = &quot;hello world&quot;;
+	DWORD dwRet;
+
+	args[0] = 10; // a dword
+	args[1] = (DWORD)szBuf;
+
+	dwRet = (pfFunc)(args);
+}
+</tt></font></pre>
+                        <p>We sort of solved the problem but had
+                        to impose extra limits, so no points
+                        there. </p>
+                    </li>
+                    <li>This leads to a better solution, put our
+                        data on the stack ourselves and then we
+                        can have as much or as little as we want,
+                        and potentially deal with types other
+                        than the simple ones (once we know that
+                        the idea is sound). The problem is that
+                        this uses two lines of assembler code
+                        which is pushing my assembler knowledge
+                        by two lines. As far as I can tell this
+                        works for the types supported in the
+                        demo. <pre><font color="#990000"><tt>
+// see the detail in the RuntimeDll.cpp file, all error handling
+// has been removed for brevity
+
+// pointer to function in dll, caller of CallDll
+typedef __declspec(dllimport)DWORD (*pfFunc)(void);
+
+void main()
+{
+	HINSTANCE hDll = ::LoadLibrary(&quot;MyDll.dll&quot;);
+	pfFunc pFun = NULL;	
+	DWORD dwTemp;
+	DWORD dwRet = 0;
+	float fRet = 0.0f;
+	int i;
+	bool bRetIsFloat = false;
+
+	nArgCount = 4;
+
+	int nArg[4];
+	long nA = 123456;
+	char cB = 20;
+	float fC = 5.678f;
+	char* szD  = &quot;test string&quot;;
+
+	// memcpy not cast as a cast will loose data
+	// in the case of a float
+	memcpy(nArg+0, &amp;nA ,sizeof(long));
+	memcpy(nArg+1, &amp;cB ,sizeof(long));
+	memcpy(nArg+2, &amp;fC ,sizeof(long));
+	memcpy(nArg+3, &amp;szD,sizeof(long));
+
+	
+	pFun = (pfFunc)::GetProcAddress(hDll, &quot;MyFunc&quot;);
+
+	// load the stack (in reverse order)
+	for( i=nArgCount-1; i&gt;=0; i--)
+	{
+		// copy the data to a temporary holder
+		// (casts can lose data)
+		memcpy(&amp;dwTemp, &amp;(Arg[i].bVal), sizeof(DWORD));
+		// chuck it on the stack
+		_asm push dwTemp
+	}
+
+	// call the function, data already on the stack
+	if (bRetIsFloat)
+	{
+		// float returns are not passed via the EAX register but,
+		// it seem, are on the stack so ...
+		
+		// ok I didn't know this bit of asm I compiled some
+		// code and copied it once I had some idea of what
+		// the instructions do.
+		// call, calls a function
+		// fstp, does a store &amp; pop
+		_asm
+		{
+			call dword ptr [pFun]
+			fstp dword ptr [fRet]
+		}
+	}
+	else
+	{
+		dwRet = (pFun)();
+	}
+
+	// unload the stack
+	for (i = 0; i&lt;nArgCount; i++)
+	{
+		_asm pop dwTemp
+		// copy the data back in case of altered values
+		memcpy(&amp;(Arg[i].bVal), &amp;dwTemp, sizeof(DWORD));				
+	}
+	
+	if (bRetIsFloat)
+		printf(&quot;returned %f\n&quot;,fRet);
+	else
+		printf(&quot;returned %d\n&quot;,dwRet);
+}
+</tt></font></pre>
+                        <p>I have tested this code against a test
+                        DLL using various argument lists and
+                        return types and everything seems to work
+                        nicely, but as I don't know much about
+                        assembler I'm not sure what problems this
+                        code may cause. If you have any comments
+                        I'd be pleased to hear them. The Demo
+                        Source code contains this basic idea
+                        wrapped up in a class CRuntimeDll and
+                        uses CRuntimeDllException. </p>
+                    </li>
+                    <li>Some other, better, less hacky, solution?
+                        <h2>Notes on the Demo project</h2>
+                        <p>The demo allows you to call a function
+                        in a DLL. Follow the example below for an
+                        explanation of how the demo app can be
+                        used. </p>
+                        <p>To call the WINAPI GetWindowText(HWND
+                        hwnd,char* szBuffer,long nBufferSize)
+                        function:</p>
+                        <ol type="1">
+                            <li>Set the DLL name to
+                                &quot;user32.dll&quot; and press
+                                &quot;Load&quot;, all being well
+                                the &quot;Add&quot; ,
+                                &quot;Call&quot; and &quot;Set
+                                Type&quot; buttons should be
+                                enabled and the &quot;Load&quot;
+                                button should now read
+                                &quot;Unload&quot;. </li>
+                            <li>Enter &quot;GetWindowTextA&quot;
+                                (for non-unicode version) in the
+                                &quot;Function&quot; edit box. </li>
+                            <li>Set the &quot;Value&quot; edit
+                                box to that of any hwnd, get the
+                                value using Spy++, the value must
+                                be in decimal not hex! </li>
+                            <li>Select &quot;unsigned long&quot;
+                                on the &quot;Types&quot; list box
+                                then press &quot;Add&quot; </li>
+                            <li>Set the &quot;Value&quot; to
+                                &quot;12345678901234567890&quot;
+                                then add an &quot;unsigned
+                                char*&quot;. </li>
+                            <li>Finally for nBufferSize set
+                                &quot;Value&quot; to 20 and add
+                                an &quot;unsigned long&quot;. </li>
+                            <li>Press &quot;Call&quot;. </li>
+                            <li>Click on the &quot;unsigned
+                                char*&quot; on the Args list and
+                                the window text (the first 19
+                                bytes) for the window you entered
+                                should appear in the
+                                &quot;Value&quot; box. </li>
+                            <li>Press &quot;Clear&quot; to call
+                                another function in this DLL. </li>
+                        </ol>
+                        <p>The return type is always caught in a
+                        DWORD and can be converted after the
+                        function has been called. This is done by
+                        selecting a &quot;Type&quot; and pressing
+                        &quot;Set Type&quot;, the value and type
+                        are displayed at the bottom of the dialog
+                        box. The Exception to this is functions
+                        that return type float, they must be
+                        declared <strong>before</strong> the
+                        function is called, the return type will
+                        remain float until it is changed to an
+                        integer or pointer type. </p>
+                        <h2>Closing notes</h2>
+                        <ol>
+                            <li>The string to value and value to
+                                string functionality should be
+                                moved into the CRuntimeDll object
+                                as should return type setting and
+                                access. </li>
+                            <li>Calling some DLL's with the wrong
+                                arguments can cause the demo to
+                                crash. I have yet to find a way
+                                to stop or catch this. Bear in
+                                mind though, that applications
+                                with this kind of functionality
+                                would normally be used by some
+                                sort of developer who expect this
+                                sort of thing ;-) </li>
+                        </ol>
+                        <h4>Downloads</h4>
+                        <p><a href="CallDll_app.zip">Download
+                        demo application - 7 Kb</a><br>
+                        <a href="CallDll_src.zip">Download demo
+                        source - 15 Kb</a> </p>
+                        <h4>History</h4>
+                        <p>Date Posted: July 13, 1999<br>
+<!--comments-->                        </p>
+                        <h3>Comments:</h3>
+                        <ul>
+<!--startlist-->                            <li><a
+                                href="/mfc/comments/7360.shtml">Need
+                                to tidy up properly</a> - Paul
+                                Reynolds (1999/07/19) </li>
+                            <li><a
+                                href="/mfc/comments/7321.shtml">What
+                                about explizitly/dynamically
+                                loading an extension-dll???</a> -
+                                Rene Lang (1999/07/16) </li>
+                            <li><a
+                                href="/mfc/comments/7193.shtml">Windows
+                                Developer's Journal covered this</a>
+                                - Craig L. Ching (1999/07/13) </li>
+                        </ul>
+                        <p><a
+                        href="/cgi-bin/addpage/addpage.cgi?cfg=addcomment&amp;action=Comment"><strong>Add
+                        Comment</strong></a> </p>
+                        <p><script language="javascript">
+<!--
+	var axel = Math.random() + "";
+	var ord = axel * 1000000000000000000;
+	var badge_no = ord;
+	var text_no = ord + 1;
+//-->
+</script>
+                        </p>
+                    </li>
+                </ol>
+                </td>
+                <td valign="top" width="88"><p align="center">&nbsp;</p>
+&nbsp;                </td>
+            </tr>
+            
+        </table>
+        <p>&nbsp;</p>
+        </td>
+    </tr>
+    
+</table>
+</body>
+</html>
+
+<html></html>

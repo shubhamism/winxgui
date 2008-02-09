@@ -1,0 +1,48 @@
+/*@
+@category Kingsoft SDK - KSO
+@class KExample
+@brief
+  	<在此简要说明该类的功能>
+  	@constructor
+  		@brief
+  			<构造函数说明>
+		@decl
+			KExample();
+		@remark
+			<构造函数使用注意点>
+	@fn Method1
+		@brief
+			<Method1的功能说明>
+		@decl
+			STDMETHODIMP Method1(ARGTYPE1 arg1, ARGTYPE2 arg2);
+		@arg [in] arg1 // <输入参数>
+			<arg1的说明>
+		@arg [out] arg2
+			<arg2的说明>
+		@return
+			<返回值的说明>
+		@remark
+			<函数使用注意点>
+		@example
+			<样例>
+		@see KExample::Method2
+	@fn Method2
+	@api CreateExampleObj
+		@brief
+			<相关的全局函数CreateExampleObj说明>
+		@decl
+			STDMETHODIMP CreateExampleObj(KExample** ppv);
+		@arg [out] ppv // 创建的对象指针
+			创建的对象指针。
+		@return
+			可能的返回值有：
+			@val S_OK
+				调用成功。
+			@val E_FAIL
+				一般性错误。
+		@remark
+			<函数使用注意点>
+		@example
+			<pre>ks_stdptr<KExample> sp;
+			CreateExampleObj(&sp);</pre>
+@*/

@@ -1,0 +1,492 @@
+<html>
+
+<head>
+<meta http-equiv="GENERATOR" content="U:\wdj\rebuild.pl">
+<meta http-equiv="WEBMASTER" content="Dana LaPoint">
+<meta http-equiv="COMPANY" content="Miller Freeman, Inc.">
+<meta http-equiv="COPYRIGHT" content="1999 : All Rights Reserved">
+<meta http-equiv="GENERATED_ON" content="10:45:11 10-Sep-1999">
+<meta http-equiv="Content-Type"
+content="text/html; charset=gb_2312-80">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>August 98: Feature Article</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#CC0000"
+vlink="#330099" alink="#FF3300" topmargin="0" leftmargin="0">
+<div align="center"><center>
+
+<table border="0" cellpadding="0" cellspacing="0" width="600">
+    <tr>
+        <td valign="top"><br clear="all">
+        <table border="0" cellpadding="0" cellspacing="0"
+        width="600">
+            <tr>
+                <td valign="top" width="50" bgcolor="#FFFFFF"><img
+                src="/resource/dot_clear.gif" width="5"
+                height="1"></td>
+                <td valign="top" width="455"><table border="0"
+                cellpadding="0" cellspacing="0" width="455">
+                    <tr>
+                        <td valign="top"><font size="5"><b>Feature
+                        Article</b></font><hr noshade>
+                        <h3>A DynaCall() Function for Win32</h3>
+                        <p><b>by Ton Plooy</b> <br>
+                        &nbsp;<br>
+                        You can use <b>LoadLibrary()</b> and <b>GetProcAddress()</b>
+                        to dynamically load a DLL, obtain the
+                        address of one of its functions, and call
+                        that function:</p>
+                        <pre>
+typedef int (*MSGBOX)(HWND,LPCSTR,LPCSTR,UINT);
+HINSTANCE Lib = LoadLibrary(&quot;user32.dll&quot;);
+PROC      Func= GetProcAddress(Lib, &quot;MessageBoxA&quot;);
+MSGBOX    MsgBox = (MSGBOX)Func;
+MsgBox(NULL, &quot;Dynamic message!&quot;, &quot;test&quot;, MB_OK);
+</pre>
+                        <p>But you must know in advance what
+                        function you plan to call in order to
+                        correctly declare its arguments; that's
+                        the purpose of the <b>typedef</b> in this
+                        example. That's not normally an important
+                        restriction, since most programs don't
+                        need to make a runtime call to a function
+                        that was not anticipated at compile time.</p>
+                        <p>There is one class of application that
+                        needs to make calls to functions that
+                        were unknown at compile time: interpreted
+                        Windows environments. For example, both
+                        WordBasic (the interpreted language that
+                        Microsoft Word supports) and WinHelp
+                        (which supports a very simple interpreted
+                        language) let you declare and call
+                        functions in external DLLs. Those
+                        interpreters must execute runtime calls
+                        to DLL functions without knowing in
+                        advance their names and arguments.</p>
+                        <p>Most Windows programmers won't create
+                        their own interpreted Windows language,
+                        but you might want to add the ability to
+                        call external DLL functions to an
+                        existing interpreted language. The best
+                        example of this is VBScript, a subset of
+                        Visual Basic that programmers can
+                        incorporate into their Windows programs
+                        without paying license fees. VBScript
+                        lacks the ability to declare and call
+                        external DLL functions on the fly, but
+                        you could add this ability - if you could
+                        construct arbitrary function calls at
+                        runtime.</p>
+                        <p>Calling arbitrary DLL functions with
+                        arbitrary arguments at runtime requires
+                        you to do work that the compiler normally
+                        does for you - you must manually place
+                        arguments on the stack in the correct
+                        order and, depending on the calling
+                        sequence of the target function, clean up
+                        the stack after the call. This is work
+                        that is most conveniently done in
+                        assembly language, since C and C++ do not
+                        provide explicit enough control over the
+                        stack. This article describes how to
+                        perform that task, and provides a DLL
+                        with a reusable function called <b>DynaCall()</b>
+                        that uses inline assembly language to
+                        take a function pointer and an array of
+                        arguments and execute a call to that
+                        function.</p>
+                        <p><b>Overview</b></p>
+                        <p>The goal is to write a function which,
+                        given a function pointer and an array of
+                        arguments of varying sizes (e.g., <b>char</b>,
+                        <b>int</b>, <b>double</b>, and so on),
+                        pushes the arguments onto the stack in
+                        whatever form or order the callee
+                        expects, invokes the function, and then
+                        obtains the return value from that
+                        function. Arguments are always passed on
+                        the stack, so <b>DynaCall()</b> will have
+                        to be able to move data from its input
+                        array of arguments onto the stack,
+                        adjusting the stack pointer
+                        appropriately. This is of course
+                        function-specific code, since the number
+                        of stack pushes as well as what must be
+                        pushed depends on the specific function
+                        being called and in which context. The
+                        way a function returns information also
+                        depends on the type of its return value.
+                        Return values up to four bytes in size
+                        are always passed through the (32-bit) <b>EAX</b>
+                        register. But other types require
+                        different handling, and specific code
+                        must be generated for it.</p>
+                        <p>Unfortunately, these issues are
+                        compiler-dependent to some degree. I
+                        analyzed the involved mechanisms for 32-bit
+                        Microsoft and Borland compilers. If you
+                        need support for calling functions from
+                        DLLs generated by other compilers, you
+                        need to handle any differences yourself.
+                        Most standard items are handled the same
+                        way though, so I don't expect to see
+                        major implementation differences in this
+                        area. Most languages that can generate
+                        DLLs with exported functions will try to
+                        be compatible with the ad hoc standard of
+                        the Win32 API itself (which is exposed as
+                        a set of DLL functions).</p>
+                        <p>Here's an overview of the various
+                        issues involved in function calling.</p>
+                        <p><b>Parameter Passing</b>. This is
+                        rather straightforward. All parameters
+                        are pushed onto the stack. Parameters are
+                        aligned on a four-byte boundary, so, for
+                        example, a <b>char</b> parameter uses
+                        four bytes of stack space. Floating-point
+                        and structure parameters are copied
+                        directly to the stack; they each consume
+                        some multiple of four bytes.</p>
+                        <p><b>Calling Sequence</b>. <b>DynaCall()</b>
+                        supports the two types of calling
+                        sequences used by the Win32 API: <b>__stdcall</b>
+                        (<b>WINAPI</b>) and <b>__cdecl</b> (<b>WINAPIV</b>).
+                        Figure 1 shows two functions that are
+                        identical except for calling sequence,
+                        along with a disassembly of the code that
+                        calls them. The calling sequence
+                        specifies three things: argument order,
+                        stack cleanup, and naming convention.</p>
+                        <p>First, under Win32, both <b>__stdcall</b>
+                        and <b>__cdecl</b> require arguments to
+                        be pushed on the stack from right to left
+                        - reverse order, in other words. As you
+                        can see in Figure 1, when you pass
+                        arguments <b>a</b> and <b>b</b> to a
+                        function, the compiler generates code
+                        that pushes first <b>b</b> and then <b>a</b>
+                        onto the stack.</p>
+                        <p>Second, <b>__stdcall</b> requires the
+                        callee to clean up the stack (pop the
+                        pushed parameters off), while <b>__cdecl</b>
+                        requires the caller to handle stack
+                        cleanup. Because of this, <b>__cdecl</b>
+                        can support functions that take a
+                        variable number of arguments (e.g., <b>printf()</b>),
+                        since in that case the callee cannot know
+                        at compile time how many parameters need
+                        to be popped. In Figure 1, you can see
+                        that the <b>__stdcall</b> function ends
+                        in a <b>RET 8</b> instruction (popping
+                        two four-byte parameters), while the <b>__cdecl</b>
+                        function ends in a simple <b>RET</b>
+                        (since the caller has to adjust the stack
+                        pointer).</p>
+                        <p>Finally, the calling sequence affects
+                        the actual exported name generated by the
+                        compiler and linker, and Microsoft and
+                        Borland use different conventions for
+                        this. Microsoft mangles <b>__stdcall</b>
+                        names by default, so a function declared
+                        as:</p>
+                        <pre>
+int __stdcall Foo(int a)
+</pre>
+                        <p>would by default get assigned a name
+                        of &quot;_Foo@4&quot; by Visual C++, but
+                        would be named &quot;Foo&quot; by Borland
+                        C++. With <b>__cdecl</b>, the same
+                        function would be named &quot;Foo&quot;
+                        by Visual C++, but &quot;_Foo&quot; by
+                        Borland C++. With both compilers, you can
+                        use a <b>.def</b> file to alias the
+                        exported function name to whatever you
+                        want, and most DLLs intended for wide
+                        reuse follow the convention of the Win32
+                        API: <b>__stdcall</b> function names are
+                        not mangled, and <b>__cdecl</b> functions
+                        (the less common case) have a
+                        &quot;_&quot; prepended to their name.</p>
+                        <p>This discussion of mangling assumes
+                        you're either compiling with C, or are
+                        exporting functions from C++ using the <b>extern
+                        &quot;C&quot;</b> directive. Otherwise,
+                        C++ will impose its own name mangling
+                        scheme.</p>
+                        <p><b>Returned Values</b>. Most C
+                        compilers return smallish data types in
+                        some machine register, and larger types
+                        (such as structures) by requiring the
+                        caller to pass a hidden pointer to an
+                        appropriate amount of memory. The Win32
+                        API is no different in this respect. All
+                        four-byte return values are returned
+                        through the <b>EAX</b> register and all
+                        eight-byte integer values (<b>__int64</b>)
+                        are returned through the <b>EAX</b>/<b>EDX</b>
+                        register pair. For floating-point return
+                        values the situation is a little
+                        different. They are returned on the math
+                        coprocessor's stack and a special
+                        instruction is needed to move the return
+                        value into main memory. You might wonder
+                        what happens if you run on a machine that
+                        doesn't have a floating-point coprocessor
+                        installed. Even in this (rather
+                        theoretical) case the floating-point
+                        instructions are used. Windows NT and
+                        32-bit Windows 95 provide floating-point
+                        emulation from the Win32 kernel so the
+                        application itself doesn't have to deal
+                        with it.</p>
+                        <p>For non-integer, large return types
+                        (structures), Microsoft's compiler pushes
+                        a hidden argument on the stack, which is
+                        a pointer to a temporary buffer (located
+                        on the stack). The function itself then
+                        copies the return value to this buffer.
+                        Upon return, additional code in the
+                        caller copies the temporary buffer to the
+                        assigned variable. Borland's code is more
+                        efficient; it passes the pointer to the
+                        assigned variable directly so there's no
+                        need for a temporary structure and second
+                        copying. There's one notable exception to
+                        these general rules. The Microsoft
+                        compiler recognizes structures that are
+                        less than or equal to eight bytes and
+                        uses <b>EAX</b>/<b>EDX</b> register
+                        passing instead of the stack data copying
+                        mechanism in these cases. (Ironically, it
+                        was Borland and not Microsoft that
+                        implemented this additional optimization
+                        under Win16 - the two compilers have
+                        managed to remain incompatible under
+                        Win32 by copying each other's Win16
+                        behavior.)</p>
+                        <p><b>Implementing DynaCall()</b></p>
+                        <p>The issues of <b>__stdcall</b> versus <b>__cdecl</b>
+                        and Borland C++ versus Visual C++ all
+                        play a part in the implementation of <b>DynaCall()</b>.
+                        The prototype for <b>DynaCall()</b> is:</p>
+                        <pre>
+RESULT DynaCall(
+    int      Flags,
+    DWORD    lpFunction,
+    int      nArgs,
+    DYNAPARM DynaParm,
+    LPVOID   pRet,
+    int      nRetSize
+    );
+</pre>
+                        <p><b>RESULT</b> is a union of standard
+                        types, ranging from a four-byte <b>int</b>
+                        to an eight-byte <b>double</b>. If you
+                        need to call a function that returns a
+                        structure, then you have to use <b>pRet</b>
+                        and <b>nRetSize</b> to supply a buffer to
+                        hold the return value.</p>
+                        <p>The <b>Flags</b> parameter specifies
+                        various options: whether the return value
+                        is a floating-point value (since that
+                        requires fetching the value from the math
+                        coprocessor), whether the calling
+                        sequence of the target function is <b>__stdcall</b>
+                        or <b>__cdecl</b>, and whether the callee
+                        is a Borland C++ or Visual C++ function
+                        (which affects how some structures are
+                        returned, as described previously). In
+                        most cases, the return value will be a
+                        simple data type, in which case you don't
+                        have to know whether the callee was
+                        compiled with Visual C++ or Borland C++.</p>
+                        <p>You need to specify the function's
+                        address (retrieved via <b>GetProcAddress()</b>,
+                        for example) in the <b>lpFunction</b>
+                        parameter.</p>
+                        <p>The third and fourth parameters
+                        contain the argument count and an array
+                        of <b>DYNAPARM</b> structures that
+                        describe the individual function
+                        arguments:</p>
+                        <pre>
+typedef struct DYNAPARM {
+    DWORD       dwFlags;        // Parameter flags
+    int         nWidth;         // Byte width
+    union {                     //
+        DWORD   dwArg;          // 4-byte argument
+        void   *pArg;           // Pointer to argument
+    };
+} DYNAPARM;
+</pre>
+                        <p>The fourth parameter is an array of <b>DYNAPARM</b>
+                        structures preceded by the number of
+                        elements (arguments) in the array. The <b>DYNAPARM</b>
+                        type is a structure containing argument
+                        flags, argument size, and the argument
+                        itself. Currently there's only one
+                        possible flag that specifies if the
+                        argument is supplied by reference instead
+                        of directly. (If the parameter is larger
+                        than four bytes, a pointer to the
+                        argument needs to be specified.)</p>
+                        <p><b>docall.c</b> (<a name="r1"></a><a
+                        href="908list.htm#l1" target="_new">Listing
+                        1</a>) contains some sample calls that
+                        demonstrate how to use <b>DynaCall()</b>.
+                        Be sure to specify all parameters and
+                        options correctly. One wrong value can
+                        misbalance your own application stack and
+                        (especially on Win95/98) crash the
+                        system. With a normal function call, the
+                        compiler can verify that the caller and
+                        callee agree on how the call should take
+                        place, but <b>DynaCall()</b> relies on
+                        you to get it right.</p>
+                        <p><b>The Implementation</b></p>
+                        <p><b>DynaCall()</b> is declared in <b>dynacall.h</b>
+                        (<a name="r2"></a><a
+                        href="908list.htm#l2" target="_new">Listing
+                        2</a>) and implemented in <b>dynacall.c</b>
+                        (<a name="r3"></a><a
+                        href="908list.htm#l3" target="_new">Listing
+                        3</a>). This month's code archive
+                        contains a DLL that contains <b>DynaCall()</b>
+                        as an exported function. The code has
+                        been tested and compiled with Visual C++
+                        v5.0, though you can call the function
+                        from any language that lets you access
+                        external DLL functions.</p>
+                        <p>The main chore <b>DynaCall()</b> has
+                        to perform is to get all the arguments
+                        pushed onto the stack. Pushing parameters
+                        onto the stack is done in (Intel)
+                        assembler code with a <b>PUSH
+                        &lt;operand&gt;</b> instruction. However,
+                        you can't just go ahead and start pushing
+                        all specified parameters on the stack.
+                        Why not? Because <b>DynaCall()</b> is
+                        written in inline assembler mixed with C,
+                        it has to worry about what the generated
+                        C code might be doing with the stack. For
+                        example, the compiler would be completely
+                        within its rights to allocate space for
+                        variables inside the <b>for</b> loop in <b>DynaCall()</b>
+                        by adjusting the stack pointer down (x86
+                        stacks grow downward) upon entering the
+                        loop, and back up after leaving the loop.
+                        If you're pushing data on the stack at
+                        the same time the compiler-generated code
+                        is tinkering with the stack pointer,
+                        disaster is likely.</p>
+                        <p>You could avoid this problem by
+                        constructing the desired stack image in a
+                        separate buffer, then copying that buffer
+                        to the stack in one fell swoop (with no
+                        intervening C code). Instead, I use a
+                        small trick. I first lower the stack
+                        pointer by 256 bytes
+                        (&quot;allocating&quot; 256 bytes), after
+                        saving the current position in a pointer
+                        variable. The generated C code then uses
+                        the stack 256 bytes lower and won't
+                        overwrite anything I store in that
+                        256-byte area of the stack. Using the
+                        saved pointer, I copy all arguments in
+                        the correct order and with proper
+                        four-byte alignment to the stack. Next,
+                        if the function requires a hidden pointer
+                        parameter for the return value (Borland
+                        structure return or Microsoft structure
+                        return larger than eight bytes), I add
+                        that hidden parameter to the stack.
+                        Finally, it's time to call the function,
+                        so I re-adjust the stack pointer by
+                        moving it up again with 256 bytes minus
+                        the total size of the parameters pushed.</p>
+                        <p>When the function returns, it may have
+                        set the <b>EAX</b> or <b>EAX:EDX</b>
+                        equal to a return value, so the problem
+                        of interference from the C-generated code
+                        arises again - the compiler might
+                        generate code that uses either of those
+                        registers. To avoid that problem, I
+                        immediately save the <b>EAX</b> and <b>EDX</b>
+                        to stack variables, making sure there is
+                        no intervening C code between the
+                        function call and the code to save these
+                        registers.</p>
+                        <p>After saving <b>EAX</b> and <b>EDX</b>,
+                        I must adjust the stack pointer again if
+                        the called function had a <b>__cdecl</b>
+                        calling type. The only thing left to do
+                        is obtain the correct return value. I
+                        check for various cases, beginning with
+                        floating-point return values. These are
+                        returned on the FPU stack, and the called
+                        function used the <b>FLD</b> instruction
+                        to push a value onto the stack. Since
+                        floating-point types can have different
+                        sizes, I have to specify the correct type
+                        with the <b>FSTP</b> instruction to pop
+                        the return value from the FPU stack.</p>
+                        <p>For standard return values, I just
+                        copy the <b>EAX</b>/<b>EDX</b> register
+                        pair to the eight-byte <b>RESULT</b>
+                        union. Four-byte or shorter types (<b>char</b>,
+                        <b>short</b>, <b>int</b>, and <b>long</b>)
+                        are always returned in <b>EAX</b>, so
+                        these automatically end up at the correct
+                        place in the <b>RESULT</b> union.</p>
+                        <p><b>Summary</b></p>
+                        <p><b>DynaCall()</b> lets you dynamically
+                        access almost any exported DLL function,
+                        correctly handling the most common
+                        calling sequences, return types, and
+                        compiler incompatibilities. You could use
+                        this function to create a small
+                        interactive environment for trying out
+                        calls to unfamiliar Win32 routines, for
+                        example. A future <i>WDJ</i> article will
+                        show how to use <b>DynaCall()</b> to
+                        create an OLE automation object that can
+                        be extended at runtime to call arbitrary
+                        DLL functions. That object, in turn, can
+                        be used to give VBScript the ability to
+                        easily declare and access arbitrary DLL
+                        functions. </p>
+                        <p><b>About the Author</b></p>
+                        <p>Ton Plooy is an independent software
+                        developer working on system and
+                        programming utilities at his company
+                        Crunch Technologies in The Netherlands.
+                        You may email Ton at <a
+                        href="mailto:tonp@xs4all.nl?subject=WDJ Article">tonp@xs4all.nl</a>.
+                        </p>
+                        </td>
+                    </tr>
+                </table>
+                </td>
+            </tr>
+        </table>
+        <table border="0" cellpadding="3" cellspacing="0"
+        width="600">
+            <tr>
+                <td><hr size="1" color="#000000">
+                </td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+</table>
+</center></div>
+
+<p><br>
+<br>
+<br>
+</p>
+</body>
+</html>
+
+<html></html>

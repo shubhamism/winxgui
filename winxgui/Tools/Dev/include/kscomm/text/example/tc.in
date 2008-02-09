@@ -1,0 +1,26 @@
+
+doc = { $(TestCase) | $(_comment) };
+
+TestCase =
+	"[" $(_csymbol=TCName) "]"
+	[ $(_comment) ]
+	{ $(Action) [ $(_comment) ] };
+	
+Action =
+	$(_csymbol=ActionType)
+	"(" $(_csymbol=ActionTarget) [ "(" $(_cint=ObjectIndex) ")" ]
+	 [ "." $(_csymbol=ActionProperty) ] ")" 
+	 [ "=" $(ActionParams) ] ";"
+	 ;
+	 
+ActionParams =
+	*{ $(_param) "," } $(_param);
+	
+param =
+	$(_intparam=ActionParam) | $(_cstring=ActionParam);
+
+intparam = ["-"] $(_cint);
+	
+comment =
+	{ "/*" $(*) "*/" | "//" $(_eol) };
+	

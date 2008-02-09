@@ -1,0 +1,32 @@
+[Include]
+../../../include/_backward/kscomm
+.
+
+[Config Release]
+Product		Lib ../../../lib/linux/kscomm
+Options		Release; MultiThread; AnsiChar; NoRtti; Exception
+ObjDir		LRelease
+
+[Config Debug]
+Product		Lib ../../../lib/linuxd/kscommd
+Options		Debug; MultiThread; AnsiChar; NoRtti; Exception
+ObjDir		LDebug
+
+[Source]
+fileext.c
+gendeffile.c
+makepath.c
+makepath2.c
+mergepath.c
+rmpathsep.c
+searchpath.c
+splitpat.c
+splitpat2.c
+stdpath.c
+stratom.cpp
+stricmp.c
+string.c
+switch.c
+linux/linux_finddir.c
+win32/win32_finddir.c
+scandir.c

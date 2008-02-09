@@ -1,0 +1,63 @@
+<html>
+<body>
+<pre>功能：
+	mks程序用于编译一个工程列表。其中工程列表文件是.plf格式的文件。
+	该工具可用以同时编译多个工程。
+	
+命令行：
+
+mks [-r -c -f] [plffile][.plf] [Config]
+
+
+开关说明：
+
+-r:
+	编译Release版本的配置。在默认情况下，我们编译的是Debug版本。
+
+-c:
+	重新编译（clean & build）。即rebuild all。
+
+-f:
+	不进行编译（compile）但强制执行link操作（force to link）。
+	
+
+参数说明：
+
+plffile:
+	要编译的工程列表文件。如果没有指定后缀，会自动加上.plf后缀。
+	
+	你也可以不指定plffile。如果没有指明prjfile，则尝试取projects.plf。
+	如果没有，则再尝试取plffile与当前目录同名。eg:
+	如果在/home/xsw/v6/kfc/目录下输入mks，则plffile=kfc.plf
+
+	工程列表(.plf)文件格式比较简单，就是一个工程列表而已。样例如：
+		kscomm/kscomm
+		mg/mg
+		mk/mk
+		mks/mks
+	这表示要编译 ./kscomm/kscomm.prj, ./mg/mg.prj 等等四个工程。
+	以上的例子每个“编译单元”是单个工程(.prj)，
+	其实你也可以指定另一个工程列表文件作为其中一个编译的单元。如：
+		kfc.plf
+		mktools.plf
+	这表示应当打开这两个工程列表，读取其中的每一个工程文件进行编译。
+	
+Config:
+	要编译的配置。一般情况不指定。
+	如果指定了一个特定的配置，则编译该配置。此时-r参数被忽略。例如：
+		mks -r kfc.prj Debug
+	这种情形下命令行是冲突的，-r参数指定的是编译Release版本，而Config指定编译Debug。
+	再冲突发生时，我们以Config参数为准。
+
+
+原理：
+	该程序实际上调用<a href="mk.htm">mk程序</a>来进行编译。
+	
+	
+相关程序：
+	<a href="mg.htm">mg程序</a>
+	<a href="mk.htm">mk程序</a>
+	
+</pre>
+</body>
+</html>

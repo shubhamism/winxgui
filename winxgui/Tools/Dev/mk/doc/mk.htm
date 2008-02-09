@@ -1,0 +1,56 @@
+<html>
+<body>
+<pre>功能：
+	mk程序用于编译一个工程。其中工程文件是.prj文件。
+	关于.prj文件格式的介绍，参考<a href="prjmanual.htm">V6工程配置手册</a>。
+	
+命令行：
+
+mk [-r -c -f] [prjfile][.prj] [Config]
+
+
+开关说明：
+
+-r:
+	编译Release版本的配置。在默认情况下，我们编译的是Debug版本。
+
+-c:
+	重新编译（clean & build）。即rebuild all。
+
+-f:
+	不进行编译（compile）但强制执行link操作（force to link）。
+	
+
+参数说明：
+
+prjfile:
+	要编译的工程文件。如果没有指定后缀，会自动加上合适的后缀。
+	
+	在linux平台下，会先检测是否存在prjfile.prj.li这样的文件；
+	如果没有找到prjfile.prj.li，则检测是否存在prjfile.prj。
+	
+	另外，prjfile也可以不指定。
+	如果没有指明prjfile，则尝试取prjfile与当前目录同名。eg:
+		如果在/home/xsw/v6/kfc/目录下输入mg，则prjfile=kfc
+	也就是说，mg程序会先检测是否存在/home/xsw/v6/kfc/kfc.prj.li，
+	如果没有，再检测是否存在/home/xsw/v6/kfc/kfc.prj。
+
+Config:
+	要编译的配置。一般情况不指定。
+	如果指定了一个特定的配置，则编译该配置。此时-r参数被忽略。例如：
+		mk -r kfc.prj Debug
+	这种情形下命令行是冲突的，-r参数指定的是编译Release版本，而Config指定编译Debug。
+	在冲突发生时，我们以Config参数为准。
+
+
+原理：
+	该程序实际上调用<a href="mg.htm">mg程序</a>来生成Makefile，然后调用make程序编译。
+	
+	
+相关程序：
+	<a href="mg.htm">mg程序</a>
+	<a href="mks.htm">mks程序</a>
+	
+</pre>
+</body>
+</html>

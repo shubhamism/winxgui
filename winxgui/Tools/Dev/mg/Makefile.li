@@ -1,0 +1,187 @@
+#
+# Configuration Default
+#
+ifeq ($(CFG),)
+	CFG = Release
+endif
+
+IncludeDir = -I../include/kscomm
+
+#
+# Configuration Release
+#
+ifeq ($(CFG), Release)
+	LibDir	    += -L../../lib/linux
+	Libraries   += -lkscomm
+	ProductDir   = ../../bin/linux
+	ObjectDir    = LRelease
+	MocFile      = $(ObjectDir)/temp.moc.cpp
+	Product      = ../../bin/linux/mg
+	CFlags       = $(Defines) -fPIC -D__INTEL__ -D__LINUX__ -DLINUX -DNDEBUG -O2 -D_MT -fexceptions 
+	CXXFlags     = $(CFlags) -fno-rtti
+	CXX          = g++ -c $(IncludeDir) $(CXXFlags) -o $@
+	CompileC     = @gcc -c $(IncludeDir) $(CFlags) -o $@ $<
+	CompileCXX   = @$(CXX) $<
+	CompileMoc   = @moc $< -o $(MocFile) && $(CXX) $(MocFile) && rm -f $(MocFile)
+	Link         = @g++ $(LibDir) -ldl -o $(Product)
+	LD_LIBRARY_PATH += :$(ProductDir)
+endif
+
+#
+# Configuration Debug
+#
+ifeq ($(CFG), Debug)
+	LibDir	    += -L../../libd/linux
+	Libraries   += -lkscommd
+	ProductDir   = ../../bin/linuxd
+	ObjectDir    = LDebug
+	MocFile      = $(ObjectDir)/temp.moc.cpp
+	Product      = ../../bin/linuxd/mg
+	CFlags       = $(Defines) -fPIC -D__INTEL__ -D__LINUX__ -DLINUX -D_DEBUG -g3 -D_MT -fexceptions 
+	CXXFlags     = $(CFlags) -fno-rtti
+	CXX          = g++ -c $(IncludeDir) $(CXXFlags) -o $@
+	CompileC     = @gcc -c $(IncludeDir) $(CFlags) -o $@ $<
+	CompileCXX   = @$(CXX) $<
+	CompileMoc   = @moc $< -o $(MocFile) && $(CXX) $(MocFile) && rm -f $(MocFile)
+	Link         = @g++ $(LibDir) -ldl -o $(Product)
+	LD_LIBRARY_PATH += :$(ProductDir)
+endif
+
+#
+# Configuration SunProRelease
+#
+ifeq ($(CFG), SunProRelease)
+	Defines	    += -DUses_SunProCC
+	Libraries   += -lKSCommonMT
+	ProductDir   = ../../DevTools
+	ObjectDir    = SunProRelease
+	MocFile      = $(ObjectDir)/temp.moc.cpp
+	Product      = ../../DevTools/mg.sp
+	CFlags       = $(Defines) -fwritable-strings -fPIC -D__INTEL__ -D__LINUX__ -DLINUX -DNDEBUG -O2 -D_MT -fno-rtti -fexceptions 
+	CXXFlags     = $(CFlags)
+	CXX          = g++ -c $(IncludeDir) $(CXXFlags) -o $@
+	CompileC     = @gcc -c $(IncludeDir) $(CFlags) -o $@ $<
+	CompileCXX   = @$(CXX) $<
+	CompileMoc   = @moc $< -o $(MocFile) && $(CXX) $(MocFile) && rm -f $(MocFile)
+	Link         = @g++ $(LibDir) -ldl -o $(Product)
+	LD_LIBRARY_PATH += :$(ProductDir)
+endif
+
+#
+# Configuration SunProDebug
+#
+ifeq ($(CFG), SunProDebug)
+	Defines	    += -DUses_SunProCC
+	Libraries   += -lKSCommonMTD
+	ProductDir   = ../../DevToolsD
+	ObjectDir    = SunProDebug
+	MocFile      = $(ObjectDir)/temp.moc.cpp
+	Product      = ../../DevToolsD/mgd.sp
+	CFlags       = $(Defines) -fwritable-strings -fPIC -D__INTEL__ -D__LINUX__ -DLINUX -D_DEBUG -g3 -D_MT -fno-rtti -fexceptions 
+	CXXFlags     = $(CFlags)
+	CXX          = g++ -c $(IncludeDir) $(CXXFlags) -o $@
+	CompileC     = @gcc -c $(IncludeDir) $(CFlags) -o $@ $<
+	CompileCXX   = @$(CXX) $<
+	CompileMoc   = @moc $< -o $(MocFile) && $(CXX) $(MocFile) && rm -f $(MocFile)
+	Link         = @g++ $(LibDir) -ldl -o $(Product)
+	LD_LIBRARY_PATH += :$(ProductDir)
+endif
+
+#
+# Making...
+#
+all : $(ProductDir) $(ObjectDir) StartMake $(Product) EndMake
+
+$(ProductDir) :
+	@mkdir -p $(ProductDir)
+
+ifneq ($(ProductDir),$(ObjectDir))
+$(ObjectDir) :
+	@mkdir -p $(ObjectDir)
+endif
+
+clean :
+	@rm -f $(ObjectDir)/*.o
+	@rm -f $(Product)
+
+StartMake :
+	@echo "-------------- Configuration:" $(PROJ) $(CFG) "--------------"
+ifeq ($(ForceLink),1)
+	@rm -f $(Product)
+endif
+
+EndMake :
+	@echo ">>> Success <<<"
+
+#
+# Source Files, Objects & Product
+#
+$(ObjectDir)/chkdep.o :	\
+	chkdep.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/depmap.o :	\
+	depmap.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/MakeGen.o :	\
+	MakeGen.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/StringList.o :	\
+	StringList.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/sec_config.o :	\
+	sec_config.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/sec_pathlist.o :	\
+	sec_pathlist.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/sec_source.o :	\
+	sec_source.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/csrcfile.o :	\
+	csrcfile.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/qtmocfile.o :	\
+	qtmocfile.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+$(ObjectDir)/dspfile.o :	\
+	dspfile.cpp
+	@echo "---> Compiling" $< "..."
+	$(CompileCXX)
+
+
+Objects =	\
+	$(ObjectDir)/chkdep.o	\
+	$(ObjectDir)/depmap.o	\
+	$(ObjectDir)/MakeGen.o	\
+	$(ObjectDir)/StringList.o	\
+	$(ObjectDir)/sec_config.o	\
+	$(ObjectDir)/sec_pathlist.o	\
+	$(ObjectDir)/sec_source.o	\
+	$(ObjectDir)/csrcfile.o	\
+	$(ObjectDir)/qtmocfile.o	\
+	$(ObjectDir)/dspfile.o
+
+$(Product) : $(Objects) $(Libs)
+	@echo "---> Creating" $@ "..."
+	@rm -f $@
+	$(Link) $(Objects) $(Libraries)
+	$(CheckLink)
+
