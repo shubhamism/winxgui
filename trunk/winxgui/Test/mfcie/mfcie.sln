@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mfcie", "mfcie.vcproj", "{A80E048E-34C8-44F3-9630-BFEDED3B700C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "searcher", "..\searcher\searcher.vcproj", "{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testifu", "..\testifu\testifu.vcproj", "{5E395621-5D79-42FF-A784-83B4DAE417E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		Static Debug|Win32 = Static Debug|Win32
+		Static Release|Win32 = Static Release|Win32
+		Unicode Debug|Win32 = Unicode Debug|Win32
+		Unicode Release|Win32 = Unicode Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Debug|Win32.Build.0 = Debug|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Release|Win32.ActiveCfg = Release|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Release|Win32.Build.0 = Release|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Static Debug|Win32.ActiveCfg = Static Debug|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Static Debug|Win32.Build.0 = Static Debug|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Static Release|Win32.ActiveCfg = Static Release|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Static Release|Win32.Build.0 = Static Release|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Unicode Debug|Win32.ActiveCfg = Unicode Debug|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Unicode Debug|Win32.Build.0 = Unicode Debug|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Unicode Release|Win32.ActiveCfg = Unicode Release|Win32
+		{A80E048E-34C8-44F3-9630-BFEDED3B700C}.Unicode Release|Win32.Build.0 = Unicode Release|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Debug|Win32.Build.0 = Debug|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Release|Win32.ActiveCfg = Release|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Release|Win32.Build.0 = Release|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Static Debug|Win32.ActiveCfg = Debug|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Static Debug|Win32.Build.0 = Debug|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Static Release|Win32.ActiveCfg = Release|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Static Release|Win32.Build.0 = Release|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Unicode Debug|Win32.ActiveCfg = Debug|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Unicode Debug|Win32.Build.0 = Debug|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Unicode Release|Win32.ActiveCfg = Release|Win32
+		{18DF191D-78E1-46F5-BFE5-EBBBA83106B9}.Unicode Release|Win32.Build.0 = Release|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Debug|Win32.Build.0 = Debug|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Release|Win32.ActiveCfg = Release|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Release|Win32.Build.0 = Release|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Static Debug|Win32.ActiveCfg = Debug|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Static Debug|Win32.Build.0 = Debug|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Static Release|Win32.ActiveCfg = Release|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Static Release|Win32.Build.0 = Release|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Unicode Debug|Win32.ActiveCfg = Debug|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Unicode Debug|Win32.Build.0 = Debug|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Unicode Release|Win32.ActiveCfg = Release|Win32
+		{5E395621-5D79-42FF-A784-83B4DAE417E3}.Unicode Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
