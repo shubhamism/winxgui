@@ -1,34 +1,34 @@
 [Include]
-../../../include/_backward/kscomm
+../include/kscomm
 
 [Config Release]
-Product		Exe ../../../product/linux/develop/mg
+Product		Exe ../../bin/linux/mg
 Options		Release; MultiThread; AnsiChar; NoRtti; Exception
 ObjDir		LRelease
-LibDir		../../../lib/linux
+LibDir		../../lib/linux
 Libraries	kscomm
 
 [Config Debug]
-Product		Exe ../../../product/linuxd/develop/mg
+Product		Exe ../../bin/linuxd/mg
 Options		Debug; MultiThread; AnsiChar; NoRtti; Exception
 ObjDir		LDebug
-LibDir		../../../lib/linuxd
+LibDir		../../lib/linuxd
 Libraries	kscommd
 
 [Config SunProRelease]
-Product		Exe ../../../product/linux/develop/mg.sp
+Product		Exe ../../bin/linux/mg.sp
 Options		Release; MultiThread; AnsiChar; NoRtti; Exception
 Defines     Uses_SunProCC
 ObjDir		SunProRelease
-LibDir		../../../lib/linux
+LibDir		../../lib/linux
 Libraries	kscommsp
 
 [Config SunProDebug]
-Product		Exe  ../../../product/linuxd/develop/mgd.sp
+Product		Exe  ../../bin/linuxd/mgd.sp
 Options		Debug; MultiThread; AnsiChar; NoRtti; Exception
 Defines     Uses_SunProCC
 ObjDir		SunProDebug
-LibDir		../../../lib/linuxd
+LibDir		../../lib/linuxd
 Libraries	kscommspd
 
 [Source]
@@ -42,5 +42,4 @@ sec_source.cpp
 csrcfile.cpp
 qtmocfile.cpp
 dspfile.cpp
-
 
