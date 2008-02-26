@@ -143,10 +143,23 @@ LPCTSTR g_szOptions[] =
 	_T("-fno-rtti "),
 };
 
+int g_typeOptions[] =
+{
+    1, // Debug: C/C++
+    1, // Release: C/C++
+    1, // Unicode: C/C++
+    1, // XChar: C/C++
+    1, // MT: C/C++
+    1, // Exception: C/C++
+    1, // NoException: C/C++
+    0, // Rtti: C++
+    0, // NoRtti: C++
+};
+
 #define g_szConfigStartParam		\
 	pParam->szSecParam, pParam->szSecParam
 #define g_szConfigEndParam			\
-	szProdDir, szObjDir, szProduct, pLocal->szCFlags, g_szLinkCommands[nProdType]
+	szProdDir, szObjDir, szProduct, pLocal->szCFlags, pLocal->szCppFlags, g_szLinkCommands[nProdType]
 
 const TCHAR g_szConfigStartFmt[] =
 _T(
@@ -163,7 +176,7 @@ _T(
 	"	MocFile      = $(ObjectDir)/temp.moc.cpp\n"
 	"	Product      = %s\n"
 	"	CFlags       = $(Defines) %s\n"
-	"	CXXFlags     = $(CFlags)\n"
+	"	CXXFlags     = $(CFlags) %s\n"
 	"	CXX          = " g_szCXXCompiler " -c $(IncludeDir) $(CXXFlags) -o $@\n"
 	"	CompileC     = @"  g_szCCompiler " -c $(IncludeDir) $(CFlags) -o $@ $<\n"
 	"	CompileCXX   = @$(CXX) $<\n"
@@ -211,6 +224,7 @@ struct tagKHandleSec_ConfigLocal
 	TCHAR szProduct[_MAX_PATH];
 	TCHAR szLibFile[_MAX_PATH];
 	TCHAR szCFlags[512];
+    TCHAR szCppFlags[256];
 	union
 	{
 		TCHAR szProdDir[_MAX_PATH];
@@ -234,6 +248,7 @@ STDMETHODIMP HandleSec_Config(FILE* fpList, KHandlerParam* pParam)
 	HRESULT hr = S_OK;
 	KHandleSec_ConfigLocal* pLocal = NULL;
 	LPTSTR pszCFlags;
+    LPTSTR pszCppFlags;
 	
 	pLocal = (KHandleSec_ConfigLocal*)malloc(sizeof(KHandleSec_ConfigLocal));
 	szLine = pLocal->szLine;
@@ -243,6 +258,8 @@ STDMETHODIMP HandleSec_Config(FILE* fpList, KHandlerParam* pParam)
 	szLibFileAbs = pLocal->szLibFileAbs;
 	szLibFile = pLocal->szLibFile;
 	pszCFlags = _tcsecpy(pLocal->szCFlags, g_szCFlagsDef);
+    pszCppFlags = pLocal->szCppFlags;
+    pszCppFlags[0] = '\0';
 	
 	*szObjDir	= 0;
 	*szProduct	= 0;
@@ -255,6 +272,7 @@ STDMETHODIMP HandleSec_Config(FILE* fpList, KHandlerParam* pParam)
 	{
 		return SkipSection(fpList, pParam);
 	}
+    //printf("Config: %s\n", pParam->szSecParam);
 	_ftprintf(pParam->fpDest, g_szConfigStartFmt, g_szConfigStartParam);
 
 	for (; GetSection(szLine, fpList, pParam) != S_OK;)
@@ -287,8 +305,16 @@ STDMETHODIMP HandleSec_Config(FILE* fpList, KHandlerParam* pParam)
 				else
 				{
 					UINT iTemp = GetKeywordIndex(token, g_szOptionsName, countof(g_szOptions));
-					if (iTemp != -1)
-						pszCFlags = _tcsecpy(pszCFlags, g_szOptions[iTemp]);
+					if (iTemp != -1) {
+                        switch (g_typeOptions[iTemp])
+                        {
+                        case 1: // C/C++
+        					pszCFlags = _tcsecpy(pszCFlags, g_szOptions[iTemp]);
+                            break;
+                        default:
+                            pszCppFlags = _tcsecpy(pszCppFlags, g_szOptions[iTemp]);
+                        }
+                    }
 				}
 			}
 		}
