@@ -23,6 +23,17 @@
 #define WS_EX_LAYOUTRTL	0x00400000
 #endif
 
+#ifndef WC_STATIC
+#define WC_STATIC	_T("Static")
+#endif
+
+#ifndef WC_LISTBOX
+#define WC_LISTBOX	_T("ListBox")
+#endif
+
+#ifndef WC_BUTTON
+#define WC_BUTTON	_T("Button")
+#endif
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
