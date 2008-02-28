@@ -146,6 +146,8 @@ typedef struct tagRGBTRIPLE {
 #define GetBValue(rgb)      ((BYTE)((rgb)>>16))
 #define RGB(r,g,b)          ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16)))
 
+#define _complex __complex
+
 typedef struct tagcomplex {
 	double x,y;
 } _complex;
