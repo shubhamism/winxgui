@@ -22,7 +22,7 @@
 
 // if you are missing sapi.h, you either need to install the Microsoft Speech SDK or Microsoft Vista SDK
 // or you can just remove the line below, which will disable speech notifications in eMule
-#define HAVE_SAPI_H
+//==> #define HAVE_SAPI_H
 
 #ifdef HAVE_SAPI_H
 #include <sapi.h>
