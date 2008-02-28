@@ -39,6 +39,10 @@
 #include "argnames.h"
 #include <memory>
 
+#ifndef CRYPTOPP_ASN_H
+#include "asn.h"
+#endif
+
 // VC60 workaround: this macro is defined in shlobj.h and conflicts with a template parameter used in this file
 #undef INTERFACE
 
