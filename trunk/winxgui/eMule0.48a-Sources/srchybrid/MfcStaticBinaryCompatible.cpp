@@ -50,14 +50,20 @@
 //#include "stdafx.h"	// please read the comment above!!
 
 // Disable some warnings which are only generated when using "/Wall"
+#pragma warning(disable:4365)
+#pragma warning(disable:4266)
+#pragma warning(disable:4826)
+#pragma warning(disable:4571)
+#pragma warning(disable:4819)
+#pragma warning(disable:4350)
 #pragma warning(disable:4061) // enumerate in switch of enum is not explicitly handled by a case label
 #pragma warning(disable:4062) // enumerate in switch of enum is not handled
 #pragma warning(disable:4191) // 'type cast' : unsafe conversion from <this> to <that>
-#pragma warning(disable:4217) // <func>: member template functions cannot be used for copy-assignment or copy-construction
+//#pragma warning(disable:4217) // <func>: member template functions cannot be used for copy-assignment or copy-construction
 #pragma warning(disable:4263) // <func> member function does not override any base class virtual member function
 #pragma warning(disable:4264) // <func>: no override available for virtual member function from base <class>; function is hidden
 #pragma warning(disable:4265) // <class>: class has virtual functions, but destructor is not virtual
-#pragma warning(disable:4529) // forming a pointer-to-member requires explicit use of the address-of operator ('&') and a qualified name
+//#pragma warning(disable:4529) // forming a pointer-to-member requires explicit use of the address-of operator ('&') and a qualified name
 #pragma warning(disable:4548) // expression before comma has no effect; expected expression with side-effect
 #pragma warning(disable:4555) // expression has no effect; expected expression with side-effect
 #pragma warning(disable:4619) // #pragma warning : there is no warning number <n>

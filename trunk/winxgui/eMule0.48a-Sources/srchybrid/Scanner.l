@@ -1,4 +1,6 @@
 %{
+#define _INC_WTIME_INL
+#define _INC_TIME_INL
 #include "stdafx.h"
 #include "resource.h"
 #include <io.h>
