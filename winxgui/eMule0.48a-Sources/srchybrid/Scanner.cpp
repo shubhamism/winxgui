@@ -730,6 +730,8 @@ goto find_rule; \
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #define INITIAL 0
+#define _INC_WTIME_INL
+#define _INC_TIME_INL
 #include "stdafx.h"
 #include "resource.h"
 #include <io.h>
