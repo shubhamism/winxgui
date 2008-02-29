@@ -13,6 +13,7 @@
 // Insert your headers here
 
 #define ID3LIB_LINKOPTION LINKOPTION_STATIC
+#include <id3.h>
 
 // TODO: reference additional headers your program requires here
 
