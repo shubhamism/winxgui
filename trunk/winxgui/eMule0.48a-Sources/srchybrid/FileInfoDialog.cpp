@@ -23,11 +23,14 @@
 #include "Preferences.h"
 #include "UserMsgs.h"
 
+/*@@comment -- xushiwei (use dll instead of lib)
 // id3lib
 #pragma warning(disable:4100) // unreferenced formal parameter
 #include <id3/tag.h>
 #include <id3/misc_support.h>
 #pragma warning(default:4100) // unreferenced formal parameter
+*/
+#include <id3dll.h>
 
 // MediaInfoDLL
 /** @brief Kinds of Stream */
@@ -797,34 +800,34 @@ void CGetMediaInfoThread::WarnAboutWrongFileExtension(SMediaInfo* mi, LPCTSTR ps
 	mi->strInfo.SetSelectionCharFormat(mi->strInfo.m_cfDef);
 }
 
-wchar_t *ID3_GetStringW(const ID3_Frame *frame, ID3_FieldID fldName)
+wchar_t *ID3_GetStringW(ID3_Frame_ConstPtr frame, ID3_FieldID fldName)
 {
 	// ID3LIB BUG: Use the Unicode support of id3lib only if the tag is already 
 	// in Unicode format, thus avoiding couple of bugs with character conversion in 
 	// id3lib to get triggered.
-	ID3_Field* fld;
-	if (NULL != frame && NULL != (fld = frame->GetField(fldName)) 
-		&& fld->GetEncoding() == ID3TE_UTF16)
+	ID3_Field_Ptr fld;
+	if (NULL != frame && NULL != (fld = frame.GetField(fldName)) 
+		&& fld.GetEncoding() == ID3TE_UTF16)
 	{
 		unicode_t *text = NULL;
-		size_t nText = fld->Size();
+		size_t nText = fld.Size();
 		text = new unicode_t[nText/sizeof(unicode_t) + 1];
-		fld->Get(text, nText/sizeof(unicode_t));
+		fld.Get(text, nText/sizeof(unicode_t));
 		text[nText/sizeof(unicode_t)] = L'\0';
 		for (unsigned int i = 0; i < nText/sizeof(unicode_t); i++)
 			text[i] = _byteswap_ushort(text[i]);
 		return (wchar_t*)text;
 	}
 
-	char *text = ID3_GetString(frame, fldName);
+	char *text = ID3_GetStringA(frame, fldName);
 	CStringW wstr(text);
-	delete[] text;
+	ID3_FreeStringA(text);
 	wchar_t *pwsz = new wchar_t[wstr.GetLength() + 1];
 	wcscpy(pwsz, wstr);
 	return pwsz;
 }
 
-wchar_t *ID3_GetStringW(const ID3_Frame *frame, ID3_FieldID fldName, size_t nIndex)
+wchar_t *ID3_GetStringW(ID3_Frame_ConstPtr frame, ID3_FieldID fldName, size_t nIndex)
 {
 	// Do not use 'ID3_FieldImpl::Get(unicode_t *buffer, size_t maxLength, size_t itemNum)'.
 	// That function is broken in id3lib (the bug is in 'GetRawUnicodeTextItem')
@@ -1055,9 +1058,9 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 			}
 
 			int iTag = 0;
-			ID3_Tag::Iterator* iter = myTag.CreateIterator();
-			const ID3_Frame* frame;
-			while ((frame = iter->GetNext()) != NULL)
+			ID3Tag_Iterator iter = myTag.CreateIterator();
+			ID3_Frame_ConstPtr frame;
+			while ((frame = iter.GetNext()) != NULL)
 			{
 				if (iTag == 0)
 				{
@@ -1068,12 +1071,12 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 				}
 				iTag++;
 
-				LPCSTR desc = frame->GetDescription();
+				LPCSTR desc = frame.GetDescription();
 				if (!desc)
-					desc = frame->GetTextID();
+					desc = frame.GetTextID();
 
 				CStringStream strFidInfo;
-				ID3_FrameID eFrameID = frame->GetID();
+				ID3_FrameID eFrameID = frame.GetID();
 				switch (eFrameID)
 				{
 				case ID3FID_ALBUM:
@@ -1236,7 +1239,7 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 				}
 				case ID3FID_INVOLVEDPEOPLE:
 				{
-					size_t nItems = frame->GetField(ID3FN_TEXT)->GetNumTextItems();
+					size_t nItems = frame.GetField(ID3FN_TEXT).GetNumTextItems();
 					for (size_t nIndex = 0; nIndex < nItems; nIndex++)
 					{
 						wchar_t *sPeople = ID3_GetStringW(frame, ID3FN_TEXT, nIndex);
@@ -1254,8 +1257,8 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 					*sDesc	   = ID3_GetStringW(frame, ID3FN_DESCRIPTION),
 					*sFormat   = ID3_GetStringW(frame, ID3FN_IMAGEFORMAT);
 					size_t
-					nPicType   = frame->GetField(ID3FN_PICTURETYPE)->Get(),
-					nDataSize  = frame->GetField(ID3FN_DATA)->Size();
+					nPicType   = frame.GetField(ID3FN_PICTURETYPE).Get(),
+					nDataSize  = frame.GetField(ID3FN_DATA).Size();
 					strFidInfo << _T("(") << sDesc << _T(")[") << sFormat << _T(", ")
 							   << nPicType << _T("]: ") << sMimeType << _T(", ") << nDataSize << _T(" bytes");
 					delete[] sMimeType;
@@ -1270,7 +1273,7 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 					*sDesc = ID3_GetStringW(frame, ID3FN_DESCRIPTION),
 					*sFileName = ID3_GetStringW(frame, ID3FN_FILENAME);
 					size_t
-					nDataSize = frame->GetField(ID3FN_DATA)->Size();
+					nDataSize = frame.GetField(ID3FN_DATA).Size();
 					strFidInfo << _T("(") << sDesc << _T(")[")
 							   << sFileName << _T("]: ") << sMimeType << _T(", ") << nDataSize << _T(" bytes");
 					delete[] sMimeType;
@@ -1281,14 +1284,14 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 				case ID3FID_UNIQUEFILEID:
 				{
 					wchar_t *sOwner = ID3_GetStringW(frame, ID3FN_OWNER);
-					size_t nDataSize = frame->GetField(ID3FN_DATA)->Size();
+					size_t nDataSize = frame.GetField(ID3FN_DATA).Size();
 					strFidInfo << sOwner << _T(", ") << nDataSize << _T(" bytes");
 					delete[] sOwner;
 					break;
 				}
 				case ID3FID_PLAYCOUNTER:
 				{
-					size_t nCounter = frame->GetField(ID3FN_COUNTER)->Get();
+					size_t nCounter = frame.GetField(ID3FN_COUNTER).Get();
 					strFidInfo << nCounter;
 					break;
 				}
@@ -1296,8 +1299,8 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 				{
 					wchar_t *sEmail = ID3_GetStringW(frame, ID3FN_EMAIL);
 					size_t
-					nCounter = frame->GetField(ID3FN_COUNTER)->Get(),
-					nRating = frame->GetField(ID3FN_RATING)->Get();
+					nCounter = frame.GetField(ID3FN_COUNTER).Get(),
+					nRating = frame.GetField(ID3FN_RATING).Get();
 					strFidInfo << sEmail << _T(", counter=") << nCounter << _T(" rating=") << nRating;
 					delete[] sEmail;
 					break;
@@ -1307,8 +1310,8 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 				{
 					wchar_t *sOwner = ID3_GetStringW(frame, ID3FN_OWNER);
 					size_t
-					nSymbol = frame->GetField(ID3FN_ID)->Get(),
-					nDataSize = frame->GetField(ID3FN_DATA)->Size();
+					nSymbol = frame.GetField(ID3FN_ID).Get(),
+					nDataSize = frame.GetField(ID3FN_DATA).Size();
 					strFidInfo << _T("(") << nSymbol << _T("): ") << sOwner << _T(", ") << nDataSize << _T(" bytes");
 					break;
 				}
@@ -1318,8 +1321,8 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 					*sDesc = ID3_GetStringW(frame, ID3FN_DESCRIPTION),
 					*sLang = ID3_GetStringW(frame, ID3FN_LANGUAGE);
 					size_t
-					//nTimestamp = frame->GetField(ID3FN_TIMESTAMPFORMAT)->Get(),
-					nRating = frame->GetField(ID3FN_CONTENTTYPE)->Get();
+					//nTimestamp = frame.GetField(ID3FN_TIMESTAMPFORMAT)->Get(),
+					nRating = frame.GetField(ID3FN_CONTENTTYPE).Get();
 					//const char* format = (2 == nTimestamp) ? "ms" : "frames";
 					strFidInfo << _T("(") << sDesc << _T(")[") << sLang << _T("]: ");
 					switch (nRating)
@@ -1332,7 +1335,7 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 					case ID3CT_CHORD:    strFidInfo << _T("Chord"); break;
 					case ID3CT_TRIVIA:   strFidInfo << _T("Trivia/'pop up' information"); break;
 					}
-					/*ID3_Field* fld = frame->GetField(ID3FN_DATA);
+					/*ID3_Field* fld = frame.GetField(ID3FN_DATA);
 					if (fld)
 					{
 						ID3_MemoryReader mr(fld->GetRawBinary(), fld->BinSize());
@@ -1379,7 +1382,7 @@ bool CGetMediaInfoThread::GetMediaInfo(HWND hWndOwner, const CKnownFile* pFile, 
 					}
 				}
 			}
-			delete iter;
+			//delete iter;
 		}
 		catch(...)
 		{

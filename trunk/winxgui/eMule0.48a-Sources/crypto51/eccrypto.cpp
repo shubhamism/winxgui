@@ -96,6 +96,10 @@ template<> struct EcRecommendedParameters<ECP>
 struct OIDLessThan
 {
 	template <typename T>
+	inline bool operator()(const OID& a, const OID& b) {return a < b;}
+	template <typename T>
+	inline bool operator()(const EcRecommendedParameters<T>& a, const EcRecommendedParameters<T>& b) {return a.oid < b.oid;}
+	template <typename T>
 	inline bool operator()(const EcRecommendedParameters<T>& a, const OID& b) {return a.oid < b;}
 	template <typename T>
 	inline bool operator()(const OID& a, const EcRecommendedParameters<T>& b) {return a < b.oid;}
