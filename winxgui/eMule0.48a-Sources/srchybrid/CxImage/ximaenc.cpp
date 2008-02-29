@@ -3,6 +3,10 @@
  * CxImage version 5.71 25/Apr/2003
  */
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "ximage.h"
 
 #if CXIMAGE_SUPPORT_JPG
@@ -442,7 +446,7 @@ CxImage::CxImage(const char * filename, DWORD imagetype)
 }
 ////////////////////////////////////////////////////////////////////////////////
 // Stream constructor
-// § the file is always closed by the constructor.
+// ?the file is always closed by the constructor.
 // > stream: file with "rb" access
 // > imagetype: specify the image format (CXIMAGE_FORMAT_BMP,...)
 CxImage::CxImage(FILE * stream, DWORD imagetype)
