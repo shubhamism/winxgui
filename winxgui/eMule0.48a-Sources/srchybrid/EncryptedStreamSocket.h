@@ -33,8 +33,6 @@
 #pragma warning(default:4100) // unreferenced formal parameter
 #pragma warning(default:4244) // conversion from 'type1' to 'type2', possible loss of data
 
-
-
 #define ERR_WRONGHEADER				0x01
 #define ERR_TOOBIG					0x02
 #define ERR_ENCRYPTION				0x03

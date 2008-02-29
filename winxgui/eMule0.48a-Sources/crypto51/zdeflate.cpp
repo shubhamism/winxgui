@@ -95,6 +95,7 @@ struct HuffmanNode
 
 struct FreqLessThan
 {
+	inline bool operator()(const HuffmanNode &lhs, unsigned int rhs) {return lhs.freq < rhs;}
 	inline bool operator()(unsigned int lhs, const HuffmanNode &rhs) {return lhs < rhs.freq;}
 	inline bool operator()(const HuffmanNode &lhs, const HuffmanNode &rhs) const {return lhs.freq < rhs.freq;}
 };

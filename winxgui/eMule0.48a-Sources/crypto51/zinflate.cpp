@@ -12,6 +12,8 @@ NAMESPACE_BEGIN(CryptoPP)
 
 struct CodeLessThan
 {
+	inline bool operator()(const CryptoPP::HuffmanDecoder::CodeInfo& lhs, const CryptoPP::HuffmanDecoder::CodeInfo &rhs)
+		{return lhs < rhs;}
 	inline bool operator()(const CryptoPP::HuffmanDecoder::code_t lhs, const CryptoPP::HuffmanDecoder::CodeInfo &rhs)
 		{return lhs < rhs.code;}
 };

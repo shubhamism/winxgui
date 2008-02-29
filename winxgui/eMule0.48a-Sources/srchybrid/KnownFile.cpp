@@ -49,12 +49,16 @@
 #include "SharedFilesWnd.h"
 #include "MediaInfo.h"
 
+/*@@comment -- xushiwei (use dll instead of lib)
 // id3lib
 #pragma warning(disable:4100) // unreferenced formal parameter
 #include <id3/tag.h>
 #include <id3/misc_support.h>
 #pragma warning(default:4100) // unreferenced formal parameter
-extern wchar_t *ID3_GetStringW(const ID3_Frame *frame, ID3_FieldID fldName);
+*/
+#include <id3dll.h>
+
+extern wchar_t *ID3_GetStringW(ID3_Frame_ConstPtr frame, ID3_FieldID fldName);
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1614,11 +1618,11 @@ void CKnownFile::UpdateMetaDataTags()
 					}
 				}
 
-				ID3_Tag::Iterator* iter = myTag.CreateIterator();
-				const ID3_Frame* frame;
-				while ((frame = iter->GetNext()) != NULL)
+				ID3Tag_Iterator iter = myTag.CreateIterator();
+				ID3_Frame_ConstPtr frame;
+				while ((frame = iter.GetNext()) != NULL)
 				{
-					ID3_FrameID eFrameID = frame->GetID();
+					ID3_FrameID eFrameID = frame.GetID();
 					switch (eFrameID)
 					{
 						case ID3FID_LEADARTIST:{
@@ -1659,7 +1663,7 @@ void CKnownFile::UpdateMetaDataTags()
 						}
 					}
 				}
-				delete iter;
+				//delete iter;
 			}
 			catch(...){
 				if (thePrefs.GetVerbose())
