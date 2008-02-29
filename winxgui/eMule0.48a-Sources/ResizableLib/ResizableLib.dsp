@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=ResizableLib - Win32 Debug Static
+CFG=ResizableLib - Win32 Debug Unicode
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,7 +13,7 @@ CFG=ResizableLib - Win32 Debug Static
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "ResizableLib.mak" CFG="ResizableLib - Win32 Debug Static"
+!MESSAGE NMAKE /f "ResizableLib.mak" CFG="ResizableLib - Win32 Debug Unicode"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -21,6 +21,7 @@ CFG=ResizableLib - Win32 Debug Static
 !MESSAGE "ResizableLib - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE "ResizableLib - Win32 Debug Static" (based on "Win32 (x86) Static Library")
 !MESSAGE "ResizableLib - Win32 Release Static" (based on "Win32 (x86) Static Library")
+!MESSAGE "ResizableLib - Win32 Debug Unicode" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -122,6 +123,29 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
+!ELSEIF  "$(CFG)" == "ResizableLib - Win32 Debug Unicode"
+
+# PROP BASE Use_MFC 1
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "ResizableLib___Win32_Debug_Unicode"
+# PROP BASE Intermediate_Dir "ResizableLib___Win32_Debug_Unicode"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 1
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "DebugUnicode"
+# PROP Intermediate_Dir "DebugUnicode"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MTd /W4 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MTd /W4 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "UNICODE" /D "_UNICODE" /Yu"stdafx.h" /FD /GZ /c
+# ADD BASE RSC /l 0x410 /d "_DEBUG"
+# ADD RSC /l 0x410 /d "_DEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
 !ENDIF 
 
 # Begin Target
@@ -130,6 +154,7 @@ LIB32=link.exe -lib
 # Name "ResizableLib - Win32 Debug"
 # Name "ResizableLib - Win32 Debug Static"
 # Name "ResizableLib - Win32 Release Static"
+# Name "ResizableLib - Win32 Debug Unicode"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
