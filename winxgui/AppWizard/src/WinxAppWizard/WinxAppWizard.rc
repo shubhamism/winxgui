@@ -1,0 +1,467 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "atlres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""atlres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST ""res\\\\AppWizard.exe.manifest""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\AppWizard.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 187, 102
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于"
+FONT 9, "宋体"
+BEGIN
+    DEFPUSHBUTTON   "确认",IDOK,130,81,50,14
+    CTEXT           "AppWizard 应用程序 v1.0\n\n(c) 版权所有 2008",
+                    IDC_STATIC,25,57,78,32
+    ICON            IDR_MAINFRAME,IDC_STATIC,55,26,18,20
+    GROUPBOX        "",IDC_STATIC,7,7,115,88
+END
+
+IDD_MAINDLG DIALOG DISCARDABLE  0, 0, 187, 98
+STYLE WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
+CAPTION "AppWizard"
+FONT 9, "宋体"
+BEGIN
+    DEFPUSHBUTTON   "确认",IDOK,130,7,50,14
+    PUSHBUTTON      "取消",IDCANCEL,130,24,50,14
+    PUSHBUTTON      "关于(&A)...",ID_APP_ABOUT,130,77,50,14
+END
+
+IDD_APPTYPE_PAGE DIALOGEX 0, 0, 406, 207
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Select application type:",IDC_STATIC,130,16,106,8
+    LTEXT           "Select project options:",IDC_STATIC,251,16,111,8
+    CONTROL         "&Enable ActiveX Control Hosting",IDC_ACTIVEX,"Button",
+                    BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,133,
+                    124,129,10
+    CONTROL         "Generate .CPP &Files",IDC_CPPFILES,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,133,142,129,10
+    CONTROL         "&Add Common Controls Manifest",IDC_MAINFEST,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,133,160,129,10
+    CONTROL         "Unicode character set",IDC_UNICODE_CHECK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,133,178,129,10
+    CONTROL         202,1018,"Static",SS_BITMAP | SS_NOTIFY,7,8,111,188,
+                    WS_EX_STATICEDGE
+    CONTROL         "Frame Dailog (using  vfcframe - wtl extend library)",
+                    IDC_FRAMEDIALOG_CHECK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,149,63,232,10
+    CONTROL         "check it add vfc files to project or use include path",
+                    IDC_ADDVFCFILES_CHECK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,167,78,232,10
+    LTEXT           "Resource language:",IDC_STATIC,134,93,78,8
+    COMBOBOX        IDC_LANG_COMBO,133,105,89,117,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Modal Dialog",IDC_APPTYPE1,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,132,33,64,10
+    CONTROL         "Modeless Dialog",IDC_APPTYPE2,"Button",
+                    BS_AUTORADIOBUTTON,132,49,76,10
+    CONTROL         "DataExchange(DDX)",IDC_DDX_CHECK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,277,142,122,10
+    CONTROL         "Accelerator",IDC_ACCEL_CHECK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,277,124,122,10
+    CONTROL         "Use GetPlus",IDC_GDIPLUS_CHECK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,277,160,122,10
+    CONTROL         "LookNFell",IDC_LOOKNFELL_CHECK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,277,178,122,10
+END
+
+IDD_APPUI_PAGE DIALOGEX 0, 0, 290, 202
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Select UI features:",-1,133,7,130,8
+    CONTROL         "&Toolbar",IDC_TOOLBAR,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,132,35,130,10
+    CONTROL         "&Rebar",IDC_REBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    132,51,130,10
+    CONTROL         "&Command Bar",IDC_CMDBAR,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,132,65,130,10
+    CONTROL         "&Status Bar",IDC_STATUSBAR,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,132,80,130,10
+    CONTROL         "&Use a view window",IDC_USEVIEW,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,133,135,130,10
+    LTEXT           "&View type:",1013,133,153,130,8
+    COMBOBOX        IDC_VIEWTYPE,133,167,121,155,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         202,1018,"Static",SS_BITMAP | SS_NOTIFY,7,8,130,188,
+                    WS_EX_STATICEDGE
+    CONTROL         "MenuBar",IDC_MENUBAR,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,132,20,44,10
+END
+
+IDD_APPNAME_PAGE DIALOG DISCARDABLE  0, 0, 384, 217
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         202,IDC_STATIC,"Static",SS_BITMAP | SS_REALSIZEIMAGE | 
+                    SS_SUNKEN,7,7,111,188
+    LTEXT           "Project Name:",IDC_STATIC,133,7,53,8
+    EDITTEXT        IDC_PROJECT_NAME_EDIT,133,19,163,14,ES_AUTOHSCROLL
+    LTEXT           "Location:",IDC_STATIC,133,35,37,8
+    EDITTEXT        IDC_LOCATION_EDIT,133,47,163,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BROWSE,303,47,50,14
+    CONTROL         "make .dsp for Visual Studio 6.0",IDC_VS60_CHECK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,133,108,140,10
+    LTEXT           "Select Taget",IDC_STATIC,133,94,49,8
+    EDITTEXT        IDC_PROJECT_PATH_EDIT,133,77,162,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    LTEXT           "Project Path:",IDC_STATIC,133,65,53,8
+    CONTROL         "make .vcproj for Visual Studio 2005",IDC_VS2005_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,133,156,226,10
+    CONTROL         "make .vcproj for Visual Studio 2008",IDC_VS2008_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,133,172,153,10
+    CONTROL         "make .vcproj for Visual Studio 2003 (test)",
+                    IDC_VS2003_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    133,140,184,10
+    CONTROL         "make .vcproj for Visual Studio 2002 (test)",
+                    IDC_VS2002_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    133,124,184,10
+    LTEXT           "VisualFC WinxGui AppWizard Vesion 0.5b build: 2008-4-14",
+                    IDC_STATIC,159,189,221,8
+    CONTROL         "WINX_USE_DEFSDK",IDC_DEFSDK_CHECK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,293,108,84,10
+END
+
+IDD_CONFIRM_DLG DIALOG DISCARDABLE  0, 0, 309, 296
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New Project Infomation"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,192,275,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,252,275,50,14
+    EDITTEXT        IDC_INFO_EDIT,7,7,295,228,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_READONLY | WS_VSCROLL
+    LTEXT           "Project Directory:",IDC_STATIC,7,239,110,8
+    EDITTEXT        IDC_PROJECT_PATH,7,254,173,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 95
+    END
+
+    IDD_MAINDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 91
+    END
+
+    IDD_APPTYPE_PAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 399
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 197
+    END
+
+    IDD_APPUI_PAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 283
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 195
+    END
+
+    IDD_APPNAME_PAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 377
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 208
+    END
+
+    IDD_CONFIRM_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 289
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "AppWizard Module\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "AppWizard\0"
+            VALUE "LegalCopyright", "Copyright 2008\0"
+            VALUE "OriginalFilename", "AppWizard.exe\0"
+            VALUE "ProductName", "AppWizard Module\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_WTL                 BITMAP  DISCARDABLE     "res\\WTL.bmp"
+IDB_HEADER              BITMAP  DISCARDABLE     "res\\header.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_APPUI_PAGE DLGINIT
+BEGIN
+    IDC_VIEWTYPE, 0x403, 15, 0
+0x6547, 0x656e, 0x6972, 0x2063, 0x6977, 0x646e, 0x776f, "\000" 
+    IDC_VIEWTYPE, 0x403, 20, 0
+0x6f46, 0x6d72, 0x2820, 0x6944, 0x6c61, 0x676f, 0x6220, 0x7361, 0x6465, 
+0x0029, 
+    IDC_VIEWTYPE, 0x403, 9, 0
+0x694c, 0x7473, 0x4220, 0x786f, "\000" 
+    IDC_VIEWTYPE, 0x403, 5, 0
+0x6445, 0x7469, "\000" 
+    IDC_VIEWTYPE, 0x403, 10, 0
+0x694c, 0x7473, 0x5620, 0x6569, 0x0077, 
+    IDC_VIEWTYPE, 0x403, 10, 0
+0x7254, 0x6565, 0x5620, 0x6569, 0x0077, 
+    IDC_VIEWTYPE, 0x403, 10, 0
+0x6952, 0x6863, 0x4520, 0x6964, 0x0074, 
+    IDC_VIEWTYPE, 0x403, 10, 0
+0x5448, 0x4c4d, 0x5020, 0x6761, 0x0065, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "AppWizard"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "建立新文档\n新建"
+    ID_FILE_OPEN            "打开一个现有文档\n打开"
+    ID_FILE_CLOSE           "关闭活动文档\n关闭"
+    ID_FILE_SAVE            "保存活动文档\n保存"
+    ID_FILE_SAVE_AS         "将活动文档以一个新文件名保存\n另存为"
+    ID_FILE_PAGE_SETUP      "改变打印选项\n页面设置"
+    ID_FILE_PRINT_SETUP     "改变打印机及打印选项\n打印设置"
+    ID_FILE_PRINT           "打印活动文档\n打印"
+    ID_FILE_PRINT_PREVIEW   "模拟显示当前编辑文件打印结果\n打印预览"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "显示程序信息，版本号和版权\n关于"
+    ID_APP_EXIT             "退出应用程序；提示保存文档\n退出"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "切换到下一个窗格\n下一窗格"
+    ID_PREV_PANE            "切换回前一个窗格\n前一窗格"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_NEW           "为活动文档打开另一个窗口\n新建窗口"
+    ID_WINDOW_ARRANGE       "将图标排列在窗口底部\n排列图标"
+    ID_WINDOW_CASCADE       "排列窗口成相互重叠\n层叠窗口"
+    ID_WINDOW_TILE_HORZ     "排列窗口成互不重叠\n平铺窗口"
+    ID_WINDOW_TILE_VERT     "排列窗口成互不重叠\n平铺窗口"
+    ID_WINDOW_SPLIT         "将活动的窗口分隔成窗格\n分隔"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "删除被选对象\n删除"
+    ID_EDIT_CLEAR_ALL       "全部删除\n全部删除"
+    ID_EDIT_COPY            "复制被选对象并将其置于剪贴板上\n复制"
+    ID_EDIT_CUT             "剪切被选对象并将其置于剪贴板上\n剪切"
+    ID_EDIT_FIND            "查找指定的正文\n查找"
+    ID_EDIT_PASTE           "插入剪贴板内容\n粘贴"
+    ID_EDIT_REPEAT          "重复上一步操作\n重复"
+    ID_EDIT_REPLACE         "用不同的正文替换指定的正文\n替换"
+    ID_EDIT_SELECT_ALL      "选择整个文档\n选择全部"
+    ID_EDIT_UNDO            "撤消最后一步操作\n撤消"
+    ID_EDIT_REDO            "重新执行先前已撤消的操作\n重新执行"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "显示或隐藏工具栏\n显隐工具栏"
+    ID_VIEW_STATUS_BAR      "显示或隐藏状态栏\n显隐状态栏"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ATL_IDS_SCSIZE          "改变窗口大小"
+    ATL_IDS_SCMOVE          "改变窗口位置"
+    ATL_IDS_SCMINIMIZE      "将窗口缩小成图标"
+    ATL_IDS_SCMAXIMIZE      "把窗口放大到最大尺寸"
+    ATL_IDS_SCNEXTWINDOW    "切换到下一个文档窗口"
+    ATL_IDS_SCPREVWINDOW    "切换到先前的文档窗口"
+    ATL_IDS_SCCLOSE         "关闭活动的窗口并提示保存所有文档"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ATL_IDS_SCRESTORE       "把窗口恢复到正常大小"
+    ATL_IDS_SCTASKLIST      "激活任务表"
+    ATL_IDS_MDICHILD        "激活该窗口"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ATL_IDS_IDLEMESSAGE     "就绪"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ATL_IDS_MRU_FILE        "打开该文档"
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "res\\AppWizard.exe.manifest"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

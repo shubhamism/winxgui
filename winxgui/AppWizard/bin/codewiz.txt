@@ -1,0 +1,27 @@
+standard code template
+
+//standard
+CODE_PROJECT_NAME - str
+CODE_CLASS	  - str	
+CODE_BASE_CLASS   - array
+CODE_CLASS_FILE   - str
+CODE_FILE_NAME_SYMBOL - auto
+
+//base bBase
+CODE_USE_CPP_FILES	- sel
+CODE_USE_STDAFX		- sel
+CODE_USE_CONSTRUCTION	- sel
+CODE_USE_DESTRUCTION	- sel
+CODE_USE_RESOURCE	- sel
+CODE_TEMPALTE_IDD - array -> auto
+
+//ext bExt
+CODE_USE_DDX		- sel
+CODE_USE_UPDATEUI	- sel
+CODE_USE_MESSAGE	- sel
+CODE_USE_DLGRESIZE	- sel
+CODE_USE_MODAL		- sel
+
+//user bUser
+str_map CODE_DEFINE	- array
+str_set CODE_OUTPUT	- array
