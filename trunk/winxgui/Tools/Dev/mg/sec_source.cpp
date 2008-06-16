@@ -63,30 +63,59 @@ STDMETHODIMP HandleCLangSrcFile(LPCTSTR szSrcFile, KHandlerParam* pParam);
 STDMETHODIMP HandleQTMocFile(LPCTSTR szSrcFile, KHandlerParam* pParam);
 STDMETHODIMP HandleDspFile(LPCTSTR szSrcFile, KHandlerParam* pParam);
 
+struct ScanDirFileParam
+{
+	const TCHAR* ext;
+	KHandlerParam* pParam;
+};
+
+STDMETHODIMP ScanDirFile(LPCTSTR szFile, FILEINFO* fi, void* pParam)
+{
+	ScanDirFileParam* para = (ScanDirFileParam*)pParam;
+	
+	TCHAR ext[_MAX_EXT];
+	_tsplitpath(szFile, NULL, NULL, NULL, ext);
+	if (strcmp(ext, para->ext) == 0)
+	{
+		HandleSingleFile(szFile, para->pParam);
+	}
+	return S_OK;
+}
+
 STDMETHODIMP HandleSingleFile(LPCTSTR token, KHandlerParam* pParam)
 {
 	TCHAR ext[_MAX_EXT];
-
 	_tsplitpath(token, NULL, NULL, NULL, ext);
-	for (UINT i = 0; i < countof(g_szCLangExt); ++i)
+	
+	if (strchr(token, '*') != NULL)
 	{
-		if (_tcsicmp(ext, g_szCLangExt[i]) == 0)
-		{
-			if (i >= 3)
-			{
-				HandleCLangSrcFile(token, pParam);
-			}
-			else if (pParam->fUseQTMoc)
-			{
-				HandleQTMocFile(token, pParam);
-			}
-			return S_OK;
-		}
+		TCHAR szDir[_MAX_PATH];
+		SplitPath2(token, szDir, NULL);
+		ScanDirFileParam para = { ext, pParam };
+		ScanDirectory(szDir, ScanDirFile, 0, &para);
 	}
-
-	if (_tcsicmp(ext, ".dsp") ==  0)
+	else
 	{
-		HandleDspFile(token, pParam);
+		for (UINT i = 0; i < countof(g_szCLangExt); ++i)
+		{
+			if (_tcsicmp(ext, g_szCLangExt[i]) == 0)
+			{
+				if (i >= 3)
+				{
+					HandleCLangSrcFile(token, pParam);
+				}
+				else if (pParam->fUseQTMoc)
+				{
+					HandleQTMocFile(token, pParam);
+				}
+				return S_OK;
+			}
+		}
+
+		if (_tcsicmp(ext, ".dsp") ==  0)
+		{
+			HandleDspFile(token, pParam);
+		}
 	}
 	return S_OK;
 }
