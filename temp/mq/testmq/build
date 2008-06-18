@@ -1,0 +1,4 @@
+mkdir -p bin
+echo compiling testmq.c ...
+gcc testmq.c -lrt -o bin/testmq
+
