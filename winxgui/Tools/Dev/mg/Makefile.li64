@@ -17,7 +17,7 @@ ifeq ($(CFG), Release)
 	ObjectDir    = LRelease
 	MocFile      = $(ObjectDir)/temp.moc.cpp
 	Product      = ../../bin/linux/mg
-	CFlags       = $(Defines) -fPIC -D__INTEL__ -D__LINUX__ -DLINUX -DNDEBUG -O2 -D_MT -fexceptions 
+	CFlags       = $(Defines) -fPIC -D__64BIT__ -D__INTEL__ -D__LINUX__ -DLINUX -DNDEBUG -O2 -D_MT -fexceptions 
 	CXXFlags     = $(CFlags) -fno-rtti
 	CXX          = g++ -c $(IncludeDir) $(CXXFlags) -o $@
 	CompileC     = @gcc -c $(IncludeDir) $(CFlags) -o $@ $<
@@ -37,7 +37,7 @@ ifeq ($(CFG), Debug)
 	ObjectDir    = LDebug
 	MocFile      = $(ObjectDir)/temp.moc.cpp
 	Product      = ../../bin/linuxd/mg
-	CFlags       = $(Defines) -fPIC -D__INTEL__ -D__LINUX__ -DLINUX -D_DEBUG -g3 -D_MT -fexceptions 
+	CFlags       = $(Defines) -fPIC -D__64BIT__ -D__INTEL__ -D__LINUX__ -DLINUX -D_DEBUG -g3 -D_MT -fexceptions 
 	CXXFlags     = $(CFlags) -fno-rtti
 	CXX          = g++ -c $(IncludeDir) $(CXXFlags) -o $@
 	CompileC     = @gcc -c $(IncludeDir) $(CFlags) -o $@ $<
@@ -57,7 +57,7 @@ ifeq ($(CFG), SunProRelease)
 	ObjectDir    = SunProRelease
 	MocFile      = $(ObjectDir)/temp.moc.cpp
 	Product      = ../../DevTools/mg.sp
-	CFlags       = $(Defines) -fwritable-strings -fPIC -D__INTEL__ -D__LINUX__ -DLINUX -DNDEBUG -O2 -D_MT -fno-rtti -fexceptions 
+	CFlags       = $(Defines) -fPIC -D__64BIT__ -D__INTEL__ -D__LINUX__ -DLINUX -DNDEBUG -O2 -D_MT -fno-rtti -fexceptions 
 	CXXFlags     = $(CFlags)
 	CXX          = g++ -c $(IncludeDir) $(CXXFlags) -o $@
 	CompileC     = @gcc -c $(IncludeDir) $(CFlags) -o $@ $<
@@ -77,7 +77,7 @@ ifeq ($(CFG), SunProDebug)
 	ObjectDir    = SunProDebug
 	MocFile      = $(ObjectDir)/temp.moc.cpp
 	Product      = ../../DevToolsD/mgd.sp
-	CFlags       = $(Defines) -fwritable-strings -fPIC -D__INTEL__ -D__LINUX__ -DLINUX -D_DEBUG -g3 -D_MT -fno-rtti -fexceptions 
+	CFlags       = $(Defines) -fPIC -D__64BIT__ -D__INTEL__ -D__LINUX__ -DLINUX -D_DEBUG -g3 -D_MT -fno-rtti -fexceptions 
 	CXXFlags     = $(CFlags)
 	CXX          = g++ -c $(IncludeDir) $(CXXFlags) -o $@
 	CompileC     = @gcc -c $(IncludeDir) $(CFlags) -o $@ $<

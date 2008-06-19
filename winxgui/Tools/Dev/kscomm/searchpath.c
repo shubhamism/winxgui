@@ -36,22 +36,35 @@ STDMETHODIMP_(BOOL) IsFileExist(LPCTSTR szFile)
 #	elif defined(__SPARC__)
 #		define PLATEXT		".ss"
 #	endif
-#elif defined(__WIN32__)
-#		define PLATEXT		".win32"
+#elif defined(__WINDOWS__)
+#		define PLATEXT		".win"
 #endif
 
-#ifndef PLATEXT
+#if defined(__32BIT__) || defined(__x86_32__)
+#define BITSEXT				"32"
+#elif defined(__64BIT__) || defined(__x86_64__)
+#define BITSEXT				"64"
+#endif
+
+#if !defined(PLATEXT) || !defined(BITSEXT)
 #error "Unknown Platform!!! - by GenDefaultFile()"
 #endif
 
 STDMETHODIMP_(BOOL) IsFileExist2(LPTSTR szFile)
 {
-	if (!IsFileExist(szFile))
-	{
-		_tcscat(szFile, PLATEXT);
-		return IsFileExist(szFile);
-	}
-	return TRUE;
+	LPTSTR p = _tcsrchr(szFile, '\0');
+	LPTSTR p2 = _tcsecpy(p, PLATEXT);
+	
+	_tcscpy(p2, BITSEXT);
+	if (IsFileExist(szFile))
+		return TRUE;
+	
+	*p2 = '\0';
+	if (IsFileExist(szFile))
+		return TRUE;
+
+	*p = '\0';
+	return IsFileExist(szFile);
 }
 
 // -------------------------------------------------------------------------
