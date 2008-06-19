@@ -46,10 +46,18 @@
 	   "	CheckLink    = @ldd -r $(Product)"
 #endif
 
+#if defined(__32BIT__) || defined(__x86_32__)
+#	define g_szBitsType			"-D__32BIT__ "
+#elif defined(__64BIT__) || defined(__x86_64__)
+#	define g_szBitsType			"-D__64BIT__ "
+#else
+#	error "Unknown CPU Type!!!"
+#endif
+
 #if defined(__INTEL__)
-#	define g_szCPUType			"-D__INTEL__ "
+#	define g_szCPUType			"-D__INTEL__ " g_szBitsType
 #elif defined(__SPARC__)
-#	define g_szCPUType			"-D__SPARC__ "
+#	define g_szCPUType			"-D__SPARC__ " g_szBitsType
 #else
 #	error "Unknown CPU Type!!!"
 #endif
