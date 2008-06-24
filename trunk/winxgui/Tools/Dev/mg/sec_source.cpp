@@ -91,6 +91,8 @@ STDMETHODIMP HandleSingleFile(LPCTSTR token, KHandlerParam* pParam)
 	{
 		TCHAR szDir[_MAX_PATH];
 		SplitPath2(token, szDir, NULL);
+		if (*szDir == '\0')
+			_tcscpy(szDir, "."); 
 		ScanDirFileParam para = { ext, pParam };
 		ScanDirectory(szDir, ScanDirFile, 0, &para);
 	}
