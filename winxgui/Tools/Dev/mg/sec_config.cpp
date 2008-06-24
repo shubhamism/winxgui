@@ -15,24 +15,31 @@
 #define _tcscmp		strcmp
 #endif
 
+#define g_szCheckLink			\
+		"	CheckLink    = @ldd -u -r $(Product); echo\n"
+
 #if defined(__WIN32__)
 #	define g_szExportDefFile	"_export_.def"
 #	define g_szCFlagsDef0		""
 #	define g_szCCompiler		"gcc"
 #	define g_szCXXCompiler		"g++"
-#   define g_szExeLinker        "@g++ $(LibDir) -ldl -o $(Product)"
+#   define g_szExeLinker        \
+		"@g++ $(LibDir) -o $(Product)\n" \
+		g_szCheckLink
 #   define g_szDllLinker        \
-       "@g++ $(LibDir) -W1 -shared -ldl -o $(Product)\n" \
-	   "	CheckLink    = @ldd -r $(Product)"
+		"@g++ $(LibDir) -W1 -shared -o $(Product)\n" \
+		g_szCheckLink
 
 #elif defined(__SOLS__) && defined(Uses_SunProCC)
 #	define g_szCFlagsDef0		""
 #	define g_szCCompiler		"cc"
 #	define g_szCXXCompiler		"CC"
-#   define g_szExeLinker        "@CC $(LibDir) -ldl -o $(Product)"
+#   define g_szExeLinker        \
+		"@CC $(LibDir) -o $(Product)\n" \
+		g_szCheckLink
 #   define g_szDllLinker        \
-       "CC -G -KPIC -O $(LibDir) -o $(Product)\n" \
-	   "	CheckLink    = @ldd -r $(Product)"
+		"CC -G -KPIC -O $(LibDir) -o $(Product)\n" \
+		g_szCheckLink
 
 #else
 #	define g_szExportDefFile	"_export_.def"
@@ -40,10 +47,11 @@
 #	define g_szCFlagsDef0		"-fPIC "
 #	define g_szCCompiler		"gcc"
 #	define g_szCXXCompiler		"g++"
-#   define g_szExeLinker        "@g++ $(LibDir) -ldl -o $(Product)"
+#   define g_szExeLinker        \
+		"@g++ $(LibDir) -o $(Product)\n" \
+		g_szCheckLink
 #   define g_szDllLinker        \
-       "@g++ $(LibDir) -W1 -shared -ldl -o $(Product) " g_szExportDef "\n" \
-	   "	CheckLink    = @ldd -r $(Product)"
+		"@g++ $(LibDir) -W1 -shared -o $(Product) " g_szExportDef "\n" \		g_szCheckLink
 #endif
 
 #if defined(__32BIT__) || defined(__x86_32__)
