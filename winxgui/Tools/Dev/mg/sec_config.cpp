@@ -144,6 +144,7 @@ LPCTSTR g_szOptionsName[] =
 	_T("NoException"),
 	_T("Rtti"),
 	_T("NoRtti"),
+	_T("WarningAll"),
 };
 
 LPCTSTR g_szOptions[] =
@@ -157,6 +158,7 @@ LPCTSTR g_szOptions[] =
 	_T("-fno-exceptions "),
 	_T("-frtti "),
 	_T("-fno-rtti "),
+	_T("-Wall"),
 };
 
 int g_typeOptions[] =
