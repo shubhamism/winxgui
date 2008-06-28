@@ -91,10 +91,17 @@ STDMETHODIMP HandleSingleFile(LPCTSTR token, KHandlerParam* pParam)
 	{
 		TCHAR szDir[_MAX_PATH];
 		SplitPath2(token, szDir, NULL);
-		if (*szDir == '\0')
-			_tcscpy(szDir, "."); 
 		ScanDirFileParam para = { ext, pParam };
-		ScanDirectory(szDir, ScanDirFile, 0, &para);
+		if (pParam->fCheckDepency) {
+			TCHAR szDirAbs[_MAX_PATH];
+			MergePath(szDirAbs, pParam->szProjPath, szDir);
+			ScanDirectory(szDirAbs, ScanDirFile, 0, &para);
+		}
+		else {
+			if (*szDir == '\0')
+				_tcscpy(szDir, ".");
+			ScanDirectory(szDir, ScanDirFile, 0, &para);
+		}
 	}
 	else
 	{
