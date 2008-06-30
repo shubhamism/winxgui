@@ -1,0 +1,25 @@
+Hello! Welcome to WINX library.
+
+WINX focus the goal: MOST SIMPLE BUT EFFECTIVE.
+It is a C++ template GUI library that easy to use, and compatible 
+to WTL(a lightweight Win32 wrapper). WTL is an effective GUI 
+library. However, it is not SIMPLE. 
+
+The use and distribution terms for this software are covered by the
+Common Public License 1.0 (http://opensource.org/licenses/cpl.php)
+which can be found in the file CPL.txt at this distribution. By 
+using this software in any fashion, you are agreeing to be bound by
+the terms of this license. You must not remove this notice, or
+any other, from this software.
+
+For preventing from the possible harmful branch, you have no right 
+to release this software any modification edition. If you are
+interested in WINX, and hope to do a contribution to its development,
+we welcome you to participate WINX team.
+
+But, please remember that any others or organization, except the WINX 
+team, can only release the WINX library without any modification.
+
+This note was provided the edition of various languageses, for the 
+convenience of reading. Under the sistuation that produce an ambiguity,
+subject to Simplified Chinese edition: docs(zh-CN)/License.txt

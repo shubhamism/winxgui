@@ -1,0 +1,663 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>C++内存管理变革</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<STYLE>@font-face {
+	font-family: Wingdings;
+}
+@font-face {
+	font-family: 宋体;
+}
+@font-face {
+	font-family: PMingLiU;
+}
+@font-face {
+	font-family: Dotum;
+}
+@font-face {
+	font-family: 黑体;
+}
+@font-face {
+	font-family: 隶书;
+}
+@font-face {
+	font-family: @隶书;
+}
+@font-face {
+	font-family: @宋体;
+}
+@font-face {
+	font-family: @Dotum;
+}
+@font-face {
+	font-family: @PMingLiU;
+}
+@font-face {
+	font-family: @黑体;
+}
+@page Section1 {size: 595.3pt 841.9pt; margin: 72.0pt 90.0pt 72.0pt 90.0pt; layout-grid: 15.6pt; }
+P.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+H1 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 22pt; MARGIN: 17pt 0pt 16.5pt; LINE-HEIGHT: 240%; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+H2 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 16pt; MARGIN: 13pt 0pt 15.6pt 21pt; TEXT-INDENT: -21pt; LINE-HEIGHT: 172%; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+P.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+LI.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+DIV.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+P.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+LI.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+DIV.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+SPAN.MsoFootnoteReference {
+	VERTICAL-ALIGN: super
+}
+P.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+LI.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+DIV.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+A:link {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+SPAN.MsoHyperlink {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+A:visited {
+	COLOR: purple; TEXT-DECORATION: underline
+}
+SPAN.MsoHyperlinkFollowed {
+	COLOR: purple; TEXT-DECORATION: underline
+}
+P.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+P.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+LI.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+DIV.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+P.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+LI.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+DIV.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+P.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+LI.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+DIV.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+P.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+LI.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+DIV.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+P.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+LI.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+DIV.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+P.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+P.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+P.a6 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.a6 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.a6 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.Section1 {
+	page: Section1
+}
+OL {
+	MARGIN-BOTTOM: 0pt
+}
+UL {
+	MARGIN-BOTTOM: 0pt
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2900.2963" name=GENERATOR></HEAD>
+<BODY lang=ZH-CN style="TEXT-JUSTIFY-TRIM: punctuation" vLink=purple link=blue 
+bgColor=white>
+<DIV class=Section1 style="LAYOUT-GRID:  15.6pt none">
+<P class=MsoTitle style="MARGIN: 0pt 0pt 15pt"><SPAN lang=EN-US 
+style="FONT-FAMILY: 'Times New Roman'">C++</SPAN>内存管理变革</P>
+<P class=a2 style="MARGIN: 3.1pt 0pt">许式伟</P>
+<P class=a0 style="MARGIN: 3.1pt 0pt 18.7pt"><SPAN 
+lang=EN-US>2005-7-16</SPAN></P>
+<P class=a5><SPAN style="FONT-FAMILY: 隶书">关键字</SPAN><SPAN lang=EN-US>: 
+</SPAN><SPAN style="FONT-FAMILY: 隶书">内存管理</SPAN> <SPAN 
+style="FONT-FAMILY: 隶书">垃圾回收器</SPAN> <SPAN style="FONT-FAMILY: 隶书">内存配置器</SPAN> 
+<SPAN style="FONT-FAMILY: 隶书">引用计数</SPAN></P>
+<P class=a6><SPAN lang=EN-US>keyword: memory manage, memory recycler, allocator, 
+reference count</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">引言</SPAN></H1>
+<P class=MsoNormal><SPAN lang=EN-US>C/C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">语言的内存管理经历了几次变革，但至今仍未能趋于成熟。这几次变革主要包括：</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>1.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">从</SPAN><SPAN 
+lang=EN-US>malloc/free</SPAN><SPAN style="FONT-FAMILY: 宋体">到</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN style="FONT-FAMILY: 宋体">。这场变革是</SPAN><SPAN 
+lang=EN-US>OOP</SPAN><SPAN style="FONT-FAMILY: 宋体">技术兴起的产物。</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">是强类型语言，</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的主要成果也就是加强了类型观念，减少了强制类型转换的需求。但是从内存管理角度看，这个变革并没有多少的突破性。</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>2.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">从</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN style="FONT-FAMILY: 宋体">到内存配置器（</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">）。自从</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">被纳入</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">标准库后，</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">世界产生了巨大的变化。而从内存管理角度来看，</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">的引入也是</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">内存管理一个突破。留意一下你就可以发现，整个</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">所有组件的内存均从</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">分配。也就是说，</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">并不推荐使用</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">进行内存管理，而是推荐使用</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">。</SPAN><SPAN 
+lang=EN-US><BR><BR></SPAN><SPAN style="FONT-FAMILY: 宋体">然而，</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">并没有导致</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">语言在内存管理上发生巨大的变化。除了</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">本身外，并没有多少人使用</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">，甚至是意识到</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">的重要性。所以</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">程序员在使用</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">的同时，依旧在使用</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN style="FONT-FAMILY: 宋体">进行烦琐的内存分配</SPAN><SPAN 
+lang=EN-US>/</SPAN><SPAN style="FONT-FAMILY: 宋体">释放过程。</SPAN><SPAN 
+lang=EN-US><BR><BR></SPAN><SPAN style="FONT-FAMILY: 宋体">究其原因，主要有二。一是</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">的引入，</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">设计者主要可能还是出于将内存管理从容器的实现独立出来的设计理念作用，让</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">使用者在内存管理算法上有选择的余地。设计者本身都可能也没有意识到</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">的重要性。二是</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">本身也只是侧重于关注效率上，而没有侧重于</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">语言使用者对内存管理观念的变革上。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">总之，在我看来，</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">的引入</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，是一件了不起的事情。但是这场变革被忽视了，没有得到贯彻。当然，这也与</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">本身的缺陷有关。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">本文要讨论的，正是如何贯彻</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">思想，对其进行适当的改进，以期在</SPAN><SPAN lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">内存管理观念上产生变革性的突破，彻底淘汰传统的</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN style="FONT-FAMILY: 宋体">内存管理方法</SPAN><A 
+title="" 
+href="#_ftn1" 
+name=_ftnref1><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[1]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">。</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN 
+style="FONT-FAMILY: 宋体">垃圾回收器</SPAN></H1>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">几乎所有目前流行的垃圾回收器，均倾向于将使用者当作一个傻瓜，期望能够让使用者在完全不理解内存管理的情况下，可以很好的使用它。应该说这它们基本上都也做到了（虽然使用者有时也有这样那样的烦恼，但总体来说情况确实得到了很大程度的改善）。然而这一设计理念我并不十分认同。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">首先，可以在一个提供垃圾回收器的语言中自如的工作，没有被垃圾回收器所困扰，本身已经是很了不起的事情，他们绝对是非常聪明的人，而不是傻瓜。他们理解垃圾回收器的工作原理，选择它并且让它为他们工作，只是因为还有更重要的事情等着他们去做。必要的时候，他们需要有办法控制垃圾回收器，使它按照他们的意愿工作。因此，垃圾回收器的设计要点在于把使用者从烦琐的内存管理中解脱出来，使得他们可以将全部精力投入到本身的业务逻辑上，而不是让垃圾回收器看起来更傻瓜式。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">其次，使用一个全自动的垃圾回收器，在内存回收的时机不明确的情况下，垃圾回收器的工作过程有很大的不确定性，这给使用者带来烦恼。例如</SPAN><SPAN 
+lang=EN-US>C#</SPAN><SPAN style="FONT-FAMILY: 宋体">在调用非管制代码（如调用</SPAN><SPAN 
+lang=EN-US>Win32 api</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）时，这些问题变得突出。一个不小心，就有可能出现</SPAN><SPAN lang=EN-US>Win32 
+api</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">还在使用一块内存，而垃圾回收器已经把它回收了的情形。在小心翼翼的避开这些陷阱时，这种感觉其实与</SPAN><SPAN 
+lang=EN-US>C/C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">程序员遗憾语言没有垃圾回收器的感觉有点类似。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">因此，最理想的情况，是内存管理器提供垃圾回收的能力，但是它也只是提供这个能力而已，<U>至于什么时候进行垃圾回收，完全可以由用户自己控制。另外，用户也可以强制释放一块内存，而不是完全被动的等待垃圾回收过程决策何时回收该内存</U>。对于客户来说，他有权掌控一切，只是如果万一他确实疏忽了，垃圾回收器能够为他护航。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">将垃圾回收器引入</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，有没有这种可能呢？我认为，如果我们试图提供一个全自动的垃圾回收器，这相当困难。我们看到以</SPAN><SPAN 
+lang=EN-US>Microsoft</SPAN><SPAN style="FONT-FAMILY: 宋体">之能，仍然无法把这件事做好</SPAN><A 
+title="" 
+href="#_ftn2" 
+name=_ftnref2><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[2]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">。或许，我们需要改变一下观念：一个半自动的垃圾回收器，也许就可能可以和</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">融洽相处了呢？</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">初识</SPAN><SPAN 
+lang=EN-US>allocator</SPAN></H1>
+<P class=MsoNormal><SPAN lang=EN-US>allacator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">中文称为“内存配置器”，通常它是一个类，负责提供内存管理（可能包含内存分配、释放、自动回收等能力）相关的服务。例如，我们通过</SPAN><SPAN 
+lang=EN-US>C</SPAN><SPAN style="FONT-FAMILY: 宋体">提供的</SPAN><SPAN 
+lang=EN-US>malloc/free</SPAN><SPAN style="FONT-FAMILY: 宋体">即刻提供一个</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">实作出来：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>class 
+<B>SimpleAlloc</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>public:</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>//</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">注意这里提供的参数</SPAN></B><B><SPAN 
+lang=EN-US>fnDestroy</SPAN></B><B><SPAN 
+style="FONT-FAMILY: 宋体">，它是为那些具备垃圾回收能力的</SPAN></B><B><SPAN 
+lang=EN-US>allocator</SPAN></B><B><SPAN 
+style="FONT-FAMILY: 宋体">需要提供。</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9; TEXT-INDENT: 21pt"><B><SPAN 
+lang=EN-US>void</SPAN></B><SPAN lang=EN-US>* Alloc(<B>size_t</B> cb, 
+<B>FnDestructor</B> fnDestroy = NULL)</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>return</B> 
+malloc(cb);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+}</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>//</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">注意这里有看似多余的参数</SPAN></B><B><SPAN 
+lang=EN-US>cb</SPAN></B><B><SPAN 
+style="FONT-FAMILY: 宋体">，这完全是为了和后续提供的</SPAN></B><B><SPAN 
+lang=EN-US>allocator</SPAN></B><B><SPAN 
+style="FONT-FAMILY: 宋体">规格一致的需要。</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B> Free(<B>void</B>* data, <B>size_t</B> cb)</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free(data);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+}</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>};</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">有了</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，我们可以申请内存了，但是我们还不能用它创建一个</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">对象。为了方便创建</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">对象，我们提供了辅助的</SPAN><SPAN 
+lang=EN-US>New</SPAN><SPAN style="FONT-FAMILY: 宋体">操作，原型大体如下：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* New(<B>AllocType</B>&amp; 
+alloc);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>ArgType1</B>, class <B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* New(<B>ArgType1</B> arg1, <B>AllocType</B>&amp; alloc); <B>// 
+</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type(arg1)</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* NewArray(<B>size_t</B> count, <B>AllocType</B>&amp; alloc);<B>// 
+</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type[count]</SPAN></B></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">有了这些辅助函数，我们就可以创建对象了。使用样例：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>SimpleAlloc 
+</SPAN></B><SPAN lang=EN-US>alloc;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>int</SPAN></B><SPAN 
+lang=EN-US>* intArray = NewArray&lt;<B>int</B>&gt;(count, alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* obj = 
+New&lt;<B>MyClass</B>&gt;(alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* objWithArg = 
+New&lt;<B>MyClass</B>&gt;(arg1, alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* objArray = 
+NewArray&lt;<B>MyClass</B>&gt;(count, alloc);</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">这里我们虽然使用</SPAN><SPAN 
+lang=EN-US>SimpleAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">创建对象，但是需要提醒的是，这些</SPAN><SPAN lang=EN-US>New</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">操作对所有的</SPAN><SPAN lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">有效。如果你关心</SPAN><SPAN lang=EN-US>New</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">函数的代码，先不急，下面我们马上就可以看到了。但是首先我们要继续讨论一下</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">。</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">引起的观念变化</SPAN></H1>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">接触</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">，你可以体会到了它与</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">传统的</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">观念的不同。这主要有以下几点：</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>1.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">每个类（或者算法）本身，均有最合适它的内存管理机制，并不是向</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">传统的做法那样，使用一个全局的</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN style="FONT-FAMILY: 宋体">。也许你会说，</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">不也允许一个类定义自己的</SPAN><SPAN 
+lang=EN-US>new</SPAN><SPAN style="FONT-FAMILY: 宋体">和</SPAN><SPAN 
+lang=EN-US>delete</SPAN><SPAN style="FONT-FAMILY: 宋体">吗？是的，</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">的确支持类定义自己的</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN style="FONT-FAMILY: 宋体">，但注意，它的理念和</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">完全不同。我不认为它是</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的一个优秀之作，相反，它起到了误导作用。</SPAN><SPAN 
+lang=EN-US><BR><BR></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">因为，决定一个类对象怎么去</SPAN><SPAN lang=EN-US>new</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">出来，并不是取决于该类本身，而相反是取决于使用该类的人。一个类不需要关心自身被如何创造出来，更不能假定。它需要关心的是它自己的类成员如何被创建出来，它的算法（你可以把类看做一个算法集合）涉及到的所有组件如何被创建出来。而这，才是</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">带来的观念。</SPAN><SPAN 
+lang=EN-US><BR><BR></SPAN><SPAN style="FONT-FAMILY: 宋体">让各种各样的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">创建同一个类的不同实例，这些实例甚至可能在一起工作，相互协作。从</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的角度讲，这完全是最正常不过的事情了。</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>2.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">重要的是由</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">创建管理对象，避免在你的代码中使用</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN style="FONT-FAMILY: 宋体">。如果可能，你可以如</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">那样，将</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">作为模板参数，不绑定具体的某个内存管理器。但是，如果你的算法依赖了某个</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的实现特有的功能，这也并不要紧。你的目的不是要做到</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的可替换，不是吗？重要的是使用了这个</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">了，它给你在内存管理上带来了益处。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">但是，应该看到，</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">实作的各种</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，目前来看除了最简单使用</SPAN><SPAN 
+lang=EN-US>malloc/free</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">实现的外，主要就是基于</SPAN><SPAN lang=EN-US>mempool</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">技术。而该技术的目标，不是让内存使用者更加方便有效地进行内存管理，而更多的是关注于内存分配的时间性能。为了让</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">程序员从内存管理中解脱出来，我们需要实作新的</SPAN><SPAN 
+lang=EN-US>alloctor</SPAN><SPAN style="FONT-FAMILY: 宋体">，需要新的突破！</SPAN></P>
+<H1><SPAN style="FONT-FAMILY: 宋体">新视角：具垃圾回收能力的</SPAN><SPAN 
+lang=EN-US>Allocator</SPAN></H1>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">对，我设想的一个做法是，贯彻</SPAN><SPAN 
+lang=EN-US>STL</SPAN><SPAN style="FONT-FAMILY: 宋体">的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">观念，并且提供具备特定的内存管理能力（例如垃圾回收）的各种</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">。让</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">社区广泛接受</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">观念，并且从中受益。</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">程序员是时候抛弃传统的</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，让他们退出历史舞台了。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">我接下来会实作两个具体的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">（均属原创）。相信它们会让你耳目一新，让你不禁想到：哦，原来在</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">中，我还可以这样进行内存管理。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">当然，我最大的希望就是，这两个</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">能够起到抛砖引玉的作用，让大家也清楚地意识到</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的重要性，可以出现更多的具备各种能力的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">，解脱</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">程序员一直以来的苦难（可能是最大苦难</SPAN><A 
+title="" 
+href="#_ftn3" 
+name=_ftnref3><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[3]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">）。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">这两个</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">均具备一定程度的垃圾回收能力。只是观念上各有各的侧重。我们接下来会分为两个专题专门对它们进行阐述。</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">辅助的</SPAN><SPAN 
+lang=EN-US>New</SPAN><SPAN style="FONT-FAMILY: 宋体">过程</SPAN></H1>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">我们终于可以开始讨论前文提到的</SPAN><SPAN 
+lang=EN-US>New</SPAN><SPAN style="FONT-FAMILY: 宋体">函数的实现上了。以不带参数的</SPAN><SPAN 
+lang=EN-US>New</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">为例，它的代码如下，可能并没有你想象的那么复杂：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>#<B>include</B> 
+&lt;new&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>inline 
+Type</SPAN></B><SPAN lang=EN-US>* New(<B>AllocType</B>&amp; alloc)</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B>* obj =   alloc.Alloc(<B>sizeof</B>(<B>Type</B>), 
+<B>DestructorTraits</B>&lt;<B>Type</B>&gt;::Destruct);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>return</B> new(obj) <B>Type</B>;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>}</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">其中</SPAN><B><SPAN 
+lang=EN-US>DestructorTraits</SPAN></B><SPAN 
+style="FONT-FAMILY: 宋体">是一个根据类型</SPAN><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+style="FONT-FAMILY: 宋体">萃取</SPAN><A title="" 
+href="#_ftn4" 
+name=_ftnref4><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[4]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">析构函数的萃取器。它看起来是这样的：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class 
+<B>Type</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>struct</SPAN></B><SPAN lang=EN-US> <B>DestructorTraits</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>static</B> <B>void</B> Destruct(<B>void</B>* pThis)</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+((<B>Type</B>*)pThis)-&gt;~<B>Type</B>();</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+}</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>};</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">这样，你就可以通过以下代码</SPAN><SPAN 
+lang=EN-US>new</SPAN><SPAN style="FONT-FAMILY: 宋体">出对象了：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClassA</SPAN></B><SPAN lang=EN-US>* obj = 
+New&lt;<B>MyClassA</B>&gt;(alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClassB</SPAN></B><SPAN lang=EN-US>* obj = 
+New&lt;<B>MyClassB</B>&gt;(alloc);</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><B><SPAN style="FONT-FAMILY: 宋体">特别提醒</SPAN></B><SPAN 
+style="FONT-FAMILY: 宋体">：这里</SPAN><SPAN lang=EN-US>New</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">函数在</SPAN><SPAN lang=EN-US>VC++ 
+6.0</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">下编译通过，但是产生的执行代码存在严重</SPAN><SPAN 
+lang=EN-US>bug</SPAN><SPAN style="FONT-FAMILY: 宋体">。如果你只</SPAN><SPAN 
+lang=EN-US>New</SPAN><SPAN style="FONT-FAMILY: 宋体">一类对象，没有问题，但在</SPAN><SPAN 
+lang=EN-US>New</SPAN><SPAN style="FONT-FAMILY: 宋体">了多种对象后，似乎</SPAN><SPAN 
+lang=EN-US>VC++</SPAN><SPAN style="FONT-FAMILY: 宋体">对</SPAN><B><SPAN 
+lang=EN-US>MyClassA</SPAN></B><SPAN style="FONT-FAMILY: 宋体">、</SPAN><B><SPAN 
+lang=EN-US>MyClassB</SPAN></B><SPAN lang=EN-US> </SPAN><SPAN 
+style="FONT-FAMILY: 宋体">两者混淆起来了。为了支持</SPAN><SPAN lang=EN-US>VC++ 
+6.0</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，你需要对这里的New做出调整<FONT 
+face="Times New Roman">（关于这一点，详细请参考：<a href="../000-vc6tips/01-vc6tips.htm#RetTypeBug">VC++ 6.0小技巧</a>）</FONT>。</SPAN></P>
+<H1><SPAN lang=EN-US>COM</SPAN><SPAN style="FONT-FAMILY: 宋体">技术</SPAN><A 
+title="" 
+href="#_ftn5" 
+name=_ftnref5><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><B><SPAN lang=EN-US 
+style="FONT-SIZE: 22pt; FONT-FAMILY: 'Times New Roman'">[5]</SPAN></B></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">与内存管理</SPAN></H1>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">已经准备结束这篇短文的时候，忽然想到了长久以来使用</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">技术形成的一些感想，这些想法恰恰与内存管理紧密相关。故此想就这个问题陈述一下。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">从</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN style="FONT-FAMILY: 宋体">的</SPAN><SPAN 
+lang=EN-US>IUnknown</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">接口看，它主要关注两个问题：一个是</SPAN><SPAN 
+lang=EN-US>QueryInterface</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，一个是引用计数（</SPAN><SPAN 
+lang=EN-US>AddRef/Release</SPAN><SPAN style="FONT-FAMILY: 宋体">）。</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">组件很讲究信息的屏蔽，使用者对组件的认识有限，这就给组件升级、扩充功能提供了可能。</SPAN><SPAN 
+lang=EN-US>QueryInterface</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">是一个很好的概念，需要发扬光大。</SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的引用计数则关注的是组件的生命期维护问题。换句话说，就是组件如何销毁的问题。诚然，组件对象的销毁问题，是内存管理的关键。无论是</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的引用计数，还是垃圾回收技术，均是要解决对象的销毁问题。只是两者的侧重点不太一样，</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">引用计数更关注“确保组件不会被提前销毁了，确保组件访问的安全性”，而垃圾回收器则关注“不管怎样确保组件最终被销毁，没有内存泄漏”。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">在</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">中，确保组件访问的安全性（避免非法访问），这个观点太重要了，以至于它甚至不惜加重程序员的内存管理负担。所以，在</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">程序中，出现内存泄漏太正常了，而且一旦泄漏通常就是大片大片内存的漏。更加要命的是，你甚至不能有一个很简单有效的方法确认这个泄漏是由于哪段代码引起。因为组件所有的客户都是平等的，任何一个客户代码存在问题均将导致内存的泄漏。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">刚开始接触</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">技术的时候，我对引用计数持的是比较正面的态度。但是随着部门逐步加大</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">技术的使用力度后，四五年下来，我渐渐开始迷惑起来。一切并不如想象的那样。这个引用计数的背后，需要我们付出多少额外的代价！</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">而这个迷惑、思索，可能就是本文以及后续相关内容的成因吧。</SPAN></P></DIV>
+<DIV><BR clear=all>
+<HR align=left width="33%" SIZE=1>
+
+<DIV id=ftn1>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref1" 
+name=_ftn1><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[1]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN 
+style="FONT-FAMILY: 宋体">如果大家对本文观点有任何不同意见，或者有什么需要和我探讨的，欢迎联系：</SPAN><SPAN 
+lang=EN-US><A 
+href="mailto:xushiweizh@gmail.com">xushiweizh@gmail.com</A></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。</SPAN></P></DIV>
+<DIV id=ftn2>
+<DIV id=ftn2>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref2" 
+name=_ftn2><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[2]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> Microsoft</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的财力实力是有目共睹的。然而它在</SPAN><SPAN lang=EN-US>VC++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">中进行管制代码的尝试，看起来并不怎么成功。而且就以</SPAN><SPAN 
+lang=EN-US>Microsoft</SPAN><SPAN style="FONT-FAMILY: 宋体">之能，也无法把经典的</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的非管制代码与管制代码融合的很好。我想，我们不应该再钻这个死胡同了。</SPAN></P></DIV>
+<DIV id=ftn3>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref3" 
+name=_ftn3><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[3]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN style="FONT-FAMILY: 宋体">当然，也许</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">另一个致命伤是没有一个标准的图形</SPAN><SPAN 
+lang=EN-US>/</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">界面库。然而毕竟还是有那些形形色色的界面库支撑着。而内存管理，似乎是</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">有生俱来的缺陷，没有得到应有的重视。</SPAN></P></DIV>
+<DIV id=ftn4>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref4" 
+name=_ftn4><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[4]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN style="FONT-FAMILY: 宋体">萃取，英文</SPAN><SPAN 
+lang=EN-US>traits</SPAN><SPAN style="FONT-FAMILY: 宋体">，是</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">模板特化技术应用的一个典范，被</SPAN><SPAN 
+lang=EN-US>stl</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>boost</SPAN><SPAN style="FONT-FAMILY: 宋体">等库广泛使用。</SPAN></P></DIV>
+<DIV id=ftn5>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref5" 
+name=_ftn5><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[5]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> COM</SPAN><SPAN style="FONT-FAMILY: 宋体">技术贯穿于</SPAN><SPAN 
+lang=EN-US>Microsoft</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">所有的产品之中并带来了巨大的成功。要了解</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN style="FONT-FAMILY: 宋体">技术，有不少好书，如《</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN style="FONT-FAMILY: 宋体">本质论》、《</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">技术内幕》等等。</SPAN></P></DIV></DIV></DIV></BODY></HTML>

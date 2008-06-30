@@ -1,0 +1,562 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>gc allocator规格</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<STYLE>@font-face {
+	font-family: Wingdings;
+}
+@font-face {
+	font-family: 宋体;
+}
+@font-face {
+	font-family: Dotum;
+}
+@font-face {
+	font-family: 黑体;
+}
+@font-face {
+	font-family: 隶书;
+}
+@font-face {
+	font-family: @隶书;
+}
+@font-face {
+	font-family: @宋体;
+}
+@font-face {
+	font-family: @Dotum;
+}
+@font-face {
+	font-family: @黑体;
+}
+@page Section1 {size: 595.3pt 841.9pt; margin: 72.0pt 90.0pt 72.0pt 90.0pt; layout-grid: 15.6pt; }
+P.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+H1 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 22pt; MARGIN: 17pt 0pt 16.5pt; LINE-HEIGHT: 240%; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+H2 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 16pt; MARGIN: 13pt 0pt 15.6pt 21pt; TEXT-INDENT: -21pt; LINE-HEIGHT: 172%; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+P.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+LI.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+DIV.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+P.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+LI.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+DIV.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+SPAN.MsoFootnoteReference {
+	VERTICAL-ALIGN: super
+}
+P.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+LI.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+DIV.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+A:link {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+SPAN.MsoHyperlink {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+A:visited {
+	COLOR: purple; TEXT-DECORATION: underline
+}
+SPAN.MsoHyperlinkFollowed {
+	COLOR: purple; TEXT-DECORATION: underline
+}
+P.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+P.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+LI.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+DIV.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+P.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+LI.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+DIV.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+P.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+LI.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+DIV.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+P.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+LI.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+DIV.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+P.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+LI.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+DIV.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+P.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+P.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.Section1 {
+	page: Section1
+}
+OL {
+	MARGIN-BOTTOM: 0pt
+}
+UL {
+	MARGIN-BOTTOM: 0pt
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2900.2963" name=GENERATOR></HEAD>
+<BODY lang=ZH-CN style="TEXT-JUSTIFY-TRIM: punctuation" vLink=purple link=blue 
+bgColor=white>
+<DIV class=Section1 style="LAYOUT-GRID:  15.6pt none">
+<P class=MsoTitle style="MARGIN: 0pt 0pt 5pt"><SPAN lang=EN-US 
+style="FONT-FAMILY: 'Times New Roman'">gc allocator</SPAN>规格</P>
+<P class=a2 style="MARGIN: 3.1pt 0pt">许式伟</P>
+<P class=a0 style="MARGIN: 3.1pt 0pt 15.6pt"><SPAN lang=EN-US>2005-7</SPAN><SPAN 
+lang=EN-US>-31</SPAN></P>
+<P class=a4><SPAN style="FONT-SIZE: 12pt; FONT-FAMILY: 隶书">关键字</SPAN><SPAN 
+lang=EN-US style="FONT-SIZE: 12pt">: </SPAN><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 隶书">内存管理</SPAN><SPAN 
+style="FONT-SIZE: 12pt"> </SPAN><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 隶书">垃圾回收</SPAN><SPAN 
+style="FONT-SIZE: 12pt"> </SPAN><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 隶书">内存配置器</SPAN><SPAN 
+style="FONT-SIZE: 12pt"> </SPAN><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 隶书">引用计数</SPAN><SPAN 
+style="FONT-SIZE: 12pt"> </SPAN><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 隶书">智能指针</SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 11pt">GcAlloc</SPAN></P>
+<P class=a5><SPAN lang=EN-US style="FONT-SIZE: 11pt">keyword: memory management, 
+gc, allocator, reference count, smart pointer, GcAlloc</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">引言</SPAN></H1>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">目前</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">社区比较流行的垃圾回收（</SPAN><SPAN 
+lang=EN-US>gc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）虽然有各种各样的实作，但是实际上只有一种，就是基于引用计数</SPAN><A title="" 
+href="#_ftn1" 
+name=_ftnref1><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[1]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">（</SPAN><SPAN lang=EN-US>reference count</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）。这些垃圾回收算法无非都是给每一块分配的内存提供引用计数，然后通过智能指针</SPAN><A title="" 
+href="#_ftn2" 
+name=_ftnref2><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[2]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">（</SPAN><SPAN lang=EN-US>smart pointer</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）自动完成引用计数的加减，如果引用技术减少到零，就代表没有人使用该内存了，这块内存就可以回收了。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">如果可以正确的遵从这种</SPAN><SPAN 
+lang=EN-US>gc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的使用规则，也就是说你可以正确无误的使用智能指针，那么理论上来说，就不可能存在内存泄漏。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">但是现实并不象想象的那么单纯，那么美好。一方面，智能指针的概念仍然没有被</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">社区广泛的理解应用，而且智能指针种类繁多，各有各的规则，在代码量多了的时候，有时存在这样那样的失误难免；另一方面（应该是更加令人为难的一点），并不是所有人都那么喜欢用智能指针，而且原生指针的使用很多情形下避无可避，我们不得不在原生指针与智能指针之间进行转换。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">所以这样的</SPAN><SPAN 
+lang=EN-US>gc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的最终结果是，掌握引用计数的规则最终似乎比掌握</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的规则容易不了多少，有时甚至让新接触该技术的程序员感到畏惧。另外，引用计数的引入，出乎意料的产生了一个负作用：调试内存泄漏变得比原先困难多了。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">所以引用计数和智能指针实现的</SPAN><SPAN 
+lang=EN-US>gc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">不能从根本上解决内存泄漏问题。我们需要另外寻找出路。在上一节，我们已经介绍的</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，这是一种具备自动内存回收能力的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，虽然它使用上比较局限，但是有一点是重要的，那就是它将</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">内存管理的思路引入到一个全新的方向。在这个方向上，我们发现从根本上杜绝内存泄漏问题是可能的。</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN lang=EN-US>gc allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">来由</SPAN></H1>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">一个文档打开，编辑，直到文档被最终关闭，这个过程算不算局部过程呢？如果算，我们又应该如何对这样的局部过程进行内存管理呢？</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">这是上一节中我们提出的问题。显然，为了获得比较好适应性，我们还需要一个更加完善的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">，可以象</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">一样可以确保内存回收，但是又能够较好的适应各种条件下的应用。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">一种思路是，我们还是使用</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">技术。并且，把</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">技术与虚拟内存技术结合，实现一个增强的</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。它对用户来说，提供了一个无限大的内存池，不再被使用的内存虽然没有回收，但由于虚拟内存技术作用，被交换到磁盘上，直到局部过程结束时被释放。这种做法一定程度上可以获得更好的适应性。但是极端情况下，如果一个程序就只有一个全局的</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，效果也就和一个程序所有</SPAN><SPAN lang=EN-US>malloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">均不考虑</SPAN><SPAN lang=EN-US>free</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">相似。显然，如果所有程序都这样做的话，在目前的硬件条件下操作系统无法承受。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">另一种思路是受到操作系统管理应用程序内存的启发。一个应用程序它</SPAN><SPAN 
+lang=EN-US>malloc</SPAN><SPAN style="FONT-FAMILY: 宋体">内存后，可以主动</SPAN><SPAN 
+lang=EN-US>free</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">所申请的内存，并且通常情况下，所有应用程序都记得这个职责。但是如果应用程序忘记释放该内存时，操作系统会回收所申请的内存。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">同样，我们这里提供的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">基于一点：在通常情况下，我们的程序员是完全有能力自主管理好内存的。所以，我们推荐你尽量按照常规的方法去管理内存。不排斥你使用目前</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">社区流行的各种管理内存的方法，例如上面介绍的引用计数</SPAN><SPAN 
+lang=EN-US>+</SPAN><SPAN style="FONT-FAMILY: 宋体">智能指针法。当然，也更不排斥最原始的</SPAN><SPAN 
+lang=EN-US>Alloc/Free</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>New/Delete</SPAN><SPAN style="FONT-FAMILY: 宋体">手工配对。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">这种</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">我们就称为</SPAN><SPAN 
+lang=EN-US>gc allocator<A title="" 
+href="#_ftn3" 
+name=_ftnref3><SPAN class=MsoFootnoteReference><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[3]</SPAN></SPAN></SPAN></A></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。那么你就会问了，既然我们还是按照</SPAN><SPAN lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">传统的内存管理方法，那么</SPAN><SPAN lang=EN-US>gc 
+allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">到底做了什么呢？</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">其实</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的思想，关键还是在于明确了算法的区域性。无论对于什么程序，我们总可以将它划分为一个个独立的局部算法（过程），使得以下特征：在这个算法中，尽管中间经历了很复杂的过程，但是我们只是从开始算法，和算法结束两个点来看，大部分涉及的内存均需要被回收。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">我们引入的</SPAN><SPAN lang=EN-US>gc 
+allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，它的最大特征是容忍并允许用户在内存管理上出现失误。从技术上来说，这是一个细节上的改良。但是从观念上来说，这和以前要求</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">程序员一丝不苟，不得越雷池一步的观念是一种重大的变革。</SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-US>gc allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">同时支持了两种内存回收模式（这一点是以前任何</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">所不具备的重要特征）：既支持你手工释放一块内存，也支持自动释放一块内存。也就是说，在你申请一块内存后，你可以象普通</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">的内存管理方式去</SPAN><SPAN 
+lang=EN-US>Delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">它（而且我们推荐你尽可能地这样做）。但是，如果你不想操这个心，或者忘记</SPAN><SPAN 
+lang=EN-US>Delete</SPAN><SPAN style="FONT-FAMILY: 宋体">申请的内存了，这个</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">就象操作系统之于应用程序做的那样，它将帮助你记得申请过的该内存并且释放它们，从根本上杜绝内存泄漏。示意图如下：</SPAN></P>
+<P class=a3 style="MARGIN-LEFT: 0pt; TEXT-INDENT: -8.9pt"><SPAN 
+lang=EN-US></SPAN></P>
+<P class=a3><SPAN style="FONT-FAMILY: 宋体"><IMG alt="" hspace=0 
+src="GcAlloc/1.gif" 
+align=baseline border=0></SPAN></P>
+<P class=a3><SPAN style="FONT-FAMILY: 宋体">图</SPAN> 1</P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">规格</SPAN></H1>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">为了方便，我们把</SPAN><SPAN 
+lang=EN-US>gc allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">命名为</SPAN><SPAN 
+lang=EN-US>GcAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。它不是具体的类，只是一种规格。所以我们下面以</SPAN><SPAN lang=EN-US>concept 
+GcAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">表示，而不是用</SPAN><SPAN lang=EN-US>class 
+GcAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">。这种表示只是表意，</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">并没有这样的文法。</SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-US>GcAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的能力是</SPAN><SPAN lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的超集。所有</SPAN><SPAN lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">能够适用的地方，它也可以适用。它主要有四个概念：</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>Free/SafeFree</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>Clear</SPAN><SPAN style="FONT-FAMILY: 宋体">。</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>concept</SPAN></B><SPAN lang=EN-US> <B>GcAlloc</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>public</SPAN></B><SPAN lang=EN-US>:</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B> Clear(); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">析构并释放所有未释放的对象</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B>* Alloc(<B>size_t</B> cb); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>malloc(cb)</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B>* Alloc(<B>size_t</B> cb, <B>FnDestructor</B> fn);&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">申请内存并指定析构函数</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+void </SPAN></B><SPAN lang=EN-US>Free(<B>void</B>* data, <B>size_t</B> 
+cb);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>//</B> 
+</SPAN><B><SPAN style="FONT-FAMILY: 宋体">释放所申请的内存</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+void </SPAN></B><SPAN lang=EN-US>SafeFree(<B>void</B>* data, <B>size_t</B> 
+cb);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>//</B> </SPAN><B><SPAN 
+style="FONT-FAMILY: 宋体">安全地释放所申请的内存</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+void* </SPAN></B><SPAN lang=EN-US>ReAlloc(<B>void</B>*<B> </B>data,<B> size_t 
+</B>oldcb,<B> size_t</B> newcb);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>};</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">有两点需要解释：</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>1.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">与标准</SPAN><SPAN 
+lang=EN-US>C</SPAN><SPAN style="FONT-FAMILY: 宋体">的</SPAN><SPAN 
+lang=EN-US>free</SPAN><SPAN style="FONT-FAMILY: 宋体">不同，</SPAN><SPAN 
+lang=EN-US>GcAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">进行内存释放（</SPAN><SPAN 
+lang=EN-US>Free</SPAN><SPAN style="FONT-FAMILY: 宋体">）时需要指出申请的字节数</SPAN><SPAN 
+lang=EN-US>cb</SPAN><SPAN style="FONT-FAMILY: 宋体">。这完全是出于减少</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的空间开销的需要（这一点我们沿用</SPAN><SPAN 
+lang=EN-US>sgi-stl</SPAN><SPAN style="FONT-FAMILY: 宋体">的做法，它所提供的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">中</SPAN><SPAN 
+lang=EN-US>free</SPAN><SPAN style="FONT-FAMILY: 宋体">函数取名为</SPAN><SPAN 
+lang=EN-US>deallocate</SPAN><SPAN style="FONT-FAMILY: 宋体">，与这里的</SPAN><SPAN 
+lang=EN-US>Free</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">规格一致）。因为实际上客户释放时通常知道</SPAN><SPAN 
+lang=EN-US>cb</SPAN><SPAN style="FONT-FAMILY: 宋体">。而这样一来，</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">就不需要记录所分配的内存大小了。</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>2.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN lang=EN-US>SafeFree</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">功能与</SPAN><SPAN lang=EN-US>Free</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">一致，但是采取比较保守的做法。因为</SPAN><SPAN 
+lang=EN-US>Free</SPAN><SPAN style="FONT-FAMILY: 宋体">函数如果传入的</SPAN><SPAN 
+lang=EN-US>data</SPAN><SPAN style="FONT-FAMILY: 宋体">不是分配的内存首地址，或者</SPAN><SPAN 
+lang=EN-US>data</SPAN><SPAN style="FONT-FAMILY: 宋体">是已经被释放过了，或者传入的</SPAN><SPAN 
+lang=EN-US>cb</SPAN><SPAN style="FONT-FAMILY: 宋体">不正确均有可能导致死机（视具体的</SPAN><SPAN 
+lang=EN-US>GcAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">实现而定）。</SPAN><SPAN 
+lang=EN-US>SafeFree</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">检测了这些可能性，确保不会死机。当然任何好处均是有代价的。选择调用的快速，还是安全性，这就看你怎么衡量这件事情了。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">另外，出于方便，</SPAN><SPAN 
+lang=EN-US>GcAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">还提供了以下这些方法：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>concept</SPAN></B><SPAN lang=EN-US> <B>GcAlloc</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>public</SPAN></B><SPAN lang=EN-US>:</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>template</B> &lt;class <B>Type</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B> Delete(<B>Type</B>* data); &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp; <B>// </B></SPAN><B><SPAN 
+style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN lang=EN-US> delete 
+data</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>template</B> &lt;class <B>Type</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B> SafeDelete(<B>Type</B>* data); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US> delete data</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>template</B> &lt;class <B>Type</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B> DeleteArray(<B>Type</B>* data); &nbsp; &nbsp;&nbsp;&nbsp; <B>// 
+</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>delete[] data</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>template</B> &lt;class <B>Type</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B> SafeDeleteArray(<B>Type</B>* data); &nbsp; <B>// </B></SPAN><B><SPAN 
+style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN lang=EN-US>delete[] 
+data</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>};</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">当然，少不了还有辅助的</SPAN><SPAN 
+lang=EN-US>New</SPAN><SPAN style="FONT-FAMILY: 宋体">操作（我们前面已经简单介绍过了）：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* New(<B>AllocType</B>&amp; 
+alloc);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>ArgType1</B>, class <B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* New(<B>ArgType1</B> arg1, <B>AllocType</B>&amp; alloc); <B>// 
+</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type(arg1)</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* NewArray(<B>size_t</B> count, <B>AllocType</B>&amp; alloc);<B>// 
+</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type[count]</SPAN></B></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">使用样例：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>GcAlloc</SPAN></B><SPAN lang=EN-US> alloc;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>int</SPAN></B><SPAN 
+lang=EN-US>* intArray = 
+(<B>int</B>*)alloc.Alloc(<B>sizeof</B>(<B>int</B>)*count);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>int</SPAN></B><SPAN 
+lang=EN-US>* intArray2 = NewArray&lt;<B>int</B>&gt;(count, alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* obj = 
+New&lt;<B>MyClass</B>&gt;(alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* objWithArg = 
+New&lt;<B>MyClass</B>&gt;(arg1, alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* objArray = 
+NewArray&lt;<B>MyClass</B>&gt;(count, alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>alloc.Free(intArray, 
+<B>sizeof</B>(<B>int</B>)*count);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>alloc.DeleteArray(intArray2);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>alloc.Delete(obj);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>alloc.DeleteArray(objArray);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>alloc.Clear();</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>// eh</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，我们忘了调用</SPAN><SPAN 
+lang=EN-US>alloc.Delete(objWithArg);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>// </SPAN><SPAN 
+style="FONT-FAMILY: 宋体">好在有</SPAN><SPAN lang=EN-US>Clear()</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">函数帮助我们回收这块内存。</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>// 
+...</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>// 
+</SPAN></B><B><SPAN style="FONT-FAMILY: 宋体">现在，不能访问</SPAN></B><B><SPAN 
+lang=EN-US>objWithArg</SPAN></B><B><SPAN 
+style="FONT-FAMILY: 宋体">了。虽然你没有主动调用</SPAN></B><B><SPAN 
+lang=EN-US>alloc.Delete(objWithArg)</SPAN></B><B><SPAN 
+style="FONT-FAMILY: 宋体">。</SPAN></B></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">注意点</SPAN></H1>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">基本上来说，使用</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">不会和使用传统的</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">从外在表现上有太大的差异。但有几点需要特别注意的：</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>1.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">注意使用上的配对：</SPAN><SPAN 
+lang=EN-US>Alloc/Free</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>New/Delete</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>NewArray/DeleteArray</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，千万不要混用。特别是</SPAN><SPAN lang=EN-US>Delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">和</SPAN><SPAN lang=EN-US>DeleteArray</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">一定要分清。一些程序员对</SPAN><SPAN lang=EN-US>delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">、</SPAN><SPAN lang=EN-US>delete[]</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">比较混淆，甚至可能不知道有</SPAN><SPAN 
+lang=EN-US>delete[]</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。这里如果混淆可能会导致不可预期的结果（这决定于不同的</SPAN><SPAN 
+lang=EN-US>GcAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">的实现版本）。</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>2.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">另外，这里的</SPAN><SPAN 
+lang=EN-US>Delete</SPAN><SPAN style="FONT-FAMILY: 宋体">不具备多态特征。在</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">传统的</SPAN><SPAN 
+lang=EN-US>delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">中，如果基类的析构函数是虚拟的话，你可以通过</SPAN><SPAN 
+lang=EN-US>delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">基类指针删除所申请的内存。然而支持这个特性是复杂的，特别是在基类并非派生类的第一基类时，或者更复杂的情形：基类是一个虚拟继承的基类时。你可以考虑采用类似于</SPAN><SPAN 
+lang=EN-US>COM</SPAN><SPAN style="FONT-FAMILY: 宋体">中的</SPAN><SPAN 
+lang=EN-US>Release</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">虚函数的技巧达到这个目的，而不是通过复杂的虚拟析构机制。</SPAN></P></DIV>
+<DIV><BR clear=all>
+<HR align=left width="33%" SIZE=1>
+
+<DIV id=ftn1>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref1" 
+name=_ftn1><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[1]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN style="FONT-FAMILY: 宋体">引用计数（</SPAN><SPAN 
+lang=EN-US>reference count</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）是指我们在某种资源（如内存、</SPAN><SPAN lang=EN-US>COM</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">组件、操作系统资源等）上附加一个计数器，使得这种资源可以被多个客户所共同拥有。这种技术主要为了解决资源的所有权问题。</SPAN></P></DIV>
+<DIV id=ftn2>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref2" 
+name=_ftn2><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[2]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN style="FONT-FAMILY: 宋体">智能指针（</SPAN><SPAN 
+lang=EN-US>smart pointer</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）就是用一个类模拟实现</SPAN><SPAN lang=EN-US>C</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">原生指针的所有操作，使得我们使用这个类的类实例就像用</SPAN><SPAN 
+lang=EN-US>C</SPAN><SPAN style="FONT-FAMILY: 宋体">的原生指针一样。这种技术目的是为了简化</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">中对内存管理的复杂度。它是</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">中操作符重载应用的典范。</SPAN></P></DIV>
+<DIV id=ftn3>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref3" 
+name=_ftn3><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[3]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> gc allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">仅仅是一种概念（</SPAN><SPAN lang=EN-US>concept</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">：</SPAN><SPAN lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">模板技术中的术语，与我们通常提的</SPAN><SPAN 
+lang=EN-US>interface</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">类似），或者说是一种规格，凡是符合这种规格的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">，均属于</SPAN><SPAN 
+lang=EN-US>gc allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。</SPAN></P></DIV></DIV></BODY></HTML>
