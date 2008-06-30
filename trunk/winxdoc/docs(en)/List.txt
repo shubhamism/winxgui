@@ -1,0 +1,268 @@
+Hello! Welcome to WINX library.
+
+WINX focus the goal: MOST SIMPLE BUT EFFECTIVE.
+It is a C++ template GUI library that easy to use, and compatible 
+to WTL(a lightweight Win32 wrapper). WTL is an effective GUI 
+library. However, it is not SIMPLE. 
+
+
+*) Example: port MFC controls to WINX
+
+	- samples/mfc-port/CreditStatic
+	  summary: Control that print credit information as 'animated caption'.
+	  author: CaiYin(shuker@263.net) 
+	
+	- samples/mfc-port/RoundButton
+	  summary: A round button control.
+	  author: Chris Maunder (chrismaunder@codeguru.com), 1997.
+	  
+	- samples/mfc-port/DimEditCtrl
+	  summary: An edit control that can provide visual cues in its text area.
+	  author: James R. Twine, TransactionWorks, Inc. 2000.
+	  url: http://www.codeproject.com/editctrl/dimedit.asp
+	  
+*) Example: use WTL extension controls in a WINX application
+
+	- samples/wtlext/BitmapButton
+	  summary: to use the Windows Template Library CBitmapButton.
+	  author: WTL
+	  author: Ed Gadziemski, 2002.
+	  url: http://www.codeproject.com/wtl/bmpbtn.asp
+	  
+	- samples/wtlext/BitmapHyperLink
+	  summary: Control that displays a bitmap next to the link and allows a different color when hover.
+	  author: Igor Vigdorchik, 2005
+	  url: http://www.codeproject.com/wtl/CBitmapHyperLink.asp
+
+	- samples/wtlext/ColorButton
+	  summary: Color picker control for WTL applications including optional support for XP themes.
+	  author: Tim Smith, 2002.
+	  url: http://www.codeproject.com/wtl/wtlcolorbutton.asp
+	
+	- samples/wtlext/DimEdit
+	  summary: A WTL adaptation of James Twine's Dim Edit control.
+	  author: Paul A. Howes, 2001.
+	  url: http://www.codeproject.com/wtl/wtldimedit.asp
+	
+	- samples/wtlext/IconEdit
+	  summary: edit control with Icon.
+	  author: JaeWook Choi, 2004.
+	  url: http://www.codeproject.com/wtl/JaeWTLIconEdit.asp
+	
+*) Example: port WTL application to WINX
+
+	- samples/wtl-port/IEHost(WTL)
+	- samples/wtl-port/IEHost
+	  summary: A tutorial on hosting ActiveX controls in WTL dialogs.
+	  author: Michael Dunn, 2003.
+	  url: http://www.codeproject.com/wtl/wtl4mfc6.asp
+
+*) Tutorials
+
+	- Hello									tutorials/winx/step001
+	- Hello, SmartWin!						tutorials/winx/step001/hello,smartwin	(a)
+	- Window Background 					tutorials/winx/step002-bkgnd
+	- Command Dispatch & State				tutorials/winx/step003-command
+	- User-defined Controls 				tutorials/winx/step004-user-ctrl
+	- Accelerator 							tutorials/winx/step005-accel
+	- Dialog Layout 						tutorials/winx/step006-layout
+	- Window Icon 							tutorials/winx/step007-icon
+	- OpenFile Dialog 						tutorials/winx/step008-openfiles
+	- MouseWheel Message					tutorials/winx/step009-mousewheel
+	- XP Style(Include OwnerDraw)			tutorials/winx/step010-xptheme 			(b)
+	- Link Control(url, mailto, etc)		tutorials/winx/step011-linkctrl 		(b)
+	- ActiveX Control(flash, IE, etc)		tutorials/winx/step012-activex 			(b)
+	- AutoComplete of Edit Control:			tutorials/winx/step013-autocomplete		(b)
+	- Window behaviors(AutoHidden, etc)		tutorials/winx/step014-behavior
+	- Property Sheet						tutorials/winx/step015-property-sheet
+	- WINX together with MFC 				tutorials/winx/step016-mfc-together
+	- DDX(DataExchange)						tutorials/winx/step017-ddx
+	- XSL Transformations (XSLT)			tutorials/winx/step018-xslt				(b)
+	- Save images(include multiframe tiff)	tutorials/gdiplus/step001-save-image	(b)
+	- histgram(OpenCV example)				tutorials/opencv/step001-histgram		(c)
+
+  *** NOTE *** 
+
+	To build tutorials marked with (a), You must download SmartWin++ from sourceforge:
+	http://sourceforge.net/projects/smartwin/
+	
+	And the directory tree looks like this:
+	
+		©À©¤winx
+		©¦  ©¸©¤include
+		©À©¤wtl
+		©¦  ©¸©¤include
+		©¸©¤smartwin
+		   ©À©¤lib
+		   ©¸©¤include
+
+	To build tutorials marked with (b), You must update Windows Platform SDK 
+	if you use Visual C++ 6.0
+	
+	You can download winsdk.zip from http://sourceforge.net/projects/winx/
+	And the directory tree looks like this:
+
+		©À©¤winx
+		©¦  ©¸©¤include
+		©À©¤wtl
+		©¦  ©¸©¤include
+		©¸©¤winsdk
+		   ©¸©¤include
+		   
+	To build tutorials marked with (c), You must download OpenCV from sourceforge:
+		http://sourceforge.net/projects/winx/
+	or:
+		http://sourceforge.net/projects/opencv/
+	
+	And the directory tree looks like this:
+	
+		©À©¤winx
+		©¦  ©¸©¤include
+		©¸©¤opencv
+		   ©À©¤bin
+		   ©À©¤lib
+		   ©¸©¤include
+
+*) WINX-Extension
+
+	- Common Dialogs
+	  OpenFileDialog/SaveFileDialog
+	  OpenMultiFilesDialog/SaveMultiFilesDialog
+
+	- ActiveX support, such as flash, IE, etc.
+	
+	- WebBrowser(IE) ConnectPoint support.
+	  You'll find it is easy for you to connect events from IE.
+	  
+	- Theme(XPStyle) support, including owner-draw support.
+	
+	- AutoComplete support, for Edit/ComboBox controls.
+	  You can save histroy to windows registry, or a file.
+	
+	- DropFileHandle(simple wrapper for HDROP)
+
+	- PropertySheet, PropertyPage
+
+	- Gdiplus
+	  ImageEncoders/ImageDecoders/MultiFrameImageCreator
+	  EncoderParameters: ColorDepth, Transformation, SaveFlag, Compression, Quality
+	  Initialize Class: GdiplusAppInit
+
+	- msxml
+	  XSL Transformations (XSLT)
+
+	- OpenCV
+	  class CvWindowT, CvWindow, CvMainFrame
+
+*) WINX-Core
+
+	- Message: 
+		class WindowMessage
+		macro: WINX_REFLECT, WINX_CMD, etc.
+		
+	- Window:
+		Window/SubclassWindow
+		LightSubclassWindow
+		LightSuperclassWindow
+		MainFrame
+	
+	- Dialog: 
+		ModalDialog/ModalessDialog
+		AxModalDialog/AxModalessDialog
+		SimpleDialog/AxSimpleDialog
+	
+	- Control: 
+		Static/Button/Edit/ComboBox
+		ScrollBar/FlatScrollBar
+		ListBox/DragListBox
+		ListCtrl/HeaderCtrl/TreeCtrl
+		ToolBarCtrl/ReBarCtrl
+		SliderCtrl(TrackBarCtrl)
+		SpinButtonCtrl(UpDownCtrl)
+		TabCtrl/ToolTipCtrl/StatusBarCtrl/ProgressCtrl
+		HotKeyCtrl/AnimateCtrl/IPAddressCtrl
+		DateTimeCtrl/MonthCalCtrl
+		ComboBoxEx/RichEdit
+		LinkCtrl
+
+	- Window Property (IMPORTANT!!!)
+	  Bkgrnd: to set window background. see macro WINX_BKGND_XXX.
+	  CtlBkgrnd: to set window class background. see macro WINX_CTLBKGND_XXX.
+	  Accel: to set window accelerator. see macro WINX_ACCEL, WINX_DLG_ACCEL.
+	  Icon: to set window icon. see WINX_ICON.
+	  AppIcon: to set default icon of all windows. see WINX_APP_ICON.
+
+	- Behavior: BehaviorPermit, BehaviorSwitch, AutoHidden, etc
+	 
+	- DispEventSimpleImpl: Dispatch Event Implementation(ConnectPoint support)
+	  It's easier to use than IDispEventSimpleImpl(ATL's implementation).
+
+	- Command Dispatch
+	
+	- Command State(UpdateUI Component)
+	
+	- Layout(DialogResize Component)
+	
+	- DDX(DataExchange)
+
+	- macro WINX_STACK_OBJECT, for creating stack-based window objects.
+	  The current stack-based window objects are ModalDialog and MainFrame.
+	  The common characteristic is that they both are top level windows.
+	  So in the future, MDIMainFrame is also a stack-based window object.
+	
+*) WINX-Basic
+
+	- Basic Types: CString, CFindFile, CRecentDocumentList, CComBSTR, etc.
+	- Helper: MsgBox, GetThisModule, InitCommonControls, etc.
+	- Initialize Class: 
+	  CComAppInit, COleAppInit, CDebugAppInit, CComModuleInit, CAppModuleInit, etc.
+	- Resource: GetModuleIniPath, Bitmap, Icon, Menu, Brush, Accelerator, etc.
+	- Gdi Object: Pen, Brush, Font, Bitmap, DC(PaintDC, ClientDC, etc), Rgn, etc.
+	- Gdi Helper: DoubleBuffer, etc.
+	- Handle Class: WindowHandle
+	- COM Support: Object, StackObject, FakeObject, COLESTR, etc.
+	- IEnumOnSTLImpl, EnumStringSTLImpl
+	  IEnumXXX(IEnumString, etc) Implementation on STL container.
+	- MFC Compatibility: 
+	  Diagnost(ASSERT, VERIFY, etc)
+	  GdiObject(CDC, CClientDC, CPaintDC, CBitmap, CPalette, etc)
+	- Log: TraceWindow
+	- Storage: TraceStorage
+	
+*) STL-Extension (stdext)
+
+	- Memory Management: AutoFreeAlloc, RecycleBuffer, AutoArray, HeapMemAlloc, etc.
+	- String Algorithm: trim, match, compare, strecpy, etc.
+	- CharType: isCSymbolFirstChar, isCSymbolNextChar, etc.
+	- Container: SimpleMultiMap, TypedPtrArray, InterfaceArray
+	- Log: OutputLog, ErrorLog, FileLog, StringLog
+	- Performance: PerformanceCounter
+	- Diagnost: WINX_ASSERT, WINX_TRACE, etc.
+	- namespace std::tchar, eg. std::tchar::strlen, std::tchar::strlwr, etc.
+	- Archive
+	  SimpleWriteArchive/SimpleReadArchive: Archive based on FILE.
+	  MemSeqWriteArchive: Archive based on Memory.
+	  RegWriteArchive/RegReadArchive: Archive based on Windows Registry.
+	- RecordArchive
+	  MemRecordWriter, RecordReader: Record files(Excel BIFF files, etc) support.
+
+*) Documents (chinese version)
+
+	- WINX Preview						docs(zh-CN)/WinxPreview.ppt
+	- Garbage collection allocator		docs(zh-CN)/stdext/001-memory/*.htm
+	- VC++ 6.0 Tips						docs(zh-CN)/stdext/000-vc6tips/*.htm
+
+*) Links
+
+	winx official blog (english)	- http://winxhome.blogspot.com/
+	winx official blog (chinese)	- http://winxcn.blogspot.com/
+	winx official blog (big5)		- http://winxtw.blogspot.com/
+	winx group (english) 			- http://groups.google.com/group/winx/
+	winx group (chinese)			- http://groups.google.com/group/winxcn/
+	winx at sourceforge 			- http://sourceforge.net/projects/winx/
+	winx at google code				- http://code.google.com/p/winx/
+
+*) Supported Compilers
+
+	- Visual C++ 6.0
+	- Visual C++ 2005

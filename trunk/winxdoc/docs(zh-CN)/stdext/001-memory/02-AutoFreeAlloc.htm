@@ -1,0 +1,832 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>一个袖珍的垃圾回收器</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gbk">
+<STYLE>@font-face {
+	font-family: Wingdings;
+}
+@font-face {
+	font-family: 宋体;
+}
+@font-face {
+	font-family: Dotum;
+}
+@font-face {
+	font-family: 黑体;
+}
+@font-face {
+	font-family: 隶书;
+}
+@font-face {
+	font-family: @隶书;
+}
+@font-face {
+	font-family: @宋体;
+}
+@font-face {
+	font-family: @Dotum;
+}
+@font-face {
+	font-family: @黑体;
+}
+@page Section1 {size: 595.3pt 841.9pt; margin: 72.0pt 90.0pt 72.0pt 90.0pt; layout-grid: 15.6pt; }
+P.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.MsoNormal {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+H1 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 22pt; MARGIN: 17pt 0pt 16.5pt; LINE-HEIGHT: 240%; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+H2 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 16pt; MARGIN: 13pt 0pt 15.6pt 21pt; TEXT-INDENT: -21pt; LINE-HEIGHT: 172%; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+P.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+LI.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+DIV.MsoFootnoteText {
+	FONT-SIZE: 9pt; MARGIN: 0pt 0pt 15.6pt; LAYOUT-GRID-MODE: char; FONT-FAMILY: "Times New Roman"
+}
+P.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+LI.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+DIV.MsoCaption {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: Arial; TEXT-ALIGN: justify
+}
+SPAN.MsoFootnoteReference {
+	VERTICAL-ALIGN: super
+}
+P.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+LI.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+DIV.MsoTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 26pt; MARGIN: 12pt 0pt 3pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+A:link {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+SPAN.MsoHyperlink {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+A:visited {
+	COLOR: purple; TEXT-DECORATION: underline
+}
+SPAN.MsoHyperlinkFollowed {
+	COLOR: purple; TEXT-DECORATION: underline
+}
+P.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.MsoDocumentMap {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10.5pt; BACKGROUND: navy; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+P.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+LI.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+DIV.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Courier New"; TEXT-ALIGN: center
+}
+P.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+LI.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+DIV.a0 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+P.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+LI.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+DIV.a1 {
+	FONT-SIZE: 9pt; MARGIN: 0pt; FONT-FAMILY: "Courier New"
+}
+P.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+LI.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+DIV.a2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; MARGIN: 12pt 0pt 15.6pt; FONT-FAMILY: 隶书; TEXT-ALIGN: center
+}
+P.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+LI.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+DIV.a3 {
+	FONT-SIZE: 10.5pt; MARGIN: 0pt 0pt 15.6pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center
+}
+P.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.a4 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 14pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+P.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+LI.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.a5 {
+	FONT-WEIGHT: bold; TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 12pt; MARGIN: 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify
+}
+DIV.Section1 {
+	page: Section1
+}
+OL {
+	MARGIN-BOTTOM: 0pt
+}
+UL {
+	MARGIN-BOTTOM: 0pt
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2900.2963" name=GENERATOR></HEAD>
+<BODY lang=ZH-CN style="TEXT-JUSTIFY-TRIM: punctuation" vLink=purple link=blue 
+bgColor=white>
+<DIV class=Section1 style="LAYOUT-GRID:  15.6pt none">
+<P class=MsoTitle style="MARGIN: 0pt 0pt 5pt">最袖珍的垃圾回收器</P>
+<P class=a2 style="MARGIN: 3.1pt 0pt">许式伟</P>
+<P class=a0 style="MARGIN: 3.1pt 0pt 15.6pt"><SPAN 
+lang=EN-US>2005-7-17</SPAN></P>
+<P class=a4><SPAN style="FONT-FAMILY: 隶书">关键字</SPAN><SPAN lang=EN-US>: 
+</SPAN><SPAN style="FONT-FAMILY: 隶书">内存管理</SPAN> <SPAN 
+style="FONT-FAMILY: 隶书">垃圾回收</SPAN> <SPAN lang=EN-US 
+style="FONT-SIZE: 12pt">AutoFreeAlloc</SPAN></P>
+<P class=a5><SPAN lang=EN-US>keyword: memory manage, </SPAN><SPAN lang=EN-US>gc, 
+</SPAN><SPAN lang=EN-US>garbage collect</SPAN><SPAN lang=EN-US>ion</SPAN><SPAN 
+lang=EN-US>, AutoFreeAlloc</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">概述</SPAN></H1>
+<P class=MsoNormal><SPAN lang=EN-US>C/C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">最被人诟病的，可能是没有一个内存垃圾回收器（确切是说没有一个标准的垃圾回收器）。本文讨论的内容要点是，在</SPAN><SPAN 
+lang=EN-US>C/C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">中实现一个最袖珍的、功能受限的垃圾回收器。这个垃圾回收器区别于其他垃圾回收器的主要特征是：</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>1.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">袖珍但具实用性。整个垃圾回收器代码行数</SPAN><SPAN 
+lang=EN-US>100</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">行左右（不含空白行），相当小巧。相对而言，它的功能也受到一定的限制。但是它在很多关键的场合恰恰非常有用。该垃圾回收器以实用作为首要目标，已经成为我和身边一些同事编程的重要工具。</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>2.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">高性能。区别于其他垃圾回收器的是这个袖珍的垃圾回收器非但不会导致性能的下降，反而提高了程序的时间性能（分配的速度加快）和空间性能（所占内存空间比正常的</SPAN><SPAN 
+lang=EN-US>malloc/new</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">少）。而这也是实用的重要指标。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">本文算法并不复杂。技术上的东西，很多点明了就没有什么了，也许重要的意义是在于其首创性。其实，</SPAN><SPAN 
+lang=EN-US>boost<A title="" 
+href="#_ftn1" 
+name=_ftnref1><SPAN class=MsoFootnoteReference><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[1]</SPAN></SPAN></SPAN></A></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">提供的</SPAN><SPAN lang=EN-US>pool</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">组件也在试图提供类似功能的自动内存回收能力。但是实现相对复杂且低效（基于经典的</SPAN><SPAN 
+lang=EN-US>mempool</SPAN><SPAN style="FONT-FAMILY: 宋体">技术</SPAN><A title="" 
+href="#_ftn2" 
+name=_ftnref2><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[2]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">）。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">现在，你也许急着想看看，这个垃圾回收器长什么样了。闲话少叙，那就让我们就开始一步步把谜底揭开吧。</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">思路</SPAN></H1>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">理解该垃圾回收器的关键点在于，是在于理解它的目标：为一个复杂的局部过程（算法）提供自动内存回收的能力。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">所谓局部过程（算法），是指那些算法复杂性较高，但在程序运行期所占的时间又比较短暂的过程</SPAN><A 
+title="" 
+href="#_ftn3" 
+name=_ftnref3><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[3]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">。例如：搜索引擎的搜索过程、读盘</SPAN><SPAN lang=EN-US>/</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">存盘过程、显示（绘制）过程等等。通常这些过程可能需要申请很多内存，而且内存分配操作的入口点很多（就是调用</SPAN><SPAN 
+lang=EN-US>new</SPAN><SPAN style="FONT-FAMILY: 宋体">的地方很多），如果每调用一次</SPAN><SPAN 
+lang=EN-US>new</SPAN><SPAN style="FONT-FAMILY: 宋体">就要考虑应该在什么地方</SPAN><SPAN 
+lang=EN-US>delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">就徒然浪费我们宝贵的脑力，使得我们无法把全力精力集中在算法本身的设计上。也许就是在这种情形下，</SPAN><SPAN 
+lang=EN-US>C/C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">程序员特别羡慕那些具备垃圾回收器的语言。相对而言，如果算法复杂性不高的话，我们的程序员完全有能力控制好</SPAN><SPAN 
+lang=EN-US>new/delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的匹配关系。并且，这种“一切皆在我掌控之中”的感觉给了我们安全感</SPAN><A title="" 
+href="#_ftn4" 
+name=_ftnref4><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[4]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">和满足感。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">因此，这个垃圾回收器的重心并不是要提供一个理论上功能完备的内存自动回收机制。它只是针对复杂性较高的局部过程（算法），为他们提供最实效的内存管理手段。从局部过程的一开始，你就只管去申请、使用内存，等到整个算法完成之后，这个过程申请的大部分内存（需要作为算法结果保留的例外），无论它是在算法的那个步骤申请的，均在这个结束点上由垃圾回收器自动销毁。我们画个示意图：</SPAN></P>
+<P class=a3><IMG alt="" hspace=0 
+src="AutoFreeAlloc/1.gif" 
+align=baseline border=0></P>
+<P class=a3><SPAN style="FONT-FAMILY: 宋体">图</SPAN> 1</P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN style="FONT-FAMILY: 宋体">规格</SPAN></H1>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">我们将该垃圾回收器命名为</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。它的接口很简单，仅涉及两个概念：</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>Clear</SPAN><SPAN style="FONT-FAMILY: 宋体">。</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>typedef</SPAN></B><SPAN lang=EN-US> <B>void</B> 
+(*<B>FnDestructor</B>)(<B>void</B>* pThis);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>class</SPAN></B><SPAN lang=EN-US> <B>AutoFreeAlloc</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>public</SPAN></B><SPAN lang=EN-US>:</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+~<B>AutoFreeAlloc</B>(); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">析构函数。自动调用</SPAN></B><B><SPAN 
+lang=EN-US>Clear</SPAN></B><B><SPAN style="FONT-FAMILY: 宋体">释放内存</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B>* Alloc(<B>size_t</B> cb); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>malloc(cb)</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B>* Alloc(<B>size_t</B> cb, <B>FnDestructor</B> fn);&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">申请内存并指定析构函数</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>void</B> Clear(); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">析构并释放所有分配的对象</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>};</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">为了方便，提供辅助的</SPAN><SPAN 
+lang=EN-US>New</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">操作（上一篇中已经简单介绍实现了），大体如下：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* New(<B>AllocType</B>&amp; 
+alloc);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>ArgType1</B>, class <B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* New(<B>ArgType1</B> arg1, <B>AllocType</B>&amp; alloc); <B>// 
+</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type(arg1)</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>template</SPAN></B><SPAN lang=EN-US> &lt;class <B>Type</B>, class 
+<B>AllocType</B>&gt;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>Type</SPAN></B><SPAN 
+lang=EN-US>* NewArray(<B>size_t</B> count, <B>AllocType</B>&amp; alloc);<B>// 
+</B></SPAN><B><SPAN style="FONT-FAMILY: 宋体">类似于</SPAN></B><B><SPAN 
+lang=EN-US>new Type[count]</SPAN></B></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">使用样例：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN></B><SPAN lang=EN-US> alloc;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>int</SPAN></B><SPAN 
+lang=EN-US>* intArray = 
+(<B>int</B>*)alloc.Alloc(<B>sizeof</B>(<B>int</B>)*count);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>int</SPAN></B><SPAN 
+lang=EN-US>* intArray2 = NewArray&lt;<B>int</B>&gt;(count, alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* obj = 
+New&lt;<B>MyClass</B>&gt;(alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* objWithArg = 
+New&lt;<B>MyClass</B>&gt;(arg1, alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>MyClass</SPAN></B><SPAN lang=EN-US>* objArray = 
+NewArray&lt;<B>MyClass</B>&gt;(count, alloc);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>alloc.Clear();</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>// 
+...</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>// 
+</SPAN></B><B><SPAN style="FONT-FAMILY: 宋体">现在，不能再访问</SPAN></B><B><SPAN 
+lang=EN-US>intArray, obj, objWithArg, objArray</SPAN></B><B><SPAN 
+style="FONT-FAMILY: 宋体">等数据了。</SPAN></B></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN 
+style="FONT-FAMILY: 宋体">内存管理机制</SPAN></H1>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>class</SPAN></B><SPAN lang=EN-US> <B>AutoFreeAlloc</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>public</SPAN></B><SPAN lang=EN-US>:</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>enum</B> { BlockSize = 2048 };</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>private</SPAN></B><SPAN lang=EN-US>:</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>struct</B> <B>_MemBlock</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>_MemBlock</B>* 
+pPrev;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>char</B> 
+buffer[BlockSize];</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+};</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>enum</B> { HeaderSize = <B>sizeof</B>(_<B>MemBlock</B>) - BlockSize 
+};</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>char</B>* m_begin;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>char</B>* m_end;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>};</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><B><SPAN lang=EN-US>AutoFreeAlloc</SPAN></B><SPAN 
+style="FONT-FAMILY: 宋体">类与内存管理相关的变量只有两个：</SPAN><SPAN 
+lang=EN-US>m_begin</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>m_end</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。单从变量定义来看，基本上很难看明白。但是有了下面这张示意图就容易理解多了：</SPAN></P>
+<P class=a3 style="MARGIN: 0pt 0pt 23.4pt; TEXT-INDENT: -15.55pt"><IMG alt="" 
+hspace=0 
+src="AutoFreeAlloc/2.png" 
+align=baseline border=0></P>
+<P class=a3 style="MARGIN-BOTTOM: 23.4pt"><SPAN style="FONT-FAMILY: 宋体">图</SPAN> 
+2</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">整个</SPAN><B><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN></B><SPAN 
+style="FONT-FAMILY: 宋体">申请的内存，通过</SPAN><SPAN 
+lang=EN-US>_<B>MemBlock</B></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">构成链表。只要获得了链表的头，就可以遍历整个内存链，释放所有申请的内存了。而链表的头</SPAN><SPAN 
+lang=EN-US>(</SPAN><SPAN style="FONT-FAMILY: 宋体">图中标为</SPAN><B><SPAN 
+lang=EN-US>_ChainHeader</SPAN></B><SPAN lang=EN-US>)</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，可以通过</SPAN><B><SPAN lang=EN-US>m_begin</SPAN></B><SPAN 
+style="FONT-FAMILY: 宋体">计算得到：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>_MemBlock</SPAN></B><SPAN lang=EN-US>* 
+<B>AutoFreeAlloc</B>::_ChainHeader() <B>const</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>return</B> (<B>_MemBlock</B>*)(<B>m_begin</B> - HeaderSize);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>}</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">为了使得</SPAN><SPAN 
+lang=EN-US>_ChainHeader</SPAN><SPAN style="FONT-FAMILY: 宋体">初始值为</SPAN><B><SPAN 
+lang=EN-US>null</SPAN></B><SPAN style="FONT-FAMILY: 宋体">，构造函数我们这样写：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN></B><SPAN 
+lang=EN-US>::<B>AutoFreeAlloc</B>()</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+m_begin = m_end = (<B>char</B>*)HeaderSize;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>}</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US style="FONT-FAMILY: Wingdings">?<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">下面我们考虑内存分配过程。</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">过程主要会有三种情况，具体代码为：</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><B><SPAN 
+lang=EN-US>void</SPAN></B><SPAN lang=EN-US>* </SPAN><B><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN></B><SPAN lang=EN-US>::</SPAN><SPAN 
+lang=EN-US>Alloc(<B>size_t</B> cb)</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>{</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp; </SPAN><B><SPAN lang=EN-US>if</SPAN></B><SPAN 
+lang=EN-US> (m_end – m_begin &lt; cb)</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp; {</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>if</B> (cb &gt;= 
+BlockSize)</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+_<B>MemBlock</B>* pHeader = _ChainHeader();</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+_<B>MemBlock</B>* pNew = (_<B>MemBlock</B>*)malloc(HeaderSize+cb);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pNew-&gt;pPrev = pHeader-&gt;pPrev;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pHeader-&gt;pPrev = pNew;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<B>return</B> pNew-&gt;buffer;</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>else</B></SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+_<B>MemBlock</B>* pNew = 
+(_<B>MemBlock</B>*)malloc(<B>sizeof</B>(_<B>MemBlock</B>));</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pNew-&gt;pPrev = _ChainHeader();</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+m_begin = pNew-&gt;buffer;</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+m_end = m_begin + BlockSize;</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp; }</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp; <B>return</B> m_end -= cb;</SPAN></P>
+<P class=a1 
+style="TEXT-JUSTIFY: inter-ideograph; BACKGROUND: #d9d9d9; TEXT-ALIGN: justify"><SPAN 
+lang=EN-US>}</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>1.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">最简单的情况，是当前</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">还有足够的自由内存</SPAN><SPAN 
+lang=EN-US>(free memory)</SPAN><SPAN style="FONT-FAMILY: 宋体">，即：</SPAN><SPAN 
+lang=EN-US><BR>&nbsp;&nbsp;&nbsp; m_end – m_begin &gt;= cb<BR></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">此时，只需要将</SPAN><SPAN lang=EN-US>m_end</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">前移</SPAN><SPAN lang=EN-US>cb</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">字节就可以了。我们画个示意图如下：</SPAN></P>
+<P class=a3><IMG alt="" hspace=0 
+src="AutoFreeAlloc/3.png" 
+align=baseline border=0></P>
+<P class=a3><SPAN style="FONT-FAMILY: 宋体">图</SPAN> 3</P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>2.<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">在当前的</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">的自由内存（</SPAN><SPAN 
+lang=EN-US>free memory</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）不足的情况下，我们就需要申请一个新的</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">以供使用</SPAN><A title="" 
+href="#_ftn5" 
+name=_ftnref5><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 10.5pt; FONT-FAMILY: 'Times New Roman'">[5]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+style="FONT-FAMILY: 宋体">。申请新的</SPAN><SPAN 
+lang=EN-US>_<B>MemBlock</B></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">，我们又会遇到两种情况：</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 42pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>a)<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">申请的字节数（即</SPAN><SPAN 
+lang=EN-US>cb</SPAN><SPAN style="FONT-FAMILY: 宋体">）小于一个</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">所能够提供的内存（即</SPAN><SPAN 
+lang=EN-US>BlockSize</SPAN><SPAN style="FONT-FAMILY: 宋体">）。</SPAN><SPAN 
+lang=EN-US><BR></SPAN><SPAN style="FONT-FAMILY: 宋体">这种情况下，我们只需要将该</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">作为新的当前</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">挂到链表中，剩下的工作就和情形</SPAN><SPAN lang=EN-US>1</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">完全类似。示意图如下：</SPAN></P>
+<P class=a3 style="MARGIN-LEFT: 0pt; TEXT-INDENT: -8.9pt"><IMG alt="" hspace=0 
+src="AutoFreeAlloc/4.png" 
+align=baseline border=0></P>
+<P class=a3><SPAN style="FONT-FAMILY: 宋体">图</SPAN> 4</P>
+<P class=MsoNormal style="MARGIN-LEFT: 42pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US>b)<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">而在内存申请的字节数（即</SPAN><SPAN 
+lang=EN-US>cb</SPAN><SPAN style="FONT-FAMILY: 宋体">）大于或等于一个</SPAN><SPAN 
+lang=EN-US>Block</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的字节数时，我们需要申请可使用内存超过正常长度（</SPAN><SPAN 
+lang=EN-US>BlockSize</SPAN><SPAN style="FONT-FAMILY: 宋体">）的</SPAN><SPAN 
+lang=EN-US>_<B>MemBlock</B></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。这个新生成的</SPAN><SPAN lang=EN-US>_MemBlock</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">全部内存被用户申请。故此，我们只需要修改</SPAN><SPAN 
+lang=EN-US>_ChainHeader</SPAN><SPAN style="FONT-FAMILY: 宋体">的</SPAN><SPAN 
+lang=EN-US>pPrev</SPAN><SPAN style="FONT-FAMILY: 宋体">指针，改为指向这一块新申请的</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">即可。</SPAN><SPAN 
+lang=EN-US>m_begin</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>m_end</SPAN><SPAN style="FONT-FAMILY: 宋体">保持不变（当前的</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">还是当前的</SPAN><SPAN 
+lang=EN-US>_<B>MemBlock</B></SPAN><SPAN style="FONT-FAMILY: 宋体">）。如图：</SPAN></P>
+<P class=a3 style="MARGIN-LEFT: 0pt; TEXT-INDENT: -27pt"><IMG alt="" hspace=0 
+src="AutoFreeAlloc/5.png" 
+align=baseline border=0></P>
+<P class=a3 style="MARGIN-BOTTOM: 23.4pt"><SPAN style="FONT-FAMILY: 宋体">图</SPAN> 
+5</P>
+<P class=MsoNormal style="MARGIN-LEFT: 21pt; TEXT-INDENT: -21pt"><SPAN 
+lang=EN-US style="FONT-FAMILY: Wingdings">?<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">下面我们考虑内存释放（</SPAN><SPAN 
+lang=EN-US>Clear</SPAN><SPAN style="FONT-FAMILY: 宋体">）过程。这个过程就是遍历</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">释放所有的</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的过程，非常简单。代码如下：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>void</SPAN></B><SPAN 
+lang=EN-US> <B>AutoFreeAlloc</B>::Clear()</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+_<B>MemBlock</B>* pHeader = _ChainHeader();</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>while</B> (pHeader)</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _<B>MemBlock</B>* pTemp = 
+pHeader-&gt;pPrev;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free(pHeader);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pHeader = 
+pTemp;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+}</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+m_begin = m_end = (<B>char</B>*)HeaderSize;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>}</SPAN></P>
+<P class=a1 style="MARGIN-BOTTOM: 46.8pt">&nbsp;</P></DIV>
+<DIV class=Section1 style="LAYOUT-GRID:  15.6pt none">
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN 
+style="FONT-FAMILY: 宋体">自动析构过程</SPAN></H1>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">我们知道，</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">以及其他面向对象语言为对象引入了构造、析构过程。这是一个了不起的发明。因为只有这样，才能够保证对象从一开始产生以来（刚</SPAN><SPAN 
+lang=EN-US>new</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">出来），到对象销毁这整个过程，它的数据都处于完备状态，是自洽的。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">由于垃圾回收器负责对象的回收，它自然不止需要关注对象申请的内存的释放，同时也需要保证，在对象销毁之前它的析构过程被调用。上文我们为了关注内存管理过程，把自动析构过程需要的代码均去除了。为了支持自动析构，</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">类增加了以下成员：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>class 
+<B>AutoFreeAlloc</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>struct</B> _<B>DestroyNode</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9; TEXT-INDENT: 21pt"><SPAN 
+lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _<B>DestroyNode</B>* 
+pPrev;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>FnDestructor</B> 
+fnDestroy;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+};</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+_<B>DestroyNode</B>* m_destroyChain;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>};</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">如果一个类存在析构，则它需要在</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">内存的同时指定析构函数。代码如下：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>void</SPAN></B><SPAN 
+lang=EN-US>* <B>AutoFreeAlloc</B>::Alloc(<B>size_t</B> cb, <B>FnDestructor</B> 
+fn)</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+_<B>DestroyNode</B>* pNode = 
+(_<B>DestroyNode</B>*)Alloc(<B>sizeof</B>(_<B>DestroyNode</B>) + cb);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+pNode-&gt;fnDestroy = fn;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; pNode-&gt;pPrev = 
+  m_destroyChain;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+m_destroyChain = pNode;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>return</B> pNode + 1;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>}</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">只要通过该</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN style="FONT-FAMILY: 宋体">函数申请的内存，我们在</SPAN><SPAN 
+lang=EN-US>Clear</SPAN><SPAN style="FONT-FAMILY: 宋体">中就可以调用相应的析构。当然，</SPAN><SPAN 
+lang=EN-US>Clear</SPAN><SPAN style="FONT-FAMILY: 宋体">函数需要补充自动析构相关的代码：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>void</SPAN></B><SPAN 
+lang=EN-US> <B>AutoFreeAlloc</B>::Clear()</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>while</B> (m_destroyChain)</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+m_destroyChain-&gt;fnDestroy(m_destroyChain + 1);</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN 
+lang=EN-US>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_destroyChain = 
+m_destroyChain-&gt;pPrev;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+}</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>// </B></SPAN><B><SPAN 
+style="FONT-FAMILY: 宋体">以下是原先正常的内存释放过程</SPAN></B><B><SPAN 
+lang=EN-US>...</SPAN></B></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>}</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN 
+style="FONT-FAMILY: 宋体">时间性能分析</SPAN></H1>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>void</SPAN></B><SPAN 
+lang=EN-US>* <B>AutoFreeAlloc</B>::Alloc(<B>size_t</B> cb);</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN lang=EN-US>OOP</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">技术带来一个内存上的问题是，对象粒度越来越细了，对象基本上都是小对象。这就对内存管理的性能提出了很高的要求。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">如果我们以对象大小平均为</SPAN><SPAN 
+lang=EN-US>32</SPAN><SPAN style="FONT-FAMILY: 宋体">字节计算的话，每</SPAN><SPAN 
+lang=EN-US>2048/32 = 64</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">操作中，只有一次操作满足</SPAN><SPAN lang=EN-US>m_end – m_begin &lt; 
+cb</SPAN><SPAN style="FONT-FAMILY: 宋体">的条件。也就是说，在通常情况（</SPAN><SPAN 
+lang=EN-US>63/64 = 98.4%</SPAN><SPAN style="FONT-FAMILY: 宋体">的概率）下，</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">操作只需要一个减法操作就完成内存分配。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">我说这是世界上最快速的内存分配算法，也许你对此仍然抱有怀疑态度。但是可以肯定的一点是，要突破它的性能极限我觉得已经很难很难了。</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN lang=EN-US>void</SPAN></B><SPAN 
+lang=EN-US> <B>AutoFreeAlloc</B>::Clear();</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">一般内存管理器通常一次内存分配操作就需调用相应的一次</SPAN><SPAN 
+lang=EN-US>Free</SPAN><SPAN style="FONT-FAMILY: 宋体">操作。但是</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">不针对每一个</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN style="FONT-FAMILY: 宋体">进行释放，而是针对每一个</SPAN><SPAN 
+lang=EN-US>_<B>MemBlock</B></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。仍假设对象平均大小为</SPAN><SPAN lang=EN-US>32</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">字节的话，也就是相当于把</SPAN><SPAN lang=EN-US>64</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">次</SPAN><SPAN lang=EN-US>Alloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">操作合并，为其提供一次相应的</SPAN><SPAN lang=EN-US>Free</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">过程。</SPAN></P>
+<P class=MsoNormal style="MARGIN-LEFT: 0pt; TEXT-INDENT: 0pt"><SPAN lang=EN-US 
+style="FONT-FAMILY: Wingdings">?<SPAN 
+style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-FAMILY: 宋体">结论：</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">在时间上的性能，大约比普通的</SPAN><SPAN 
+lang=EN-US>malloc/free</SPAN><SPAN style="FONT-FAMILY: 宋体">的快</SPAN><SPAN 
+lang=EN-US>64</SPAN><SPAN style="FONT-FAMILY: 宋体">倍。</SPAN></P>
+<H1 style="MARGIN-BOTTOM: 15.6pt"><SPAN 
+style="FONT-FAMILY: 宋体">空间性能分析</SPAN></H1>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">我们知道，一般内存管理器为了将用户申请的内存块管理起来，除了用户需要的</SPAN><SPAN 
+lang=EN-US>cb</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">字节内存外，通常额外还提供一个内存块的头结构，通过这个头结构将内存串连成为一个链表。一般来讲，这个头结构至少有两项（可能还不止），示意如下：</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><B><SPAN 
+lang=EN-US>struct</SPAN></B><SPAN lang=EN-US> <B>MemHeader</B></SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>{</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>MemHeader</B>* pPrev;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>&nbsp;&nbsp;&nbsp; 
+<B>size_t</B> cb;</SPAN></P>
+<P class=a1 style="BACKGROUND: #d9d9d9"><SPAN lang=EN-US>};</SPAN></P>
+<P class=a1><SPAN lang=EN-US></SPAN>&nbsp;</P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">仍然假设平均</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN style="FONT-FAMILY: 宋体">一次的内存为</SPAN><SPAN 
+lang=EN-US>32</SPAN><SPAN style="FONT-FAMILY: 宋体">字节。则一次</SPAN><SPAN 
+lang=EN-US>malloc</SPAN><SPAN style="FONT-FAMILY: 宋体">分配过程，就会浪费</SPAN><SPAN 
+lang=EN-US>8/32 =   25%</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的内存。并且由于大量的小对象存在，整个内存中的碎片（指那些自由但无法被使用的内存）将特别严重。</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">而</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">的</SPAN><SPAN 
+lang=EN-US>Alloc</SPAN><SPAN style="FONT-FAMILY: 宋体">没有如何额外开销。整个</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN style="FONT-FAMILY: 宋体">，只有在将</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">串为链表的有一个额外的</SPAN><SPAN 
+lang=EN-US>pPrev</SPAN><SPAN style="FONT-FAMILY: 宋体">指针，加上</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN style="FONT-FAMILY: 宋体">是</SPAN><SPAN 
+lang=EN-US>malloc</SPAN><SPAN style="FONT-FAMILY: 宋体">出来的，有额外的</SPAN><SPAN 
+lang=EN-US>8</SPAN><SPAN style="FONT-FAMILY: 宋体">字节开销。总计浪费</SPAN><SPAN 
+lang=EN-US>(4+8)/2048 = 0.6%</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的内存，几乎可以忽略不计。</SPAN></P>
+<H1><SPAN style="FONT-FAMILY: 宋体">后记</SPAN></H1>
+<P class=MsoNormal><SPAN lang=EN-US>AutoFreeAlloc于</SPAN><SPAN lang=EN-US>2004-5-21</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">开发，只有</SPAN><SPAN lang=EN-US>100</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">行的代码量。但是，这个组件获得了空前的成功，</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">它的应用范围逐步扩大，超过了我最初实现这个组件时的预计。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">我渐渐冷静下来，考虑这其中蕴涵的道理。我逐步领会到了，它的成功之处，不是它在时间、空间性能的高效，而是在于它帮助</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">程序员解决了最大的难题——内存管理。虽然，这个解决方案并不是完整的。</SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">是一个切入点，从它身上，让我明白了</SPAN><SPAN lang=EN-US>C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的</SPAN><SPAN lang=EN-US>new/delete</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的不合理；</SPAN><SPAN lang=EN-US>STL</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">引入的</SPAN><SPAN lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">是一个切入点，从它身上，让我明白了内存管理有很强的区域性，在不同的区域（局部过程）中对</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">的需求却又不尽相同。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">我们前文也提到了一个例子：一个文档打开，编辑，直到文档被最终关闭，这个完成算不算局部过程呢？在</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">解决的问题域来看，显然我们无法认为它是一个局部过程。但是，从其他</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">角度来讲，是否就有可能把它作为一个局部过程了呢？</SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-FAMILY: 宋体">正是考虑到</SPAN><SPAN 
+lang=EN-US>AutoFreeAlloc</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的缺陷，我们需要一个功能更强的垃圾回收器。这就是我们下一次需要讨论的组件了。</SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-FAMILY: 宋体">最后，仍然需要明确的一点时。我们很难也不需要实现一个象</SPAN><SPAN 
+lang=EN-US>Java</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>C#</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">那样的垃圾回收器。提供一个具备特定的内存管理能力的</SPAN><SPAN 
+lang=EN-US>allocator</SPAN><SPAN style="FONT-FAMILY: 宋体">才是正道。</SPAN></P></DIV>
+<DIV><BR clear=all>
+<HR align=left width="33%" SIZE=1>
+
+<DIV id=ftn1>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref1" 
+name=_ftn1><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[1]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN style="FONT-FAMILY: 宋体">请参考</SPAN><SPAN 
+lang=EN-US>boost</SPAN><SPAN style="FONT-FAMILY: 宋体">官方网站</SPAN><SPAN 
+lang=EN-US><A href="http://www.boost.org/">http://www.boost.org/</A></SPAN><SPAN 
+style="FONT-FAMILY: 宋体">。</SPAN></P></DIV>
+<DIV id=ftn2>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref2" 
+name=_ftn2><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[2]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> mempool</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">技术是一个很成熟的内存管理技术，被</SPAN><SPAN 
+lang=EN-US>sgi-stl</SPAN><SPAN style="FONT-FAMILY: 宋体">、</SPAN><SPAN 
+lang=EN-US>boost</SPAN><SPAN style="FONT-FAMILY: 宋体">等</SPAN><SPAN 
+lang=EN-US>C++</SPAN><SPAN style="FONT-FAMILY: 宋体">库实现者采用。</SPAN><SPAN 
+lang=EN-US> </SPAN></P></DIV>
+<DIV id=ftn3>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref3" 
+name=_ftn3><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[3]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN 
+style="FONT-FAMILY: 宋体">真正是否要把一个过程定义为局部过程，完全取决于设计者本身。例如，一个文档打开，编辑，直到文档被最终关闭，这个完成算不算局部过程呢？在大部分情况下我们认为它不是一个局部过程，但是下回我们将专门讨论是否有可能，以及应该如何将它作为一个局部过程。</SPAN></P></DIV>
+<DIV id=ftn4>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref4" 
+name=_ftn4><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[4]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN 
+style="FONT-FAMILY: 宋体">那些提供了垃圾回收器的语言的使用者，显然也有应用了垃圾回收器的烦恼。例如</SPAN><SPAN 
+lang=EN-US>C#</SPAN><SPAN style="FONT-FAMILY: 宋体">在调用非管制代码（如调用</SPAN><SPAN 
+lang=EN-US>Win32 api</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）时，这些问题变得突出，一个疏忽就留下潜在隐患。这与</SPAN><SPAN 
+lang=EN-US>C/C++</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">程序员遗憾语言没有垃圾回收器的感觉类似。</SPAN></P></DIV>
+<DIV id=ftn5>
+<P class=MsoFootnoteText><A title="" 
+href="#_ftnref5" 
+name=_ftn5><SPAN class=MsoFootnoteReference><SPAN lang=EN-US><SPAN 
+class=MsoFootnoteReference><SPAN lang=EN-US 
+style="FONT-SIZE: 9pt; FONT-FAMILY: 'Times New Roman'">[5]</SPAN></SPAN></SPAN></SPAN></A><SPAN 
+lang=EN-US> </SPAN><SPAN style="FONT-FAMILY: 宋体">当前的</SPAN><SPAN 
+lang=EN-US>_MemBlock</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">的自由内存很可能还是有的，但是不足</SPAN><SPAN lang=EN-US>cb</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">字节。此时我们说这里有内存碎片（</SPAN><SPAN lang=EN-US>memory 
+piece</SPAN><SPAN 
+style="FONT-FAMILY: 宋体">）：这些碎片尽管没有人使用，但是我们把它弃而不用。</SPAN></P></DIV></DIV></BODY></HTML>

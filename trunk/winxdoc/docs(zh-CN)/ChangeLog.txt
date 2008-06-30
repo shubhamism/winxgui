@@ -1,0 +1,670 @@
+您好！ 欢迎使用 WINX ！
+
+WINX关注一个目标：简单而高效。
+它是一个C++界面开发库，容易使用，兼容WTL。WTL是高效的，然而，它并不容易上手。
+
+
+修订记录 1.2 (2007-06-10)
+-----------------------------------------
+
+*) WINX开发向导（Visual C++ 6.0）
+
+	- 前面弹出那个关于目录树的警告对话框框允许禁止。
+	- 支持各种语言的资源。
+	- 在有视图的情况下，将视图单独放到一个文件中实现。
+	- 修改向导的图标。
+	- 主对话框允许用户选择模态还是非模态。
+	- Bug修复 - 未初始化变量: CComModule _Module。
+
+*) 示范代码（tutorials）
+
+	- 非模态对话框应用程序		tutorials/winx/step022-modeless
+
+*) WINX核心组件
+
+	- MessageFilter
+		property: WINX_MSGFILTER, WINX_MSGFILTER_NULL
+		function: RunMsgLoop
+		class: MessageHook, AutoMessageHook (remove SimpleHook)
+		class: MessageFilter
+		class: ModelessDialog default support MessageFilter
+
+	- MainFrame
+		ModalDialog -> ModelDialog
+		ModalessDialog -> ModelessDialog
+		class: MainDlgFrame, AxMainDlgFrame
+		property: WINX_MAINFRAME
+		message: OnMainFrameTerm
+
+	- Modeless support (function: RunMsgLoop)
+
+	- WINX_DLG_ACCEL -> WINX_ACCELFRAME
+	- Accel bugfix: Menu can't receive its keyboard messages after hooking.
+
+*) STL扩展库
+
+	- 去除STD_DELETE宏。使用alloc.destroy(obj)代替STD_DELETE(alloc, obj)。
+
+	
+修订记录 1.1.08 (2007-02-09)
+-----------------------------------------
+
+*) WINX应用程序向导，用于Visual C++ 6.0
+
+*) 编译器支持
+
+	- Visual C++ 6.0
+	- Visual C++ 2003
+	- Visual C++ 2005
+	- remove support of Mingw32 temporarily, because of atl License.
+
+*) 示范代码（tutorials）
+
+	- 外观控制(XP风格菜单)					tutorials/winx/step020-xp-menu
+	- API钩子(本地)							tutorials/winx/step021-api-hook/01.basic
+	- API钩子(全局)							tutorials/winx/step021-api-hook/02.global
+
+*) WINX扩展组件
+
+   - 外观控制, XP风格菜单 (参见：winx/LookNFeel.h)
+		WINX_APP_MENU
+		WINX_APP_LOOKNFEEL
+	  贡献者(创意&实现)：renfengxing@gmail.com
+
+   - API钩子 (参见：winx/APIHook.h)
+		class APIHook, AutoAPIHook, etc
+
+*) WINX核心组件
+
+   - IDispatch调用 (参见：winx/Dispatch.h)
+		class DispatchHandle
+		class DispatchMethod, ExDispatchMethod
+		class DispatchFunction, ExDispatchFunction
+		class DispatchProperty, ExDispatchProperty
+   
+*) STL扩展库
+
+	- 文件映射 (参见：stdext/FileMapping.h)
+		class FileMapping
+		class SimpleFileMapping, SimpleFileMappingRO
+
+	- 注册表 (参见：stdext/Registry.h)
+		class WinRegKeyHandle
+		class WinRegReadKey, WinRegWriteKey
+	
+	- 日志（函数异常的跟踪） (参见：stdext/ScopeDebug.h)
+		class CheckException
+		class ScopeLog, OutputScopeLog, ErrorScopeLog, FileScopeLog
+		class ThreadLog
+		ErrorGuard:
+			WINX_GUARD
+			WINX_WIN32_ERROR_GUARD
+			WINX_HRESULT_ERROR_GUARD
+	  创意贡献者：sting.feng@gmail.com
+	  博客文章：http://blog.csdn.net/singlerace/archive/2007/01/12/1481441.aspx
+ 
+	- std::replaceText算法等.
+
+	
+
+修订记录 1.1.07 (2007-1-29)
+-----------------------------------------
+
+*) 编译器支持
+	- Visual C++ 6.0
+	- Visual C++ 2003
+	- Visual C++ 2005
+	- Mingw32
+
+*) 示范代码（tutorials）
+	- ScrollWindow(Basic)					tutorials/winx/step019-scroll-window/1.basic
+	- 一个简单的图象浏览器					tutorials/winx/step019-scroll-window/2.imageview
+	- FormView(支持滚动的对话框)			tutorials/winx/step019-scroll-window/3.formview
+	- ZoomView(ZoomScrollWindow)			tutorials/winx/step019-scroll-window/4.zoomview
+
+*) WINX扩展组件
+   - class ScrollWindow, ZoomScrollWindow
+   - class FormWindow, AxFormWindow
+   
+*) STL扩展库
+	- 在非VC++编译器下实现__uuidof关键字。
+
+*) 移植ATL 3.0到Mingw32下。
+
+
+
+修订记录 1.1.03 (2006-12-03)
+-----------------------------------------
+
+1. 去除了vs2005一些烦人的编译警告。并修正了一个Unicode版本代码的手误。
+2. 尝试支持ComAddins。这还只是筹备中的功能，其接口将承受变化。
+
+
+
+修订记录 1.1.02x (2006-12-03)
+-----------------------------------------
+
+哦，不好意思，很抱歉我忘了最重要的事情。现在，我统一了所有以表(Map)形式宏的风格。它们包括：
+
+   WINX_TEST_SUITE/WINX_TEST/WINX_TEST_SUITE_END;
+   WINX_CMDS_BEGIN/WINX_CMD/WINX_CMDS_END;
+   WINX_SYSCMD_BEGIN/WINX_SYSCMD/WINX_SYSCMD_END;
+   WINX_NOTIFY_BEGIN/WINX_NOTIFY/WINX_NOTIFY_END;
+   WINX_REFLECT_NOTIFY_BEGIN/WINX_REFLECT_NOTIFY/WINX_REFLECT_NOTIFY_END;
+
+我推荐你使用这种风格：
+
+	class MyDialog : public winx::ModalDialog<MyDialog>
+	{
+		WINX_CMDS_BEGIN()
+			WINX_CMD(ID_TEST1, OnCmdTest1)
+			WINX_CMD(ID_TEST2, OnCmdTest2)
+		WINX_CMDS_END();
+	};
+	
+而不要使用以下这种就的风格（虽然它仍然可以工作）：
+
+	class MyDialog : public winx::ModalDialog<MyDialog>
+	{
+		WINX_CMDS_BEGIN();
+			WINX_CMD(ID_TEST1, OnCmdTest1);
+			WINX_CMD(ID_TEST2, OnCmdTest2);
+		WINX_CMDS_END();
+	};
+
+
+
+修订记录 1.1.02 (2006-12-02)
+-----------------------------------------
+
+这个发布主要关注:
+
+	- 移植MFC程序到WINX。提供了一些样例。
+	
+	- 部分有用的组件，它们被DocX项目用到了。
+	  关于该项目，请参考：http://sourceforge.net/projects/docx.
+	  
+	- DocX将被用于生成WINX的文档。我会尽早发布它。
+
+*) STL扩展库（stdext）作为独立的组件
+
+	stdext（STL扩展库）过去是WINX库的一部分，但现在它被作为独立的组件。
+	
+	我将目录树从这样:
+	
+		├─winx
+		│  ├─include
+		│  │  ├─winx
+		│  │  └─stdext
+		│  ├─docs(zh-CN)
+		│  ├─docs(en)
+		│  ├─samples
+		│  ├─tutorials
+		│  └─lib
+		├─winsdk
+		│  ├─bin
+		│  ├─include
+		│  └─lib
+		└─wtl
+		    ├─include
+		    ├─Notes
+		    ├─Samples
+		    └─Wizards
+		    
+	改成了这样（注意stdext的变化）:
+		
+		├─winx
+		│  ├─include
+		│  │  └─winx
+		│  ├─docs(zh-CN)
+		│  ├─docs(en)
+		│  ├─samples
+		│  ├─tutorials
+		│  └─lib
+		├─stdext
+		│  └─include
+		│     └─stdext
+		├─winsdk
+		│  ├─bin
+		│  ├─include
+		│  └─lib
+		└─wtl
+		    ├─include
+		    ├─Notes
+		    ├─Samples
+		    └─Wizards
+
+*) 样例: 移植MFC程序到WINX
+
+	- samples/mfc-port/LCDMatrix(MFC)
+	  概要: LCD数字控件。
+	  作者: Nic Wilson, 2002.
+	  网页: http://www.codeproject.com/staticctrl/digidisplay.asp
+
+	- samples/mfc-port/LCDMatrix
+	  概要: 将MFC程序LCDMatrix移植到WINX.
+
+	- samples/mfc-port/AboutCtrl(MFC)
+	  概要: 一个用于显示关于对话框中版权信息的控件。
+	  作者: Pablo van der Meer, 2002.
+	  网页: http://www.codeproject.com/staticctrl/aboutctrl.asp
+	  注意: 我没有提供这个程序的WINX版本，因为我希望看到你会尝试这样做。
+	        我将在下一个发布中提供参考版本。
+
+*) STL扩展库（stdext）
+
+	- TestCase: CppUnit风格的单元测试宏（但更轻量）
+	  WINX_TEST_APP, WINX_TEST_CLASS, WINX_TEST_SUITE, WINX_TEST, WINX_TEST_SUITE_END
+	  UnitTestAssert(AssertExp, AssertEq, AssertEqBuf)
+
+	- Archive类:
+	  StreamArchive(StreamWriteArchive, StreamReadArchive, MemStreamWriteArchive, MemStreamReadArchive)
+	  StdioArchive(StdioWriteArchive, StdioReadArchive)
+	  ReadArchiveImpl, WriteArchiveImpl: 
+		- 二进制读写: put16i/get16i, put32i/get32i, put_struct/get_struct, read/write, etc
+		- 文本读写: scan_uint, get_uint, get_not_if/getnws, skip_if/skipws, etc.
+
+	- DigitTable, ULargeInteger, LargeInteger
+	  一些小的工具类，Archive类用到了它们.
+
+	- 算法: set_intersection_do (see std::set_intersection)
+
+	- KMP字符串查找算法: 
+	  std::kmp::Finder, std::kmp::CaseFinder, std::kmp::NoCaseFinder
+
+	- Pool（内存池）:
+	  boost::pool, boost::object_pool, etc.
+	  这些组件需要boost，参考：http://www.boost.org。
+
+
+
+修订记录 1.1.01 (2006-10-14)
+-----------------------------------------
+
+*) 示范代码（tutorials）
+
+	- Hello, SmartWin!					tutorials/winx/step001/hello,smartwin		(a)
+	- XSL转换(XSLT)						tutorials/winx/step018-xslt					(b)
+	- 直方图均衡化(OpenCV样例)			tutorials/opencv/step001-histgram			(c)
+
+  *** 注意 *** 
+
+	要编译标记了(a)的那些样例，你需要下载从sourceforge下载SmartWin++：
+	http://sourceforge.net/projects/smartwin/
+
+	并且让目录树看起来是这样的：
+	
+		├─winx
+		│  └─include
+		├─wtl
+		│  └─include
+		└─smartwin
+		   ├─lib
+		   └─include
+
+	要编译标记了(b)的那些样例，并且你使用Visual C++ 6.0，你需要更新你的
+	平台SDK（Windows Platform SDK）。
+	
+	你可以到http://sourceforge.net/projects/winx/下载winsdk.zip。
+	并且让目录树看起来是这样的：
+
+		├─winx
+		│  └─include
+		├─wtl
+		│  └─include
+		└─winsdk
+		   └─include
+	
+	要编译标记了(c)的那些样例，你需要下载从sourceforge下载OpenCV：
+		http://sourceforge.net/projects/winx/
+	或者：
+		http://sourceforge.net/projects/opencv/
+	
+	并且让目录树看起来是这样的：
+	
+		├─winx
+		│  └─include
+		└─opencv
+		   ├─bin
+		   ├─lib
+		   └─include
+
+*) WINX扩展组件
+
+	- msxml
+	  XSL转换(XSLT)
+
+	- OpenCV
+	  class CvWindowT, CvWindow, CvMainFrame
+
+
+
+修订记录 1.1 (2006-09-17)
+-----------------------------------------
+
+移植一些很有用的WTL/MFC控件到WINX.
+
+*) 样例: 移植MFC控件到WINX
+
+	- samples/mfc-port/CreditStatic
+	  概要: 一个用于以文字动画显示版权信息的控件。
+	  作者: 蔡莹(shuker@263.net) 
+	
+	- samples/mfc-port/RoundButton
+	  概要: 一个圆形按钮控件.
+	  作者: Chris Maunder (chrismaunder@codeguru.com), 1997.
+	  
+	- samples/mfc-port/DimEditCtrl
+	  概要: 一个扩展的编辑控件（edit control），在用户未输入信息时可提供提示信息。
+	  作者: James R. Twine, TransactionWorks, Inc. 2000.
+	  网页: http://www.codeproject.com/editctrl/dimedit.asp
+	  
+*) 样例: 在WINX程序中使用WTL扩展控件（主要来自第三方）。
+
+	- samples/wtlext/BitmapButton
+	  概要: 使用WTL的CBitmapButton.
+	  作者: WTL
+	  作者: Ed Gadziemski, 2002.
+	  网页: http://www.codeproject.com/wtl/bmpbtn.asp
+	  
+	- samples/wtlext/BitmapHyperLink
+	  概要: 一个可以显示位图在超级链接(link control)旁，并允许在鼠标移过(hover)时提供不同的颜色。
+	  作者: Igor Vigdorchik, 2005
+	  网页: http://www.codeproject.com/wtl/CBitmapHyperLink.asp
+
+	- samples/wtlext/ColorButton
+	  概要: 一个颜色提取控件(Color picker control)，支持XP风格。
+	  作者: Tim Smith, 2002.
+	  网页: http://www.codeproject.com/wtl/wtlcolorbutton.asp
+	
+	- samples/wtlext/DimEdit
+	  概要: 一个WTL版本的DimEdit（原始版本是上面James Twine写的MFC版本的DimEditCtrl）。
+	  作者: Paul A. Howes, 2001.
+	  网页: http://www.codeproject.com/wtl/wtldimedit.asp
+	
+	- samples/wtlext/IconEdit
+	  概要: 一个带图标的编辑控件(edit control)。
+	  作者: JaeWook Choi, 2004.
+	  网页: http://www.codeproject.com/wtl/JaeWTLIconEdit.asp
+
+*) 样例: 移植WTL程序到WINX
+
+	- samples/wtl-port/IEHost(WTL)
+	- samples/wtl-port/IEHost
+	  概要: 一个在WTL对话框中使用ActiveX控件的例子。
+	  作者: Michael Dunn, 2003.
+	  网页: http://www.codeproject.com/wtl/wtl4mfc6.asp
+	  
+*) WINX核心组件
+
+	- 消息(Message): OnIdle, OnSettingChange支持
+
+
+
+修订记录 1.0.041 (2006-09-14)
+-----------------------------------------
+
+主要为修复bug而发布。
+
+*) Bugfix:
+
+	- ActiveX支持bug(在Visual Studio 2005下重现)
+	  对话框资源中的ActiveX控件创建失败。
+	  原因: AtlAxDialogBox/AtlAxCreateDialog 实现在高版本ATL实现中含义变化。
+		
+	- step009-mousewheel
+	  WinMain函数中的以下语句
+ 		dlg.DoModal(NULL, hInstance); 
+	  改为
+		dlg.DoModal(); 
+
+*) 示范代码（tutorials）
+
+	- DDX支持(DataExchange)				tutorials/winx/step017-ddx
+
+*) WINX核心组件
+
+	- DDX支持(DataExchange)
+
+
+
+修订记录 1.0.04 (2006-09-12)
+-----------------------------------------
+
+*) 示范代码（tutorials）
+
+	- 窗口行为(自动隐藏等)				tutorials/winx/step014-behavior
+	- 属性表（Property Sheet）			tutorials/winx/step015-property-sheet
+	- 在MFC中使用WINX 					tutorials/winx/step016-mfc-together
+	- 保存图像（包括多帧的tiff图像)		tutorials/gdiplus/step001-save-image
+
+*) WINX扩展组件
+
+	- 属性表，属性页
+	- GDI+
+	  Image Encoders/Image Decoders/MultiFrameImageCreator
+	  EncoderParameters: ColorDepth, Transformation, SaveFlag, Compression, Quality
+	  初始化: GdiplusAppInit
+
+*) WINX核心组件
+	
+	- 窗口行为: BehaviorPermit, BehaviorSwitch, AutoHidden, 等等
+	
+*) WINX基础组件
+	
+	- Log: TraceWindow
+	- Storage: TraceStorage
+
+*) STL扩展库（stdext）
+
+	- Container: TypedPtrArray, InterfaceArray
+	- Memory Management: HeapMemAlloc
+	- Log: print RECT, SIZE
+
+*) 文档 (中文)
+
+	- WINX概览								docs(zh-CN)/WinxPreview.ppt
+	- 支持GC的内存配置器（gc allocator）	docs(zh-CN)/stdext/001-memory/*.htm
+	- VC++6.0小技巧							docs(zh-CN)/stdext/000-vc6tips/*.htm
+
+*) WINX相关的链接
+
+	winx official blog (英文)	- http://winxhome.blogspot.com/
+	winx official blog (中文)	- http://winxcn.blogspot.com/
+	winx official blog (繁体)	- http://winxtw.blogspot.com/
+	winx group (英文) 			- http://groups.google.com/group/winx/
+	winx group (中文)			- http://groups.google.com/group/winxcn/
+	sourceforge下载地址			- http://sourceforge.net/projects/winx/
+
+
+
+修订记录 1.0.03 (2006-08-26)
+-----------------------------------------
+
+*) 编译器支持
+
+	- Visual C++ 6.0
+	- Visual C++ 2005
+
+*) 示范代码（tutorials）
+
+	- 鼠标滚轮消息：				tutorials/winx/step009-mousewheel
+	- XP风格（包括自绘支持）：		tutorials/winx/step010-xptheme
+	- 链接控件（url/mailto）：		tutorials/winx/step011-linkctrl
+	- ActiveX控件（flash/IE等）：	tutorials/winx/step012-activex
+	- 编辑框输入的自动完成：		tutorials/winx/step013-autocomplete
+
+  *** 注意 *** 
+
+	要编译这些代码(除了step009-mousewheel)，并且你使用Visual C++ 6.0，你
+	需要更新你的平台SDK（Windows Platform SDK）。
+	
+	你可以到http://sourceforge.net/projects/winx/下载winsdk.zip。
+	并且让目录树看起来是这样的：
+
+		├─winx
+		│  └─include
+		├─winsdk
+		│  └─include
+		└─wtl
+		   └─include
+
+*) WINX扩展组件
+
+	- ActiveX控件支持，如flash、IE等。
+	
+	- 浏览器(IE)连接点（ConnectPoint）支持。
+	  你将发现你很容易就可以接受来自IE的连接点事件。
+	  
+	- Theme(XP风格)支持，包括自绘（OwnerDraw）。
+	
+	- Edit/ComboBox控件的自动完成（AutoComplete）支持。
+	  你可以把历史记录保存到注册表，或者一个磁盘文件。
+	
+	- DropFileHandle（HDROP的简单包装）。
+	
+*) WINX核心组件
+
+	- DispEventSimpleImpl: Dispatch事件实现（ConnectPoint支持）。
+	  你会发现这个实现比IDispEventSimpleImpl（ATL的实现版本）好用很多。
+
+*) WINX基础组件
+
+	- IEnumOnSTLImpl, EnumStringSTLImpl
+	  基于STL容器的IEnumXXX(IEnumString, etc)实现。
+
+*) STL扩展库（stdext）
+
+	- 存档类（Archive）
+	  SimpleWriteArchive/SimpleReadArchive: 基于FILE的存档类。
+	  MemSeqWriteArchive: 基于内存的存档类。
+	  RegWriteArchive/RegReadArchive: 基于注册表的存档类。
+
+	- 记录型存档类（RecordArchive）
+	  MemRecordWriter, RecordReader: 记录型文件（Excel文件等）支持。
+
+
+
+
+修订记录 1.0.02 (2006-08-23)
+-----------------------------------------
+
+*) 示范代码（tutorials）
+
+	- Hello程序：			tutorials/winx/step001
+	- 设置窗口背景：		tutorials/winx/step002-bkgnd
+	- 命令分派及命令状态：	tutorials/winx/step003-command
+	- 用户自定义控件的实现:	tutorials/winx/step004-user-ctrl
+	- 快捷键支持：			tutorials/winx/step005-accel
+	- 对话框布局：			tutorials/winx/step006-layout
+	- 设置窗口图标：		tutorials/winx/step007-icon
+	- 打开文件对话框：		tutorials/winx/step008-openfiles
+
+*) WINX核心组件
+
+	- 增加Window::Create函数，用以动态创建一个窗口。
+	
+	- 增加class MainFrame
+	
+	- 增加WINX_STACK_OBJECT宏，允许生成StackWindowObject。
+	  目前默认的StackWindowObject有：ModalDialog, MainFrame。
+	  它们的一个公共特征是都是顶级窗口，以后肯定还会有MDIMainFrame。
+	
+	- 窗口属性：
+	  Bkgrnd: 设置窗口背景。用WINX_BKGND_XXX宏。
+	  CtlBkgrnd: 设置某类控件的窗口背景。用WINX_CTLBKGND_XXX宏。
+	  Accel: 设置窗口快捷键。用WINX_ACCEL、WINX_DLG_ACCEL宏。
+	  Icon: 设置窗口的图标。用WINX_ICON宏。
+	  AppIcon: 设置应用程序所有窗口的默认图标。用WINX_APP_ICON宏。
+	 
+	- 命令分派（CommandDispatch）
+	
+	- 命令状态（UpdateUI组件）
+	
+	- 窗口布局（Layout）
+	
+*) 通用对话框（CommonDialogs）
+
+	- OpenFileDialog/SaveFileDialog
+	- OpenMultiFilesDialog/SaveMultiFilesDialog
+	
+*) WINX基础组件
+
+	- MFC兼容：
+	  Diagnost(ASSERT, VERIFY, etc)
+	  GdiObject(CDC, CClientDC, CPaintDC, CBitmap, CPalette, etc)
+	  
+	- 初始化：增加CAppModuleInit
+
+*) STL扩展库（stdext）
+
+	- 引入namespace std::tchar，提供std::tchar::strlen, std::tchar::strlwr, 等等函数。
+	- 字符串算法：提供std::strecpy函数。
+
+
+
+修订记录 1.0.01 (2006-08-20)
+-----------------------------------------
+
+WINX初始版本，总体上的功能具备，缺乏样例及较强的测试力度。
+
+*) MFC代码移植到WINX的样例程序：
+
+	samples/mfc-port/CreditStatic
+	samples/mfc-port/RoundButton
+
+*) Hello程序：
+	
+	tutorials/winx/winx/step001/hello,sdk
+	tutorials/winx/winx/step001/hello,wtl
+	tutorials/winx/winx/step001/hello,winx
+
+*) WINX核心组件
+
+	- 消息：
+		class WindowMessage
+		macro: WINX_REFLECT(反射), WINX_CMD, 等等。
+		
+	- 窗口：
+		Window/SubclassWindow
+		LightSubclassWindow
+		LightSuperclassWindow
+	
+	- 对话框：
+		ModalDialog/ModalessDialog
+		SimpleDialog
+	
+	- 控件：
+		Static/Button/Edit/ComboBox
+		ScrollBar/FlatScrollBar
+		ListBox/DragListBox
+		ListCtrl/HeaderCtrl/TreeCtrl
+		ToolBarCtrl/ReBarCtrl
+		SliderCtrl（即：TrackBarCtrl）
+		SpinButtonCtrl（即：UpDownCtrl）
+		TabCtrl/ToolTipCtrl/StatusBarCtrl/ProgressCtrl
+		HotKeyCtrl/AnimateCtrl/IPAddressCtrl
+		DateTimeCtrl/MonthCalCtrl
+		ComboBoxEx/RichEdit
+		LinkCtrl
+
+*) WINX基础组件
+
+	- 基本类：CString, CFindFile, CRecentDocumentList, CComBSTR, 等等。
+	- 辅助函数：MsgBox, GetThisModule, InitCommonControls, 等等。
+	- 初始化：CComAppInit, COleAppInit, CDebugAppInit, CComModuleInit，等等。
+	- 资源操作：GetModuleIniPath, Bitmap, Icon, Menu, Brush, Accelerator, 等等。
+	- Gdi对象：Pen, Brush, Font, Bitmap, DC(PaintDC, ClientDC等), Rgn, 等等。
+	- Gdi辅助：DoubleBuffer等。
+	- 窗口句柄类：WindowHandle
+	- COM支持：Object, StackObject, FakeObject, COLESTR, 等等。
+	
+*) STL扩展库（stdext）
+
+	- 内存管理：AutoFreeAlloc, RecycleBuffer, AutoArray, 等。
+	- 字符串算法：trim, match, compare, 等等。
+	- CharType: isCSymbolFirstChar, isCSymbolNextChar, 等等。
+	- 容器：SimpleMultiMap
+	- 日志(Log)：OutputLog, ErrorLog, FileLog, StringLog
+	- 性能检测：PerformanceCounter
+	- 其他调试工具：WINX_ASSERT, WINX_TRACE, 等等。
