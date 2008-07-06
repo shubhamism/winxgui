@@ -42,7 +42,7 @@ STDMETHODIMP HandleSec_PathList
 		_ftprintf(pParam->fpDest, szFmt, token);
 
 		if (token[1] == 0 && token[0] == '.')
-			token = _T("./");
+			token = (LPTSTR)_T("./");
 		MergePath(szDirAbs, pParam->szProjPath, token);
 		szDirs[nDirs++] = GetAtomString(tblAtom, AddStringAtom(tblAtom, szDirAbs));
 		TRACE("%s%s\n", szVar, szDirAbs);
