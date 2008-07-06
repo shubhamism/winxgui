@@ -16,7 +16,7 @@
 #endif
 
 #define g_szCheckLink			\
-		"	CheckLink    = @ldd -u -r $(Product); echo\n"
+		"	CheckLink    = @ldd -u -r $(Product); echo"
 
 #if defined(__WIN32__)
 #	define g_szExportDefFile	"_export_.def"
@@ -38,7 +38,7 @@
 		"@CC $(LibDir) -o $(Product)\n" \
 		g_szCheckLink
 #   define g_szDllLinker        \
-		"CC -G -KPIC -O $(LibDir) -o $(Product)\n" \
+		"@CC -G -KPIC -O $(LibDir) -o $(Product)\n" \
 		g_szCheckLink
 
 #else
