@@ -86,8 +86,29 @@ STDMETHODIMP GetSection(LPTSTR szLine, FILE* fpList, KHandlerParam* pParam)
 
 // -------------------------------------------------------------------------
 
+#if defined(__WIN32__)
+#	define g_szOSAbbr	"win"
+#elif defined(__SOLS__) && defined(Uses_SunProCC)
+#	define g_szOSAbbr	"sols"
+#elif defined(__LINUX__)
+#	define g_szOSAbbr	"li"
+#else
+#	error "Unknown OS Type!!!"
+#endif
+
+#if defined(__32BIT__) || defined(__x86_32__)
+#	define g_szBits		"32"
+#elif defined(__64BIT__) || defined(__x86_64__)
+#	define g_szBits		"64"
+#else
+#	error "Unknown CPU Type!!!"
+#endif
+
 const TCHAR g_szConfigDefaultFmt[] =
 _T(
+	"OSAbbr   = " g_szOSAbbr "\n"
+	"Bits     = " g_szBits "\n"
+	"Platform = " g_szOSAbbr g_szBits "\n\n"
 	"#\n"
 	"# Configuration Default\n"
 	"#\n"
