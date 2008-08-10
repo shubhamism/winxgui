@@ -1,75 +1,45 @@
 #include <iostream>
 
-template <class ValueT>
-struct ArgTraits
-{
-	static const char* name() { return "ValueT"; }
+template <class A>
+class Foo1 {
 };
 
-template <class ValueT, size_t n>
-struct ArgTraits<const ValueT[n]>
-{
-	static const char* name() { return "const ValueT[]"; }
+template <class A>
+class Foo2 {
 };
 
-template <class ValueT, size_t n>
-struct ArgTraits<ValueT[n]>
+class ExtFoo1 : public Foo1<int>
 {
-	static const char* name() { return "ValueT[]"; }
 };
 
-template <class ValueT>
-struct ArgTraits<const ValueT*>
+class ExtFoo2 : public Foo2<int>
 {
-	static const char* name() { return "const ValueT*"; }
 };
 
-template <class ValueT>
-struct ArgTraits<ValueT*>
-{
-	static const char* name() { return "ValueT*"; }
+template <class VtPtr>
+struct Traits_ {
+	static const char* name() { return "unknown"; }
 };
 
-template <class ValueT>
-struct ArgTraits<const ValueT&>
-{
-	static const char* name() { return "const ValueT&"; }
+template <class VT>
+struct Traits_<Foo1<VT>*> {
+	static const char* name() { return "foo1"; }
 };
 
-template <class ValueT>
-struct ArgTraits<ValueT&>
-{
-	static const char* name() { return "ValueT&"; }
+template <class VT>
+struct Traits_<Foo2<VT>*> {
+	static const char* name() { return "foo2"; }
 };
 
-template <class ValueT>
-void test_arg_traits(const ValueT& v)
-{
-	std::cout << ArgTraits<ValueT>::name() << "\n";
-}
-
-template <class ValueT>
-void test_arg_traits(ValueT& v)
-{
-	std::cout << ArgTraits<ValueT>::name() << "\n";
-}
+template <class VT>
+struct Traits : public Traits_<VT*> {
+};
 
 int main()
 {
-	char const s1[] = "Hello";
-	const char* s2 = "Hello";
-	char s3[] = "Hello";
-	char* s4 = (char*)"Hello";
-	char*& s5 = s4;
-	const char*& s6 = s2;
-	
-	test_arg_traits("Hello");
-	test_arg_traits(s1);
-	test_arg_traits(s2);
-	test_arg_traits(s3);
-	test_arg_traits(s4);
-	test_arg_traits(s5);
-	test_arg_traits(s6);
+	std::cout << Traits<Foo1<int> >::name() << "\n";
+	std::cout << Traits<ExtFoo1>::name() << "\n";
+	std::cout << Traits<ExtFoo2>::name() << "\n";
     return 0;
 }
 
